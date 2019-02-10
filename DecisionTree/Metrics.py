@@ -1,0 +1,121 @@
+import math
+import copy
+
+
+# INFORMATION GAIN METRIC
+# Definition of Entropy
+def entropy(examples, labels):
+
+    # First get proportion values from examples
+    p_values = {}
+    for label in labels:
+        p_values[label] = 0
+
+    for example in examples:
+        p_values[example.get_label()] += 1
+
+    # Calculate entropy
+    _sum = 0.0
+    for p in p_values:
+        if p_values[p] > 0:  # and p_values[p] != len(labels):
+            pr = float(p_values[p]) / float(len(examples))
+            _sum += pr * math.log(pr) / math.log(2)
+
+    _sum *= -1.0
+    return _sum
+
+
+# Get gain using information gain
+def information_gain(examples, attribute, labels):
+
+    gain = get_gain(examples, attribute, labels, entropy)
+    return gain
+
+
+# MAJORITY ERROR METRIC
+# Definition of Majority Error
+def majority_error(examples, labels):
+    if len(examples) == 0:
+        return 0.0
+
+    # First get distribution of labels
+    count = {}
+    for label in labels:
+        count[label] = 0
+
+    for example in examples:
+        count[example.get_label()] += 1
+
+    # Calculate the majority error
+    max_occur = 0
+    for key in count:
+        if count[key] > max_occur:
+            max_occur = count[key]
+
+    maj_error = 1.0 - float(max_occur)/float(len(examples))
+    return maj_error
+
+
+# Get gain using majority error
+def majority_error_gain(examples, attribute, labels):
+    gain = get_gain(examples, attribute, labels, majority_error)
+    return gain
+
+
+# GINI INDEX METRIC
+# Helper method to compute Gini Index
+def gini_index(examples, labels):
+    if len(examples) == 0:
+        return 0.0
+
+    # First get proportion values from examples
+    p_values = {}
+    for label in labels:
+        p_values[label] = 0
+
+    for example in examples:
+        p_values[example.get_label()] += 1
+
+    sum = 0.0
+    for p_value in p_values:
+        sum += (float(p_values[p_value] * p_values[p_value]) / float((len(examples) * len(examples))))
+    return 1.0 - sum
+
+
+# Get gain using gini index
+def gini_index_gain(examples, attribute, labels):
+    gain = get_gain(examples, attribute, labels, gini_index)
+    return gain
+
+
+# Helper method to avoid code duplication
+def get_gain(examples, attribute, labels, metric):
+    gain = metric(examples, labels)
+
+    for value in attribute.values:
+        # Make copy of examples and remove examples without the attribute value
+        examples_v = copy.deepcopy(examples)
+        for example in examples:
+            if example.get_attribute_value(attribute) != value:
+                examples_v.remove(example)
+
+        weighted_gain = float(len(examples_v)) / float(len(examples)) * metric(examples_v, labels)
+        gain -= weighted_gain
+
+    return math.fabs(gain)
+
+
+# Helper method to avoid code duplication. Get splitting attribute
+def get_splitting_attribute(examples, attributes, labels, metric):
+    attribute_to_split_on = None
+    gain = 0.0
+    for attribute in attributes:
+        temp_gain = metric(examples, attribute, labels)
+        if temp_gain >= gain:
+            gain = temp_gain
+            attribute_to_split_on = attribute
+
+    return attribute_to_split_on
+
+
+
