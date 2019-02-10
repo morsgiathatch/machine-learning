@@ -1,6 +1,7 @@
 import Id3
 import CarData
 import Metrics
+import sys
 
 
 def problem1():
@@ -32,21 +33,16 @@ def problem1():
         calculate_averages(data, test_data, metrics)
 
     else:
-        tree_depth = int(raw_input("Please enter desired tree depth [1 - 6] (0 to run all tree depths):"))
+        tree_depth = int(raw_input("Please enter desired tree depth [1 - 6] (0 to run entire tree):"))
+        if tree_depth == 0:
+            tree_depth = sys.maxint
 
         metric_choice = int(raw_input("Please enter a number for choice of metric:\n0: Information Gain\n"
                                   "1. Majority Error\n2. Gini Index\n"))
         metric = metrics[metric_choice]
 
         # Run ID3
-        if tree_depth == 0:
-            run_id3(data, test_data, metric, tree_depth, None, None)
-
-        else:
-            for i in range(1, 7):
-                max_height = run_id3(data, test_data, metric, i, None, None)
-                if max_height < i:
-                    break
+        run_id3(data, test_data, metric, tree_depth, None, None)
 
 
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
@@ -109,13 +105,13 @@ def calculate_averages(data, test_data, metrics):
 
     # Calculate and print averages
     print "\n-- Test data average for metrics --"
-    print "Information gain: " + str(average(values[0]))
-    print "Majority Error: " + str(average(values[1]))
-    print "Gini Index: " + str(average(values[2]))
+    print "Information gain: " + str(1.0 - average(values[0]))
+    print "Majority Error: " + str(1.0 - average(values[1]))
+    print "Gini Index: " + str(1.0 - average(values[2]))
     print "\n-- Train data average for metrics --"
-    print "Information gain: " + str(average(values_train[0]))
-    print "Majority Error: " + str(average(values_train[1]))
-    print "Gini Index: " + str(average(values_train[2]))
+    print "Information gain: " + str(1.0 - average(values_train[0]))
+    print "Majority Error: " + str(1.0 - average(values_train[1]))
+    print "Gini Index: " + str(1.0 - average(values_train[2]))
 
 
 def average(data):
