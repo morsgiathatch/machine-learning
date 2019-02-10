@@ -54,8 +54,6 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     print "\n--- Using Tree level " + str(tree_depth) + " ---"
     root = id3.id3(data.examples, data.attributes, None, data.labels, 0, tree_depth, metric)
 
-    print "\nFinished initialization of tree. Now running tests."
-
     correct_results = 0
     for example in test_data.examples:
         if example.get_label() == test_data.get_test_result(example, root):
@@ -65,8 +63,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if data_percents is not None:
         data_percents.append(percentage)
 
-    print "Percentage correct: " + str(percentage)
-    print "\nBegin verification that training data passes"
+    print "Test Error: " + str(1.0 - percentage)
 
     correct_results = 0
     for example in data.examples:
@@ -77,7 +74,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if train_data_percents is not None:
         train_data_percents.append(percentage)
 
-    print "Percentage correct: " + str(percentage)
+    print "Training Error: " + str(1.0 - percentage)
     max_height = id3.max_height
     id3.reset_max_height()
 
@@ -93,12 +90,14 @@ def calculate_averages(data, test_data, metrics):
     ginis_train = []
     values = [information_gains, max_errors, ginis]
     values_train = [information_gains_train, max_errors_train, ginis_train]
+    metric_names = {0: " Information Gain ", 1: " Majority Error ", 2: " Gini Index "}
 
     max_j = 0
     for i in range(0, 3):
+        print "\n------------- " + metric_names[i] + " -------------\n"
         for j in range(1, 7):
             max_height = run_id3(data, test_data, metrics[i], j, values[i], values_train[i])
-            print "Height of tree is " + str(max_height)
+            #print "Height of tree is " + str(max_height)
             if max_height < j:
                 max_j = j
                 break
@@ -109,14 +108,14 @@ def calculate_averages(data, test_data, metrics):
         values_train.pop()
 
     # Calculate and print averages
-    print "-- Test data average for metrics --"
-    print "Information gain: " + average(values[0])
-    print "Majority Error: " + average(values[1])
-    print "Gini Index: " + average(values[2])
+    print "\n-- Test data average for metrics --"
+    print "Information gain: " + str(average(values[0]))
+    print "Majority Error: " + str(average(values[1]))
+    print "Gini Index: " + str(average(values[2]))
     print "\n-- Train data average for metrics --"
-    print "Information gain: " + average(values_train[0])
-    print "Majority Error: " + average(values_train[1])
-    print "Gini Index: " + average(values_train[2])
+    print "Information gain: " + str(average(values_train[0]))
+    print "Majority Error: " + str(average(values_train[1]))
+    print "Gini Index: " + str(average(values_train[2]))
 
 
 def average(data):
