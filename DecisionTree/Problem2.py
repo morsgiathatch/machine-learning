@@ -21,11 +21,12 @@ def problem2():
     # Construct tree
     data = BankData.Data()
     data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/train.csv", use_unknown)
+    # data.initialize_data_from_file('./bank/train.csv', use_unknown)
 
     # Test tree
     test_data = BankData.Data()
     test_data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/test.csv", use_unknown)
-
+    # test_data.initialize_data_from_file('./bank/test.csv', use_unknown)
     if use_averages == "y":
         calculate_averages(data, test_data, metrics)
 
@@ -50,7 +51,8 @@ def problem2():
         print "Detected " + str(noise_count) + " examples of noise"
 
         # Begin id3
-        run_id3(data, test_data, metric, tree_depth, None, None)
+        height = run_id3(data, test_data, metric, tree_depth, None, None)
+        print "max tree height: " + str(height)
 
 
 
@@ -68,7 +70,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if data_percents is not None:
         data_percents.append(percentage)
 
-    print "Test Error: " + str(1.0 - percentage)
+    print "Test Error: " + "%.16f" % (1.0 - percentage)
 
     correct_results = 0
     for example in data.examples:
@@ -79,7 +81,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if train_data_percents is not None:
         train_data_percents.append(percentage)
 
-    print "Training Error: " + str(1.0 - percentage)
+    print "Training Error: " + "%.16f" % (1.0 - percentage)
     max_height = id3.max_height
     id3.reset_max_height()
 
@@ -102,7 +104,6 @@ def calculate_averages(data, test_data, metrics):
         print "\n------------- " + metric_names[i] + " -------------\n"
         for j in range(1, 17):
             max_height = run_id3(data, test_data, metrics[i], j, values[i], values_train[i])
-            # print "Height of tree is " + str(max_height)
             if max_height < j:
                 max_j = j
                 break
@@ -114,13 +115,13 @@ def calculate_averages(data, test_data, metrics):
 
     # Calculate and print averages
     print "\n-- Test data average for metrics --"
-    print "Information gain: " + str(1.0 - average(values[0]))
-    print "Majority Error: " + str(1.0 - average(values[1]))
-    print "Gini Index: " + str(1.0 - average(values[2]))
+    print "Information gain: " + "%.16f" % (1.0 - average(values[0]))
+    print "Majority Error: " + "%.16f" % (1.0 - average(values[1]))
+    print "Gini Index: " + "%.16f" % (1.0 - average(values[2]))
     print "\n-- Train data average for metrics --"
-    print "Information gain: " + str(1.0 - average(values_train[0]))
-    print "Majority Error: " + str(1.0 - average(values_train[1]))
-    print "Gini Index: " + str(1.0 - average(values_train[2]))
+    print "Information gain: " + "%.16f" % (1.0 - average(values_train[0]))
+    print "Majority Error: " + "%.16f" % (1.0 - average(values_train[1]))
+    print "Gini Index: " + "%.16f" % (1.0 - average(values_train[2]))
 
 
 def average(data):

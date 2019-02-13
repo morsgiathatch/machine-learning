@@ -46,23 +46,6 @@ class Attribute:
 
 # Define data structures
 class Data:
-    # age = Attribute(("yes", "no"), 0)
-    # job = Attribute(("admin.", "unknown", "unemployed", "management", "housemaid", "entrepreneur", "student",
-    #                  "blue-collar", "self-employed", "retired", "technician", "services"), 1)
-    # marital = Attribute(("married", "divorced", "single"), 2)
-    # education = Attribute(("unknown", "secondary", "primary", "tertiary"), 3)
-    # default = Attribute(("yes", "no"), 4)
-    # balance = Attribute(("yes", "no"), 5)
-    # housing = Attribute(("yes", "no"), 6)
-    # loan = Attribute(("yes", "no"), 7)
-    # contact = Attribute(("unknown", "telephone", "cellular"), 8)
-    # day = Attribute(("yes", "no"), 9)
-    # month = Attribute(("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"), 10)
-    # duration = Attribute(("yes", "no"), 11)
-    # campaign = Attribute(("yes", "no"), 12)
-    # pdays = Attribute(("yes", "no"), 13)
-    # previous = Attribute(("yes", "no"), 14)
-    # poutcome = Attribute(("unknown", "other", "failure", "success"), 15)
 
     age = Attribute((0, 1), 0)
     job = Attribute((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 1)

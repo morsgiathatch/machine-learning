@@ -9,11 +9,15 @@ def problem1():
     # Construct tre
     data = CarData.Data()
     data.initialize_data_from_file(os.getcwd() + "/DecisionTree/car/train.csv")
+    # data.initialize_data_from_file('./car/train.csv')
+
     metrics = {0: Metrics.information_gain, 1: Metrics.majority_error_gain, 2: Metrics.gini_index_gain}
 
     # Test tree
     test_data = CarData.Data()
     test_data.initialize_data_from_file(os.getcwd() + "/DecisionTree/car/test.csv")
+    #test_data.initialize_data_from_file('./car/test.csv')
+
 
     # Detect Noise
     print "Begin detecting noise"
@@ -27,7 +31,6 @@ def problem1():
     print "Detected " + str(noise_count) + " examples of noise\n"
 
     # Begin prompts
-
     use_averages = raw_input("Would you like to calculate averages over all metrics? y/n ")
 
     if use_averages == "y":
@@ -43,7 +46,8 @@ def problem1():
         metric = metrics[metric_choice]
 
         # Run ID3
-        run_id3(data, test_data, metric, tree_depth, None, None)
+        height = run_id3(data, test_data, metric, tree_depth, None, None)
+        print "Max height: " + str(height)
 
 
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
@@ -60,7 +64,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if data_percents is not None:
         data_percents.append(percentage)
 
-    print "Test Error: " + str(1.0 - percentage)
+    print "Test Error: " + "%.16f" % (1.0 - percentage)
 
     correct_results = 0
     for example in data.examples:
@@ -71,7 +75,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if train_data_percents is not None:
         train_data_percents.append(percentage)
 
-    print "Training Error: " + str(1.0 - percentage)
+    print "Training Error: " + "%.16f" % (1.0 - percentage)
     max_height = id3.max_height
     id3.reset_max_height()
 
@@ -94,7 +98,6 @@ def calculate_averages(data, test_data, metrics):
         print "\n------------- " + metric_names[i] + " -------------\n"
         for j in range(1, 7):
             max_height = run_id3(data, test_data, metrics[i], j, values[i], values_train[i])
-            #print "Height of tree is " + str(max_height)
             if max_height < j:
                 max_j = j
                 break

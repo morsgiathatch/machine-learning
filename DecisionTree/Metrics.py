@@ -1,5 +1,4 @@
 import math
-import copy
 
 
 # INFORMATION GAIN METRIC
@@ -17,7 +16,7 @@ def entropy(examples, labels):
     # Calculate entropy
     _sum = 0.0
     for p in p_values:
-        if p_values[p] > 0:  # and p_values[p] != len(labels):
+        if p_values[p] > 0:
             pr = float(p_values[p]) / float(len(examples))
             _sum += pr * math.log(pr) / math.log(2)
 
@@ -93,11 +92,11 @@ def get_gain(examples, attribute, labels, metric):
     gain = metric(examples, labels)
 
     for value in attribute.values:
-        # Make copy of examples and remove examples without the attribute value
-        examples_v = copy.deepcopy(examples)
+        # Make copy of examples without the attribute value
+        examples_v = []
         for example in examples:
-            if example.get_attribute_value(attribute) != value:
-                examples_v.remove(example)
+            if example.get_attribute_value(attribute) == value:
+                examples_v.append(example)
 
         weighted_gain = float(len(examples_v)) / float(len(examples)) * metric(examples_v, labels)
         gain -= weighted_gain

@@ -37,10 +37,10 @@ class Id3:
 
         # Construct S_v
         for attribute_value in attribute_to_split_on.values:
-            examples_less_split_attribute = copy.deepcopy(examples)
+            examples_less_split_attribute = []
             for example in examples:
-                if example.get_attribute_value(attribute_to_split_on) != attribute_value:
-                    examples_less_split_attribute.remove(example)
+                if example.get_attribute_value(attribute_to_split_on) == attribute_value:
+                    examples_less_split_attribute.append(example)
 
             # If S_v is empty, add leaf node containing most common label of S
             if len(examples_less_split_attribute) == 0:

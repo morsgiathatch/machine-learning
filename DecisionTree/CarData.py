@@ -31,12 +31,6 @@ class Attribute:
 
 # Define data structures
 class Data:
-    # buying = Attribute(("vhigh", "high", "med", "low"), 0)
-    # maint = Attribute(("vhigh", "high", "med", "low"), 1)
-    # doors = Attribute(("2", "3", "4", "5more"), 2)
-    # persons = Attribute(("2", "4", "more"), 3)
-    # lug_boot = Attribute(("small", "med", "big"), 4)
-    # safety = Attribute(("low", "med", "high"), 5)
 
     buying = Attribute((0, 1, 2, 3), 0)
     maint = Attribute((0, 1, 2, 3), 1)
