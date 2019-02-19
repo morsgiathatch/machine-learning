@@ -2,7 +2,6 @@ import Id3
 import BankData
 import Metrics
 import sys
-import os
 
 
 def problem2():
@@ -20,13 +19,13 @@ def problem2():
 
     # Construct tree
     data = BankData.Data()
-    data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/train.csv", use_unknown)
-    # data.initialize_data_from_file('./bank/train.csv', use_unknown)
+    # data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/train.csv", use_unknown)
+    data.initialize_data_from_file('./bank/train.csv', use_unknown)
 
     # Test tree
     test_data = BankData.Data()
-    test_data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/test.csv", use_unknown)
-    # test_data.initialize_data_from_file('./bank/test.csv', use_unknown)
+    # test_data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/test.csv", use_unknown)
+    test_data.initialize_data_from_file('./bank/test.csv', use_unknown)
     if use_averages == "y":
         calculate_averages(data, test_data, metrics)
 
