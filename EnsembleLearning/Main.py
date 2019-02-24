@@ -1,9 +1,7 @@
-#import sys
-#sys.path.append("../..") # Adds higher directory to python modules path.
 from EnsembleLearning import Problem2a
-#import Problem2a
-#import Problem2b
-#import Problem2c
+from EnsembleLearning import Problem2b
+from EnsembleLearning import Problem2c
+
 
 
 # problem = int(raw_input("\nPlease choose a problem\n1. Problem 2a\n2. Problem 2b\n3. Problem 2c\n"))

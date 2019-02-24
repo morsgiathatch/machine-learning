@@ -15,6 +15,8 @@ def problem2a():
     test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', False)
 
     t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
+    # t_values = [1, 2, 5, 10]
+
     train_percentages = []
     test_percentages = []
     decision_stumps = []
