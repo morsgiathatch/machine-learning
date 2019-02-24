@@ -14,11 +14,13 @@ def problem2b():
     test_percentages = []
     train_percentages = []
 
+    factor = float(input("Please enter a number to get fraction of examples. (e.g., `2` uses 1/2 of examples):\n"))
+
     t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
     # t_values = [1, 2, 5, 10]
     for t_value in t_values:
         print("\nRunning Bagging Trees on " + str(t_value) + " Trees\n")
-        trees = BaggingTrees.run_bagging_trees(t_value, data.examples, data.attributes, data.labels, 2.0)
+        trees = BaggingTrees.run_bagging_trees(t_value, data.examples, data.attributes, data.labels, factor)
 
         correct_results = 0
         for example in test_data.examples:
