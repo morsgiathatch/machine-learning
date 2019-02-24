@@ -13,6 +13,9 @@ class Example:
     def get_label(self):
         return self.label
 
+    def get_weight(self):
+        return 1.0
+
     def get_attribute_value(self, attribute):
         return self.attributes[attribute.index]
 

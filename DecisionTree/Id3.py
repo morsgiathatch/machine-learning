@@ -1,5 +1,5 @@
-import Node
-import Metrics
+from DecisionTree import Metrics
+from DecisionTree import Node
 import copy
 
 
@@ -65,13 +65,13 @@ class Id3:
 def get_most_common_label(examples):
     scores = {}
     for example in examples:
-        scores[example.get_label()] = 0
+        scores[example.get_label()] = 0.0
 
     for example in examples:
-        scores[example.get_label()] += 1
+        scores[example.get_label()] += example.get_weight()
 
     label = None
-    max_count = 0
+    max_count = 0.0
     for key in scores:
         if scores[key] > max_count:
             max_count = scores[key]

@@ -1,8 +1,10 @@
 class Example:
 
-    def __init__(self, terms):
+    def __init__(self, terms, weight, base_size):
         self.label = terms.pop()
         self.attributes = terms
+        self.weight = weight
+        self.base_size = base_size
 
     def get_attributes(self):
         return self.attributes
@@ -15,6 +17,12 @@ class Example:
 
     def get_attribute_at(self, index):
         return self.attributes[index]
+
+    def get_weight(self):
+        return self.weight
+
+    def get_base_size(self):
+        return self.base_size
 
     def set_attribute_value(self, median, index):
         if float(self.attributes[index]) < median:
@@ -29,6 +37,12 @@ class Example:
 
     def set_unknown_attribute(self, val, index):
         self.attributes[index] = val
+
+    def set_weight(self, weight):
+        self.weight = weight
+
+    def set_base_size(self, base_size):
+        self.base_size = base_size
 
     def __eq__(self, other):
         return self.attributes == other.attributes
@@ -67,8 +81,8 @@ class Data:
     attributes = (age, job, marital, education, default, balance, housing, loan,
                   contact, day, month, duration, campaign, pdays, previous, poutcome)
 
-    labels = (0, 1)
-    labels_map = {"yes": 0, "no": 1}
+    labels = (1, -1)
+    labels_map = {"yes": 1, "no": -1}
 
     age_map = {"yes": 0, "no": 1}
     job_map = {"admin.": 0, "unknown": 1, "unemployed": 2, "management": 3, "housemaid": 4, "entrepreneur": 5,
@@ -115,7 +129,7 @@ class Data:
         with open(filepath, 'r') as f:
             for line in f:
                 terms = line.strip().split(',')
-                self.examples.append(Example(terms))
+                self.examples.append(Example(terms, 1.0, 0.0))
 
                 ages.append(float(terms[0]))
                 balances.append(float(terms[5]))
@@ -147,6 +161,8 @@ class Data:
             example.set_attribute_value(thresholds[4], 12)
             example.set_attribute_value(thresholds[5], 13)
             example.set_attribute_value(thresholds[6], 14)
+            example.set_weight(1.0)
+            example.set_base_size(len(self.examples))
 
             if unknown_is_not_attribute:
                 if example.get_attribute_at(1) == "unknown":

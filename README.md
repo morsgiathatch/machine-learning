@@ -14,7 +14,7 @@ provided Node class for the tree structure. After making an instance of Id3,
 calling the method id3 with the appropriate arguments will return a 
 reference to the root node with which you can traverse the tree however 
 you want. For an example, see getTestResult() in BankData.py. The signature
-id3 is:     
+of id3 is:     
 ```python
 id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric):
 ```

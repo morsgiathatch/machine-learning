@@ -8,17 +8,18 @@ def entropy(examples, labels):
     # First get proportion values from examples
     p_values = {}
     for label in labels:
-        p_values[label] = 0
+        p_values[label] = 0.0
 
     for example in examples:
-        p_values[example.get_label()] += 1
+        p_values[example.get_label()] += 1.0
 
     # Calculate entropy
     _sum = 0.0
     for p in p_values:
-        if p_values[p] > 0:
+        if p_values[p] > 0.0:
             pr = float(p_values[p]) / float(len(examples))
             _sum += pr * math.log(pr) / math.log(2)
+
 
     _sum *= -1.0
     return _sum
@@ -30,6 +31,38 @@ def information_gain(examples, attribute, labels):
     gain = get_gain(examples, attribute, labels, entropy)
     return gain
 
+
+# INFORMATION GAIN METRIC
+# Definition of Entropy
+def weighted_entropy(examples, labels):
+
+    # First get proportion values from examples
+    p_values = {}
+    for label in labels:
+        p_values[label] = 0.0
+
+    examples_sum = 0.0
+    for example in examples:
+        p_values[example.get_label()] += example.get_weight()
+        examples_sum += example.get_weight()
+
+    # Calculate entropy
+    _sum = 0.0
+    for p in p_values:
+        if p_values[p] > 0.0:
+            pr = float(p_values[p]) / examples_sum
+            _sum += pr * math.log(pr) / math.log(2.0)
+
+
+    _sum *= -1.0
+    return _sum
+
+
+# Get gain using weighted information gain
+def weighted_information_gain(examples, attribute, labels):
+
+    gain = get_weighted_gain(examples, attribute, labels, weighted_entropy)
+    return gain
 
 # MAJORITY ERROR METRIC
 # Definition of Majority Error
@@ -99,6 +132,27 @@ def get_gain(examples, attribute, labels, metric):
                 examples_v.append(example)
 
         weighted_gain = float(len(examples_v)) / float(len(examples)) * metric(examples_v, labels)
+        gain -= weighted_gain
+
+    return math.fabs(gain)
+
+
+# Helper method to avoid code duplication
+def get_weighted_gain(examples, attribute, labels, metric):
+    gain = metric(examples, labels)
+
+    for value in attribute.values:
+        # Make copy of examples without the attribute value
+        examples_v = []
+        examples_v_sum = 0.0
+        examples_sum = 0.0
+        for example in examples:
+            examples_sum += example.get_weight()
+            if example.get_attribute_value(attribute) == value:
+                examples_v.append(example)
+                examples_v_sum += example.get_weight()
+
+        weighted_gain = examples_v_sum / examples_sum * metric(examples_v, labels)
         gain -= weighted_gain
 
     return math.fabs(gain)

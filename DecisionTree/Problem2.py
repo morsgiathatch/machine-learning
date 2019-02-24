@@ -1,6 +1,6 @@
-import Id3
-import BankData
-import Metrics
+from DecisionTree import Id3
+from DecisionTree import BankData
+from DecisionTree import Metrics
 import sys
 
 
@@ -8,38 +8,36 @@ def problem2():
     metrics = {0: Metrics.information_gain, 1: Metrics.majority_error_gain, 2: Metrics.gini_index_gain}
 
     # Begin prompts
-    unknown_choice = raw_input("Do you wish to use 'unknown' as an attribute? y/n ")
+    unknown_choice = input("Do you wish to use 'unknown' as an attribute? y/n ")
 
     if unknown_choice == "n":
         use_unknown = True
     else:
         use_unknown = False
 
-    use_averages = raw_input("Would you like to calculate averages over all metrics? y/n ")
+    use_averages = input("Would you like to calculate averages over all metrics? y/n ")
 
     # Construct tree
     data = BankData.Data()
-    # data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/train.csv", use_unknown)
-    data.initialize_data_from_file('./bank/train.csv', use_unknown)
+    data.initialize_data_from_file('../Data/bank/train.csv', use_unknown)
 
     # Test tree
     test_data = BankData.Data()
-    # test_data.initialize_data_from_file(os.getcwd() + "/DecisionTree/bank/test.csv", use_unknown)
-    test_data.initialize_data_from_file('./bank/test.csv', use_unknown)
+    test_data.initialize_data_from_file('../Data/bank/test.csv', use_unknown)
     if use_averages == "y":
         calculate_averages(data, test_data, metrics)
 
     else:
-        tree_depth = int(raw_input("Please enter desired tree depth [1 - 16] (0 to run entire tree):"))
+        tree_depth = int(input("Please enter desired tree depth [1 - 16] (0 to run entire tree):"))
         if tree_depth == 0:
-            tree_depth = sys.maxint
+            tree_depth = float("inf")
 
-        metric_choice = int(raw_input("Please enter a number for choice of metric:\n0: Information Gain\n"
+        metric_choice = int(input("Please enter a number for choice of metric:\n0: Information Gain\n"
                                       "1. Majority Error\n2. Gini Index\n"))
         metric = metrics[metric_choice]
 
         # Test for noise in data
-        print "Begin detecting noise"
+        print("Begin detecting noise")
         noise_count = 0
         for example in data.examples:
             for other_example in data.examples:
@@ -47,17 +45,17 @@ def problem2():
                     if example.label != other_example.label:
                         noise_count += 1
 
-        print "Detected " + str(noise_count) + " examples of noise"
+        print("Detected " + str(noise_count) + " examples of noise")
 
         # Begin id3
         height = run_id3(data, test_data, metric, tree_depth, None, None)
-        print "max tree height: " + str(height)
+        print("max tree height: " + str(height))
 
 
 
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
     id3 = Id3.Id3()
-    print "\n--- Using Tree level " + str(tree_depth) + " ---"
+    print("\n--- Using Tree level " + str(tree_depth) + " ---")
     root = id3.id3(data.examples, data.attributes, None, data.labels, 0, tree_depth, metric)
 
     correct_results = 0
@@ -69,7 +67,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if data_percents is not None:
         data_percents.append(percentage)
 
-    print "Test Error: " + "%.16f" % (1.0 - percentage)
+    print("Test Error: " + "%.16f" % (1.0 - percentage))
 
     correct_results = 0
     for example in data.examples:
@@ -80,7 +78,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     if train_data_percents is not None:
         train_data_percents.append(percentage)
 
-    print "Training Error: " + "%.16f" % (1.0 - percentage)
+    print("Training Error: " + "%.16f" % (1.0 - percentage))
     max_height = id3.max_height
     id3.reset_max_height()
 
@@ -100,7 +98,7 @@ def calculate_averages(data, test_data, metrics):
 
     max_j = 0
     for i in range(0, 3):
-        print "\n------------- " + metric_names[i] + " -------------\n"
+        print("\n------------- " + metric_names[i] + " -------------\n")
         for j in range(1, 17):
             max_height = run_id3(data, test_data, metrics[i], j, values[i], values_train[i])
             if max_height < j:
@@ -113,14 +111,14 @@ def calculate_averages(data, test_data, metrics):
         values_train.pop()
 
     # Calculate and print averages
-    print "\n-- Test data average for metrics --"
-    print "Information gain: " + "%.16f" % (1.0 - average(values[0]))
-    print "Majority Error: " + "%.16f" % (1.0 - average(values[1]))
-    print "Gini Index: " + "%.16f" % (1.0 - average(values[2]))
-    print "\n-- Train data average for metrics --"
-    print "Information gain: " + "%.16f" % (1.0 - average(values_train[0]))
-    print "Majority Error: " + "%.16f" % (1.0 - average(values_train[1]))
-    print "Gini Index: " + "%.16f" % (1.0 - average(values_train[2]))
+    print("\n-- Test data average for metrics --")
+    print("Information gain: " + "%.16f" % (1.0 - average(values[0])))
+    print("Majority Error: " + "%.16f" % (1.0 - average(values[1])))
+    print("Gini Index: " + "%.16f" % (1.0 - average(values[2])))
+    print("\n-- Train data average for metrics --")
+    print("Information gain: " + "%.16f" % (1.0 - average(values_train[0])))
+    print("Majority Error: " + "%.16f" % (1.0 - average(values_train[1])))
+    print("Gini Index: " + "%.16f" % (1.0 - average(values_train[2])))
 
 
 def average(data):
