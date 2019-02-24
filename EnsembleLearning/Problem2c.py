@@ -36,6 +36,7 @@ def problem2c():
     print("Calculating squared mean error of full trees.")
     full_trees_mean_squared_error = get_squared_mean_error(data, full_trees, False)
     print("\nMean Squared Error for the full trees is: " + "%.16f" % full_trees_mean_squared_error)
+    print("Calculating squared mean error for bagged trees.")
     bagged_trees_mean_squared_error = get_squared_mean_error(data, bagged_trees, True)
     print("Mean Squared Error for the bagged trees is: " + "%.16f" % bagged_trees_mean_squared_error)
 

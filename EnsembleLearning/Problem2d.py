@@ -14,8 +14,8 @@ def problem2d():
     test_data = BankData.Data()
     test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', False)
 
-    # t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
-    t_values = [1, 2, 5, 10]
+    t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
+    # t_values = [1, 2, 5, 10]
     attr_sizes = [2, 4, 6]
     test_results = []
     train_results = []
