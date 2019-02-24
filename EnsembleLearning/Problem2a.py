@@ -1,6 +1,7 @@
 from DecisionTree import BankData
 from EnsembleLearning import AdaBoost
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 
 def problem2a():
@@ -16,12 +17,43 @@ def problem2a():
     t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
     train_percentages = []
     test_percentages = []
+    decision_stumps = []
     for t_value in t_values:
         results = AdaBoost.run_Adaboost(data, test_data, t_value)
-        test_percentages.append(results[0])
-        train_percentages.append(results[1])
+        test_percentages.append(results[0][0])
+        train_percentages.append(results[0][1])
+        if t_value == 1000:
+            decision_stumps = results[1]
 
     plt.plot(t_values, test_percentages, label='Test')
     plt.plot(t_values, train_percentages, label='Train')
+    plt.legend(loc='best')
+    plt.show()
+
+    stump_train_percentages = []
+    stump_test_percentages = []
+    for stump in decision_stumps:
+        correct_results = 0
+        for example in test_data.examples:
+            if example.get_label() == test_data.get_test_result(example, stump):
+                correct_results += 1
+
+        percentage = float(correct_results) / float(len(test_data.examples))
+
+        stump_test_percentages.append(1.0 - percentage)
+
+        correct_results = 0
+        for example in data.examples:
+            if example.get_label() == data.get_test_result(example, stump):
+                correct_results += 1
+
+        percentage = float(correct_results) / float(len(data.examples))
+
+        stump_train_percentages.append(1.0 - percentage)
+
+    x_vals = np.linspace(0, 1000, num=1000)
+
+    plt.plot(x_vals, stump_test_percentages, label='Test')
+    plt.plot(x_vals, stump_train_percentages, label='Train')
     plt.legend(loc='best')
     plt.show()

@@ -44,7 +44,7 @@ def run_Adaboost(data, test_data, t_value):
 
     percentage = float(correct_results) / float(len(test_data.examples))
 
-    percentages.append(percentage)
+    percentages.append(1.0 - percentage)
 
     print("Test Error: " + "%.16f" % (1.0 - percentage))
 
@@ -57,8 +57,12 @@ def run_Adaboost(data, test_data, t_value):
 
     print("Train Error: " + "%.16f" % (1.0 - percentage))
 
-    percentages.append(percentage)
-    return percentages
+    percentages.append(1.0 - percentage)
+
+    results = []
+    results.append(percentages)
+    results.append(h_classifiers)
+    return results
 
 
 def get_epsilon(data, h_predictions, dt):
