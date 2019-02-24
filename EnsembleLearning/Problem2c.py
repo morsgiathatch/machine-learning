@@ -2,6 +2,7 @@ from DecisionTree import BankData
 from EnsembleLearning import BaggingTrees
 from DecisionTree import Id3
 from DecisionTree import Metrics
+import sys
 import os
 import math
 import random
@@ -32,9 +33,10 @@ def problem2c():
         full_trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
         print("Got full trees")
 
+    print("Calculating squared mean error of full trees.")
     full_trees_mean_squared_error = get_squared_mean_error(data, full_trees, False)
-    bagged_trees_mean_squared_error = get_squared_mean_error(data, bagged_trees, True)
     print("\nMean Squared Error for the full trees is: " + "%.16f" % full_trees_mean_squared_error)
+    bagged_trees_mean_squared_error = get_squared_mean_error(data, bagged_trees, True)
     print("Mean Squared Error for the bagged trees is: " + "%.16f" % bagged_trees_mean_squared_error)
 
 
@@ -54,6 +56,14 @@ def get_samples(data):
 def get_squared_mean_error(data, trees, bagged_tree):
     bias = 0.0
     variance = 0.0
+    toolbar_width = 100
+    sys.stdout.write("Progress:")
+    sys.stdout.write("[%s]" % (" " * toolbar_width))
+    sys.stdout.flush()
+    sys.stdout.write("\b" * (toolbar_width + 1))
+
+    counter = 0
+    subdivision = int(len(data.examples) / 100)
     for example in data.examples:
         _sum = 0.0
         if bagged_tree:
@@ -76,6 +86,14 @@ def get_squared_mean_error(data, trees, bagged_tree):
                 _sum += math.pow(data.get_test_result(example, tree) - tree_avg, 2.0)
         variance += _sum / (float(len(trees)) - 1.0)
 
+        counter += 1
+        if counter == subdivision:
+            counter = 0
+            sys.stdout.write("#")
+            sys.stdout.flush()
+
+    sys.stdout.write("\n")
     bias /= float(len(data.examples))
     variance /= float(len(data.examples))
     return bias + variance
+
