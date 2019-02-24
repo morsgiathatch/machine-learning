@@ -1,3 +1,8 @@
+import os.path
+
+cwd = os.getcwd()
+parent = os.path.join(cwd, os.path.join(os.path.dirname(__file__)))
+
 from DecisionTree import BankData
 from EnsembleLearning import AdaBoost
 import matplotlib.pyplot as plt
