@@ -4,7 +4,7 @@ import numpy as np
 import random
 
 
-def run_bagging_trees(t_value, data):
+def run_bagging_trees(t_value, data_examples, attributes, labels, factor):
 
     trees = []
 
@@ -12,16 +12,16 @@ def run_bagging_trees(t_value, data):
 
         # Construct subset of examples by generating random indices
         example_indices = []
-        for j in range(0, int(len(data.examples) / 2)):
-            example_indices.append(random.randint(0, len(data.examples) - 1))
+        for j in range(0, int(len(data_examples) / factor)):
+            example_indices.append(random.randint(0, len(data_examples) - 1))
 
         examples = []
         for j in example_indices:
-            examples.append(data.examples[j])
+            examples.append(data_examples[j])
 
         # Run Id3 and keep root node
         id3 = Id3.Id3()
-        trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
+        trees.append(id3.id3(examples, attributes, None, labels, 0, float("inf"), Metrics.information_gain))
 
     return trees
 

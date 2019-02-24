@@ -4,12 +4,10 @@ import matplotlib.pyplot as plt
 import os
 
 def problem2b():
-    # Construct tree
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()
     data.initialize_data_from_file(dir_path + '/../Data/bank/train.csv', False)
 
-    # Test tree
     test_data = BankData.Data()
     test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', False)
 
@@ -20,7 +18,7 @@ def problem2b():
     # t_values = [1, 2, 5, 10]
     for t_value in t_values:
         print("\nRunning Bagging Trees on " + str(t_value) + " Trees\n")
-        trees = BaggingTrees.run_bagging_trees(t_value, data)
+        trees = BaggingTrees.run_bagging_trees(t_value, data.examples, data.attributes, data.labels, 2.0)
 
         correct_results = 0
         for example in test_data.examples:
