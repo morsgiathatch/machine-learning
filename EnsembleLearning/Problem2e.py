@@ -24,7 +24,7 @@ def problem2e():
     size = int(input("Please enter a number for the cardinality of the set of random attributes:\n"))
 
     for i in range(0, 100):
-        # sample 100 examples uniformly without replacement
+        # sample 1000 examples uniformly without replacement
         print("Begin calculations for " + str(i) + "th run")
         examples = get_samples(data)
         random_forests.append(RandomForests.run_random_forests(100, examples, data.attributes, data.labels, size))
@@ -34,11 +34,13 @@ def problem2e():
         print("Got full trees")
 
     print("Calculating squared mean error of full trees.")
-    full_trees_mean_squared_error = get_squared_mean_error_np(data, full_trees, False)
-    print("\nMean Squared Error for the full trees is: " + "%.16f" % full_trees_mean_squared_error)
+    full_trees_results = get_squared_mean_error_np(data, full_trees, False)
+    print("\nMean Squared Error for the full trees is: " + "%.16f" % (full_trees_results[0] + full_trees_results[1]))
+    print("Bias was %s, Variance was %s" % (full_trees_results[0], full_trees_results[1]))
     print("Calculating squared mean error for bagged trees.")
-    bagged_trees_mean_squared_error = get_squared_mean_error_np(data, random_forests, True)
-    print("Mean Squared Error for the bagged trees is: " + "%.16f" % bagged_trees_mean_squared_error)
+    random_forest_results = get_squared_mean_error_np(data, random_forests, True)
+    print("\nMean Squared Error for the bagged trees is: " + "%.16f" % (random_forest_results[0] + random_forest_results[1]))
+    print("Bias was %s, Variance was %s" % (random_forest_results[0], random_forest_results[1]))
 
 
 def get_samples(data):
@@ -70,7 +72,7 @@ def get_squared_mean_error_np(data, trees, random_forest):
 
             counter += 1
             if counter % subdivision == 0:
-                sys.stdout.write("\r")
+                sys.stdout.write('\r')
                 sys.stdout.flush()
                 sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
@@ -82,7 +84,7 @@ def get_squared_mean_error_np(data, trees, random_forest):
 
             counter += 1
             if counter % subdivision == 0:
-                sys.stdout.write("\r")
+                sys.stdout.write('\r')
                 sys.stdout.flush()
                 sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
@@ -97,5 +99,5 @@ def get_squared_mean_error_np(data, trees, random_forest):
     sys.stdout.write("\n")
     bias /= float(len(data.examples))
     variance /= float(len(data.examples))
-    return bias + variance
+    return [bias, variance]
 
