@@ -4,7 +4,7 @@ import random
 import numpy as np
 
 
-def runRandomForests(t_value, examples, attributes, labels, size):
+def run_random_forests(t_value, examples, attributes, labels, size):
 
     forest = []
     for i in range(0, t_value):

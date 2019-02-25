@@ -97,6 +97,12 @@ class RandomId3:
         for index in indices:
             random_attributes.append(attributes[index])
 
+        # while attr_equal(attributes, random_attributes):
+        #     indices = random.sample(range(0, len(attributes)), min(rand_attribute_size, len(attributes)))
+        #     random_attributes = []
+        #     for index in indices:
+        #         random_attributes.append(attributes[index])
+
         attribute_to_split_on = Metrics.get_splitting_attribute(examples, random_attributes, labels, metric)
 
         # Make root node
@@ -145,3 +151,19 @@ def get_most_common_label(examples):
             label = key
 
     return label
+
+
+# Unordered attribute list comparison. Essentially set equality
+def attr_equal(attributes1, attributes2):
+    if len(attributes1) != len(attributes2):
+        return False
+
+    for item1 in list(attributes1):
+        if item1 not in list(attributes2):
+            return False
+
+    for item2 in list(attributes2):
+        if item2 not in list(attributes1):
+            return False
+
+    return True

@@ -5,7 +5,6 @@ from DecisionTree import Metrics
 import numpy as np
 import sys
 import os
-import math
 import random
 
 
@@ -52,51 +51,6 @@ def get_samples(data):
     return examples
 
 
-def get_squared_mean_error(data, trees, bagged_tree):
-    bias = 0.0
-    variance = 0.0
-    toolbar_width = 100
-    sys.stdout.flush()
-    sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
-    sys.stdout.flush()
-    sys.stdout.write("\b" * (toolbar_width + 1))
-
-    counter = 0
-    subdivision = int(len(data.examples) / 100)
-    for example in data.examples:
-        _sum = 0.0
-        if bagged_tree:
-            for tree_set in trees:
-                _sum += BaggingTrees.get_result(example, tree_set, data)
-        else:
-            for tree in trees:
-                _sum += data.get_test_result(example, tree)
-
-        tree_avg = _sum / float(len(trees))
-
-        bias += math.pow(example.get_label() - tree_avg, 2.0)
-
-        _sum = 0.0
-        if bagged_tree:
-            for tree_set in trees:
-                _sum += math.pow(BaggingTrees.get_result(example, tree_set, data) - tree_avg, 2.0)
-        else:
-            for tree in trees:
-                _sum += math.pow(data.get_test_result(example, tree) - tree_avg, 2.0)
-        variance += _sum / (float(len(trees)) - 1.0)
-
-        counter += 1
-        if counter == subdivision:
-            counter = 0
-            sys.stdout.write("#")
-            sys.stdout.flush()
-
-    sys.stdout.write("\n")
-    bias /= float(len(data.examples))
-    variance /= float(len(data.examples))
-    return bias + variance
-
-
 def get_squared_mean_error_np(data, trees, bagged_trees):
     bias = 0.0
     variance = 0.0
@@ -130,7 +84,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
             if counter % subdivision == 0:
                 sys.stdout.write("\r")
                 sys.stdout.flush()
-                sys.stdout.write("Progress:[%s" % ("#" * (int(counter / subdivision))))
+                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
 
