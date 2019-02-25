@@ -23,7 +23,7 @@ def problem2c():
 
     factor = float(input("Please enter a number to get fraction of examples. (e.g., `2` uses 1/2 of examples):\n"))
 
-    for i in range(0, 5):
+    for i in range(0, 100):
         # sample 100 examples uniformly without replacement
         print("Begin calculations for " + str(i) + "th run")
         examples = get_samples(data)
@@ -72,9 +72,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
 
             counter += 1
             if counter % subdivision == 0:
-                sys.stdout.write('\r')
-                sys.stdout.flush()
-                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
+                sys.stdout.write("\rProgress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
     else:
@@ -84,9 +82,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
 
             counter += 1
             if counter % subdivision == 0:
-                sys.stdout.write('\r')
-                sys.stdout.flush()
-                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
+                sys.stdout.write("\rProgress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
 
