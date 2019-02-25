@@ -2,6 +2,7 @@ from DecisionTree import BankData
 from EnsembleLearning import BaggingTrees
 from DecisionTree import Id3
 from DecisionTree import Metrics
+import numpy as np
 import sys
 import os
 import math
@@ -27,29 +28,26 @@ def problem2c():
         # sample 100 examples uniformly without replacement
         print("Begin calculations for " + str(i) + "th run")
         examples = get_samples(data)
-        bagged_trees.append(BaggingTrees.run_bagging_trees(1000, examples, data.attributes, data.labels, factor))
+        bagged_trees.append(BaggingTrees.run_bagging_trees(100, examples, data.attributes, data.labels, factor))
         print("Got bagged trees")
         id3 = Id3.Id3()
         full_trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
         print("Got full trees")
 
     print("Calculating squared mean error of full trees.")
-    full_trees_mean_squared_error = get_squared_mean_error(data, full_trees, False)
+    full_trees_mean_squared_error = get_squared_mean_error_np(data, full_trees, False)
     print("\nMean Squared Error for the full trees is: " + "%.16f" % full_trees_mean_squared_error)
     print("Calculating squared mean error for bagged trees.")
-    bagged_trees_mean_squared_error = get_squared_mean_error(data, bagged_trees, True)
+    bagged_trees_mean_squared_error = get_squared_mean_error_np(data, bagged_trees, True)
     print("Mean Squared Error for the bagged trees is: " + "%.16f" % bagged_trees_mean_squared_error)
 
 
 def get_samples(data):
-    examples = []
-    indices = []
 
-    while len(examples) != 1000:
-        index = random.randint(0, len(data.examples) - 1)
-        if index not in indices:
-            indices.append(index)
-            examples.append(data.examples[index])
+    examples = []
+    indices = random.sample(range(0, len(data.examples)), 1000)
+    for ndx in indices:
+        examples.append(data.examples[ndx])
 
     return examples
 
@@ -58,8 +56,8 @@ def get_squared_mean_error(data, trees, bagged_tree):
     bias = 0.0
     variance = 0.0
     toolbar_width = 100
-    sys.stdout.write("Progress:")
-    sys.stdout.write("[%s]" % (" " * toolbar_width))
+    sys.stdout.flush()
+    sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
     sys.stdout.flush()
     sys.stdout.write("\b" * (toolbar_width + 1))
 
@@ -92,6 +90,55 @@ def get_squared_mean_error(data, trees, bagged_tree):
             counter = 0
             sys.stdout.write("#")
             sys.stdout.flush()
+
+    sys.stdout.write("\n")
+    bias /= float(len(data.examples))
+    variance /= float(len(data.examples))
+    return bias + variance
+
+
+def get_squared_mean_error_np(data, trees, bagged_trees):
+    bias = 0.0
+    variance = 0.0
+    toolbar_width = 100
+    sys.stdout.flush()
+    sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
+    sys.stdout.flush()
+
+    counter = 1
+    subdivision = int(len(data.examples) / 100)
+
+    results = np.empty([len(data.examples), len(trees)])
+    if bagged_trees:
+        for i, example in enumerate(data.examples):
+            for j, tree_set in enumerate(trees):
+                results[i, j] = BaggingTrees.get_result(example, tree_set, data)
+
+            counter += 1
+            if counter % subdivision == 0:
+                sys.stdout.write("\r")
+                sys.stdout.flush()
+                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
+                sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
+                sys.stdout.flush()
+    else:
+        for i, example in enumerate(data.examples):
+            for j, tree in enumerate(trees):
+                results[i, j] = data.get_test_result(example, tree)
+
+            counter += 1
+            if counter % subdivision == 0:
+                sys.stdout.write("\r")
+                sys.stdout.flush()
+                sys.stdout.write("Progress:[%s" % ("#" * (int(counter / subdivision))))
+                sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
+                sys.stdout.flush()
+
+    for i, example in enumerate(data.examples):
+        tree_avg = np.sum(results[i, :]) / float(len(trees))
+        bias += np.power(example.get_label() - tree_avg, 2.0)
+        diff = results[i, :] - tree_avg
+        variance += np.dot(diff, diff) / (float(len(trees)) - 1.0)
 
     sys.stdout.write("\n")
     bias /= float(len(data.examples))
