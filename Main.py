@@ -5,7 +5,10 @@ from LinearRegression import HW2p4
 redo_hm = True
 
 while redo_hm:
-    print("Welcome to Corbin Baldwin's Programming Assignments")
+    print("\n================================================================")
+    print("||    Welcome to Corbin Baldwin's Programming Assignments     ||")
+    print("================================================================")
+
     homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. Exit\n"))
 
     valid_choice = True
