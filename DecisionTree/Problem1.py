@@ -1,7 +1,6 @@
-import Id3
-import CarData
-import Metrics
-import sys
+from DecisionTree import Id3
+from DecisionTree import CarData
+from DecisionTree import Metrics
 
 
 def problem1():

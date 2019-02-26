@@ -41,7 +41,7 @@ def problem2e():
         sys.stdout.flush()
         counter += 1
 
-    print("Calculating squared mean error of full trees.")
+    print("\nCalculating squared mean error of full trees.")
     full_trees_results = get_squared_mean_error_np(data, full_trees, False)
     print("\nMean Squared Error for the full trees is: " + "%.16f" % (full_trees_results[0] + full_trees_results[1]))
     print("Bias was %s, Variance was %s" % (full_trees_results[0], full_trees_results[1]))
