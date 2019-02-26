@@ -72,7 +72,9 @@ def get_squared_mean_error_np(data, trees, random_forest):
 
             counter += 1
             if counter % subdivision == 0:
-                sys.stdout.write("\rProgress: [%s" % ("#" * (int(counter / subdivision))))
+                print('\r')
+                sys.stdout.flush()
+                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
     else:
@@ -82,7 +84,9 @@ def get_squared_mean_error_np(data, trees, random_forest):
 
             counter += 1
             if counter % subdivision == 0:
-                sys.stdout.write("\rProgress: [%s" % ("#" * (int(counter / subdivision))))
+                print('\r')
+                sys.stdout.flush()
+                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
                 sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
 
