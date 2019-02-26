@@ -23,15 +23,22 @@ def problem2e():
 
     size = int(input("Please enter a number for the cardinality of the set of random attributes:\n"))
 
+    counter = 1
+    toolbar_width = 100
+    print("Building trees")
+    sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
+    sys.stdout.flush()
     for i in range(0, 100):
         # sample 1000 examples uniformly without replacement
-        print("Begin calculations for " + str(i) + "th run")
         examples = get_samples(data)
         random_forests.append(RandomForests.run_random_forests(100, examples, data.attributes, data.labels, size))
-        print("Got random forests")
         id3 = Id3.Id3()
         full_trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
-        print("Got full trees")
+        sys.stdout.write('\r')
+        sys.stdout.flush()
+        sys.stdout.write('Progress: [%s' % ('#' * counter))
+        sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
+        sys.stdout.flush()
 
     print("Calculating squared mean error of full trees.")
     full_trees_results = get_squared_mean_error_np(data, full_trees, False)
