@@ -72,10 +72,10 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
 
             counter += 1
             if counter % subdivision == 0:
-                print('\r')
+                sys.stdout.write('\r')
                 sys.stdout.flush()
-                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
-                sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
+                sys.stdout.write('Progress: [%s' % ('#' * (int(counter / subdivision))))
+                sys.stdout.write('%s]' % (' ' * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
     else:
         for i, example in enumerate(data.examples):
@@ -84,10 +84,10 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
 
             counter += 1
             if counter % subdivision == 0:
-                print('\r')
+                sys.stdout.write('\r')
                 sys.stdout.flush()
-                sys.stdout.write("Progress: [%s" % ("#" * (int(counter / subdivision))))
-                sys.stdout.write("%s]" % (" " * (toolbar_width - int(counter / subdivision))))
+                sys.stdout.write('Progress: [%s' % ('#' * (int(counter / subdivision))))
+                sys.stdout.write('%s]' % (' ' * (toolbar_width - int(counter / subdivision))))
                 sys.stdout.flush()
 
     for i, example in enumerate(data.examples):
@@ -96,7 +96,8 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
         diff = results[i, :] - tree_avg
         variance += np.dot(diff, diff) / (float(len(trees)) - 1.0)
 
-    sys.stdout.write("\n")
+    sys.stdout.write('\n')
+    sys.stdout.flush()
     bias /= float(len(data.examples))
     variance /= float(len(data.examples))
     return [bias, variance]
