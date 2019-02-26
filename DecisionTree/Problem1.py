@@ -1,18 +1,21 @@
 from DecisionTree import Id3
 from DecisionTree import CarData
 from DecisionTree import Metrics
+import os
 
 
 def problem1():
-    # Construct tre
+    # Construct datasets
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
     data = CarData.Data()
-    data.initialize_data_from_file('../Data/car/train.csv')
+    data.initialize_data_from_file(dir_path + '/../Data/car/train.csv')
 
     metrics = {0: Metrics.information_gain, 1: Metrics.majority_error_gain, 2: Metrics.gini_index_gain}
 
     # Test tree
     test_data = CarData.Data()
-    test_data.initialize_data_from_file('../Data/car/test.csv')
+    test_data.initialize_data_from_file(dir_path + '/../Data/car/test.csv')
 
 
     # Detect Noise

@@ -1,10 +1,11 @@
 from DecisionTree import Id3
 from DecisionTree import BankData
 from DecisionTree import Metrics
-import sys
+import os
 
 
 def problem2():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
     metrics = {0: Metrics.information_gain, 1: Metrics.majority_error_gain, 2: Metrics.gini_index_gain}
 
     # Begin prompts
@@ -19,11 +20,11 @@ def problem2():
 
     # Construct tree
     data = BankData.Data()
-    data.initialize_data_from_file('../Data/bank/train.csv', use_unknown)
+    data.initialize_data_from_file(dir_path + '/../Data/bank/train.csv', use_unknown)
 
     # Test tree
     test_data = BankData.Data()
-    test_data.initialize_data_from_file('../Data/bank/test.csv', use_unknown)
+    test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', use_unknown)
     if use_averages == "y":
         calculate_averages(data, test_data, metrics)
 
