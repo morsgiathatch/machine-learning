@@ -40,6 +40,7 @@ def problem2c():
         sys.stdout.write('Progress: [%s' % ('#' * counter))
         sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
         sys.stdout.flush()
+        counter += 1
 
     print("Calculating squared mean error of full trees.")
     full_trees_results = get_squared_mean_error_np(data, full_trees, False)
