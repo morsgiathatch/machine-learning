@@ -1,5 +1,6 @@
 from DecisionTree import HW1
 from EnsembleLearning import HW2p2
+from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
 
 redo_hm = True
@@ -24,19 +25,21 @@ while redo_hm:
     if homework == 1:
         HW1.hw1()
     elif homework == 2:
-        choice = int(input("Which problem do you wish to view? `2`, `4` or `0` for exit?\n"))
+        choice = int(input("Which problem do you wish to view? `2`, `3`, `4` or `0` for exit?\n"))
         valid_choice = True
-        if choice != 2 and choice != 4 and choice != 0:
+        if choice != 2 and choice != 3 and choice != 4 and choice != 0:
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
             choice = int(input("Which problem do you wish to view? `2` or `4`?\n"))
-            if choice == 2 or choice == 4 or choice == 0:
+            if choice == 2 or choice == 3 or choice == 4 or choice == 0:
                 valid_choice = True
 
         if choice == 2:
             HW2p2.hw2p2()
+        elif choice == 3:
+            ExtraCredit.extra_credit()
         elif choice == 4:
             HW2p4.hw2p4()
 

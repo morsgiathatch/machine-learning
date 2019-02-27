@@ -3,6 +3,12 @@
 This is a machine learning library developed by Corbin Baldwin for 
 CS5350/6350 at the University of Utah.
 
+## To Run
+Simply open a shell and change to the directory containing the run.sh file. 
+Note that this shell script only works for unix machines. Once in the directory,
+simply run ./run.sh and follow the prompts. You will be asked to enter integers 
+for the options to choose between the homeworks and the subproblems.
+
 ## Decision Tree
 To test the decision tree library, you can download all the files and run 
 the run.sh script to reproduce results necessary for class (made sure that 
@@ -26,3 +32,26 @@ contained in Metrics.py. Upon initialization, prev_value should be set to
 None, current_depth should be set to 0, and max_depth should be the desired
 maximum tree height. The implementation of id3 allows the user to terminate
 the depth of tree using the max_depth argument.
+
+## Ensemble Learning
+Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
+of the assignment. Keep in mind that these were written with me just having 
+learned python so they have not fully utilized multiprocessing or other more
+efficient libraries like numpy. Some of the run-times reach 20 minutes for the
+subproblem. Note that this is still significantly quicker than for the students
+on Canvas who said they could not get theirs run quicker than 2 hours. 
+
+If you are not running the shell script to reproduce the results in the report, 
+you can use the the Bagging Trees, AdaBoost, or RandomForests modules. 
+Again you must pre-process the data. See BankData.py in the DecisionTree package
+as an example of data construction to use these algorithms. 
+
+## Linear Regression
+Upon selecting Homework 2 problem 4, you can choose any of the three subproblems
+of the assignment. These are all fairly quick for the small "concrete" dataset. If
+are not running the shell script to reproduce the results in the report, 
+GradientDescent requires you to first construct the features as a numpy matrix and
+the resultant lables as a numpy array. Additionally, this gradient descent is not
+passed a gradient yet so is not portable to other uses other than linear regression.
+
+

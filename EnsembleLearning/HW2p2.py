@@ -10,7 +10,7 @@ def hw2p2():
 
     while redo_problem:
 
-        problem = int(input("\nPlease choose a problem\n1. Problem 2a\n2. Problem 2b\n3. "
+        problem = int(input("\nPlease choose a problem part\n1. Problem 2a\n2. Problem 2b\n3. "
                             "Problem 2c\n4. Problem 2d\n5. Problem 2e\n6. Exit\n"))
 
         valid_choice = True
@@ -37,7 +37,7 @@ def hw2p2():
         else:
             break
 
-        should_redo = str(input("\nWould you like to do another problem from HW2p2? y/n\n"))
+        should_redo = str(input("\nWould you like to do another problem from HW 2 problem 2? y/n\n"))
         if should_redo == "n":
             redo_problem = False
 

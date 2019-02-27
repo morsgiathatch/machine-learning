@@ -26,7 +26,7 @@ def problem2d():
 
         for t_value in t_values:
             print("\nRunning Random Forests on " + str(t_value) + " Trees with Attribute Size " + str(size) + "\n")
-            forest = RandomForests.run_random_forests(t_value, data.examples, data.attributes, data.labels, size)
+            forest = RandomForests.run_random_forests(t_value, data.examples, data.attributes, data.labels, size, False)
 
             correct_results = 0
             for example in test_data.examples:

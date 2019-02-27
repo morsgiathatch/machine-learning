@@ -31,7 +31,7 @@ def problem2e():
     for i in range(0, 100):
         # sample 1000 examples uniformly without replacement
         examples = get_samples(data)
-        random_forests.append(RandomForests.run_random_forests(100, examples, data.attributes, data.labels, size))
+        random_forests.append(RandomForests.run_random_forests(100, examples, data.attributes, data.labels, size, False))
         id3 = Id3.Id3()
         full_trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
         sys.stdout.write('\r')

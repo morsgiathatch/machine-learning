@@ -2,18 +2,34 @@ from DecisionTree import Id3
 from DecisionTree import Metrics
 import numpy as np
 import random
+import sys
 
 
-def run_bagging_trees(t_value, data_examples, attributes, labels, factor):
+def run_bagging_trees(t_value, data_examples, attributes, labels, factor, print_status_bar):
 
     trees = []
 
+    counter = 1
+    fractor = int(t_value / 100)
+    toolbar_width = 100
+    if print_status_bar:
+        print("Building Bagging Trees")
+        sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
+        sys.stdout.flush()
     for i in range(0, t_value):
         examples = get_sample(data_examples, factor)
 
         # Run Id3 and keep root node
         id3 = Id3.Id3()
         trees.append(id3.id3(examples, attributes, None, labels, 0, float("inf"), Metrics.information_gain))
+
+        if i % fractor == 0 and print_status_bar:
+            sys.stdout.write('\r')
+            sys.stdout.flush()
+            sys.stdout.write('Progress: [%s' % ('#' * counter))
+            sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
+            sys.stdout.flush()
+            counter += 1
 
     return trees
 
@@ -25,10 +41,10 @@ def get_sample(examples, factor):
     return samples
 
 
-def get_result(example, trees, data):
+def get_result(example, trees, data, t_value):
     _sum = 0.0
-    for tree in trees:
-        _sum += data.get_test_result(example, tree)
+    for i in range(0, t_value):
+        _sum += data.get_test_result(example, trees[i])
 
     _sum /= float(len(trees))
 

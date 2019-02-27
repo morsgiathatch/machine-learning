@@ -37,7 +37,7 @@ def problem4(part):
 
         print("step size was " + str(step_size))
         if result[1] == max_iters + 1:
-            print("Iteration did not converge after " + str(max_iters) +" iterations. Resultant vector is:")
+            print("Iteration did not converge after " + str(max_iters) + " iterations. Resultant vector is:")
             print(result[0])
             print("Try with another constant step size.")
         else:
@@ -63,6 +63,8 @@ def problem4(part):
             print("\n2-norm error in result vector vs. minimizer is %.16f" % (la.norm(result[0] - minimizer)))
 
             print("Absolute error in test cost vs analytic test cost is %.16f" % (np.abs(minimizer_cost - test_cost)))
+            print("Relative error in test cost vs analytic test cost is %.16f"
+                  % (np.abs((minimizer_cost - test_cost) / minimizer_cost)))
 
         plt.plot(t_vals, result[2], label='Cost')
         plt.legend(loc='best')

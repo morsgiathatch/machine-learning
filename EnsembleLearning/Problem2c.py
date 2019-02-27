@@ -32,7 +32,7 @@ def problem2c():
     for i in range(0, 100):
         # sample 100 examples uniformly without replacement
         examples = get_samples(data)
-        bagged_trees.append(BaggingTrees.run_bagging_trees(100, examples, data.attributes, data.labels, factor))
+        bagged_trees.append(BaggingTrees.run_bagging_trees(100, examples, data.attributes, data.labels, factor, False))
         id3 = Id3.Id3()
         full_trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
         sys.stdout.write('\r')
@@ -77,7 +77,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
     if bagged_trees:
         for i, example in enumerate(data.examples):
             for j, tree_set in enumerate(trees):
-                results[i, j] = BaggingTrees.get_result(example, tree_set, data)
+                results[i, j] = BaggingTrees.get_result(example, tree_set, data, len(tree_set))
 
             counter += 1
             if counter % subdivision == 0:
@@ -110,4 +110,3 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
     bias /= float(len(data.examples))
     variance /= float(len(data.examples))
     return [bias, variance]
-
