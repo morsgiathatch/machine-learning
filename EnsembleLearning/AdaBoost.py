@@ -111,6 +111,7 @@ def run_credit_Adaboost(data, t_value):
             sys.stdout.flush()
             counter += 1
 
+    print("")
     return [h_classifiers, alphas]
 
 

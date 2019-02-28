@@ -31,6 +31,9 @@ def run_bagging_trees(t_value, data_examples, attributes, labels, factor, print_
             sys.stdout.flush()
             counter += 1
 
+    if print_status_bar:
+        print("")
+
     return trees
 
 

@@ -13,8 +13,8 @@ def extra_credit():
     data = CreditDefaultData.Data()
     data.initialize_data_from_file(dir_path + '/../Data/credit/credit.csv')
 
-    t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
-    # t_values = [1, 2, 5, 10]
+    # t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
+    t_values = [1, 2, 5, 10, 15, 20, 30, 40, 50, 70, 90, 100]
     t_sum = np.sum(t_values)
 
     ada_boost_train_error = []
@@ -24,9 +24,9 @@ def extra_credit():
     random_forests_train_error = []
     random_forests_test_error = []
 
-    ada_trees = AdaBoost.run_credit_Adaboost(data, 1000)
-    bag_trees = BaggingTrees.run_bagging_trees(1000, data.train_examples, data.attributes, data.labels, 2, True)
-    r_forest = RandomForests.run_random_forests(1000, data.train_examples, data.attributes, data.labels, 4, True)
+    ada_trees = AdaBoost.run_credit_Adaboost(data, 100)
+    bag_trees = BaggingTrees.run_bagging_trees(100, data.train_examples, data.attributes, data.labels, 2, True)
+    r_forest = RandomForests.run_random_forests(100, data.train_examples, data.attributes, data.labels, 4, True)
     print("Tree construction complete. Calculating Data.")
 
     counter = 1

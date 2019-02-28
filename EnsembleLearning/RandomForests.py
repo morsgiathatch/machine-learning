@@ -31,6 +31,9 @@ def run_random_forests(t_value, examples, attributes, labels, size, print_status
             sys.stdout.flush()
             counter += 1
 
+    if print_status_bar:
+        print("")
+
     return forest
 
 
