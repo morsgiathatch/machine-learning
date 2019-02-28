@@ -46,6 +46,11 @@ you can use the the Bagging Trees, AdaBoost, or RandomForests modules.
 Again you must pre-process the data. See BankData.py in the DecisionTree package
 as an example of data construction to use these algorithms. 
 
+If you choose problem 3, this corresponds to the extra credit programming option. Due to the much 
+larger dataset, running statistics on 1000 trees took very much too long so I 
+reduced to 100 trees. The runtime is still about 30 minutes even with this 
+reduction. 
+
 ## Linear Regression
 Upon selecting Homework 2 problem 4, you can choose any of the three subproblems
 of the assignment. These are all fairly quick for the small "concrete" dataset. If

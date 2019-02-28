@@ -2,6 +2,8 @@ from EnsembleLearning import CreditDefaultData
 from EnsembleLearning import AdaBoost
 from EnsembleLearning import BaggingTrees
 from EnsembleLearning import RandomForests
+from DecisionTree import Id3
+from DecisionTree import Metrics
 import matplotlib.pyplot as plt
 import os
 import sys
@@ -30,9 +32,7 @@ def extra_credit():
     print("Tree construction complete. Calculating Data.")
 
     counter = int(100 / t_sum)
-    fractor = float(100 / t_sum)
     toolbar_width = 100
-    print("Building trees")
     sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
     sys.stdout.flush()
 
@@ -51,7 +51,7 @@ def extra_credit():
         sys.stdout.write('Progress: [%s' % ('#' * counter))
         sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
         sys.stdout.flush()
-        fractor += float(t_value * 100 / t_sum)
+        fractor = float(t_value * 100 / t_sum)  # May be broken
         counter += int(fractor)
 
     print("")
@@ -63,6 +63,14 @@ def extra_credit():
     plt.plot(t_values, random_forests_test_error, label='Forest Test', marker='o')
     plt.legend(loc='best')
     plt.show()
+
+    print("Now running statistics on a fully developed decision tree.")
+    id3 = Id3.Id3()
+    dec_tree = id3.id3(data.train_examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain)
+    dec_tree_train_error = get_dec_error(data.train_examples, data, dec_tree)
+    dec_tree_test_error = get_dec_error(data.test_examples, data, dec_tree)
+    print("Train error for full decision tree is %.16f" % dec_tree_train_error)
+    print("Test error for full decision tree is %.16f" % dec_tree_test_error)
 
 
 def get_ada_error(examples, data, trees, t_value):
@@ -78,6 +86,15 @@ def get_bag_error(examples, data, trees, t_value):
     correct_results = 0
     for example in examples:
         if example.get_label() == BaggingTrees.get_result(example, trees, data, t_value):
+            correct_results += 1
+
+    return 1.0 - float(correct_results) / float(len(examples))
+
+
+def get_dec_error(examples, data, root):
+    correct_results = 0
+    for example in examples:
+        if example.get_label() == data.get_test_result(example, root):
             correct_results += 1
 
     return 1.0 - float(correct_results) / float(len(examples))
