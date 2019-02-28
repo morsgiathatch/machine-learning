@@ -5,6 +5,7 @@ from EnsembleLearning import RandomForests
 import matplotlib.pyplot as plt
 import os
 import sys
+import numpy as np
 
 
 def extra_credit():
@@ -14,6 +15,7 @@ def extra_credit():
 
     t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
     # t_values = [1, 2, 5, 10]
+    t_sum = np.sum(t_values)
 
     ada_boost_train_error = []
     ada_boost_test_error = []
@@ -22,15 +24,17 @@ def extra_credit():
     random_forests_train_error = []
     random_forests_test_error = []
 
-    # counter = 1
-    # toolbar_width = 100
-    # print("Building trees")
-    # sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
-    # sys.stdout.flush()
     ada_trees = AdaBoost.run_credit_Adaboost(data, 1000)
     bag_trees = BaggingTrees.run_bagging_trees(1000, data.train_examples, data.attributes, data.labels, 2, True)
     r_forest = RandomForests.run_random_forests(1000, data.train_examples, data.attributes, data.labels, 4, True)
     print("Tree construction complete. Calculating Data.")
+
+    counter = 1
+    fractor = int(100 / t_sum)
+    toolbar_width = 100
+    print("Building trees")
+    sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
+    sys.stdout.flush()
 
     for t_value in t_values:
         ada_boost_train_error.append(get_ada_error(data.train_examples, data, ada_trees, t_value))
@@ -42,12 +46,13 @@ def extra_credit():
         random_forests_train_error.append(get_bag_error(data.train_examples, data, r_forest))
         random_forests_test_error.append(get_bag_error(data.test_examples, data, r_forest))
 
-        # sys.stdout.write('\r')
-        # sys.stdout.flush()
-        # sys.stdout.write('Progress: [%s' % ('#' * counter))
-        # sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
-        # sys.stdout.flush()
-        # counter += t_value
+        sys.stdout.write('\r')
+        sys.stdout.flush()
+        sys.stdout.write('Progress: [%s' % ('#' * fractor))
+        sys.stdout.write('%s]' % (' ' * (toolbar_width - fractor)))
+        sys.stdout.flush()
+        counter += t_value
+        fractor += counter * int(100 / t_sum)
 
     plt.plot(t_values, ada_boost_train_error, label='Ada Test')
     plt.plot(t_values, ada_boost_test_error, label='Ada Train')
