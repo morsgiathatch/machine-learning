@@ -43,8 +43,8 @@ def extra_credit():
         bagging_trees_train_error.append(get_bag_error(data.train_examples, data, bag_trees, t_value))
         bagging_trees_test_error.append(get_bag_error(data.test_examples, data, bag_trees, t_value))
 
-        random_forests_train_error.append(get_bag_error(data.train_examples, data, r_forest))
-        random_forests_test_error.append(get_bag_error(data.test_examples, data, r_forest))
+        random_forests_train_error.append(get_bag_error(data.train_examples, data, r_forest, t_value))
+        random_forests_test_error.append(get_bag_error(data.test_examples, data, r_forest, t_value))
 
         sys.stdout.write('\r')
         sys.stdout.flush()
