@@ -51,7 +51,7 @@ def extra_credit():
         sys.stdout.write('Progress: [%s' % ('#' * counter))
         sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
         sys.stdout.flush()
-        fracter += float(t_value * 100 / t_sum)
+        fractor += float(t_value * 100 / t_sum)
         counter += int(fractor)
 
     print("")
