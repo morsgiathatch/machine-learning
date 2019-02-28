@@ -29,8 +29,8 @@ def extra_credit():
     r_forest = RandomForests.run_random_forests(100, data.train_examples, data.attributes, data.labels, 4, True)
     print("Tree construction complete. Calculating Data.")
 
-    counter = 1
-    fractor = int(100 / t_sum)
+    counter = int(100 / t_sum)
+    fractor = float(100 / t_sum)
     toolbar_width = 100
     print("Building trees")
     sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
@@ -48,18 +48,19 @@ def extra_credit():
 
         sys.stdout.write('\r')
         sys.stdout.flush()
-        sys.stdout.write('Progress: [%s' % ('#' * fractor))
-        sys.stdout.write('%s]' % (' ' * (toolbar_width - fractor)))
+        sys.stdout.write('Progress: [%s' % ('#' * counter))
+        sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
         sys.stdout.flush()
-        counter += t_value
-        fractor += counter * int(100 / t_sum)
+        fracter += float(t_value * 100 / t_sum)
+        counter += int(fractor)
 
-    plt.plot(t_values, ada_boost_train_error, label='Ada Test')
-    plt.plot(t_values, ada_boost_test_error, label='Ada Train')
-    plt.plot(t_values, bagging_trees_train_error, label='Bag Test')
-    plt.plot(t_values, bagging_trees_test_error, label='Bag Train')
-    plt.plot(t_values, random_forests_train_error, label='Forest Test')
-    plt.plot(t_values, random_forests_test_error, label='Forest Train')
+    print("")
+    plt.plot(t_values, ada_boost_train_error, label='Ada Train')
+    plt.plot(t_values, ada_boost_test_error, label='Ada Test')
+    plt.plot(t_values, bagging_trees_train_error, label='Bag Train', marker='<')
+    plt.plot(t_values, bagging_trees_test_error, label='Bag Test', marker='<')
+    plt.plot(t_values, random_forests_train_error, label='Forest Train', marker='o')
+    plt.plot(t_values, random_forests_test_error, label='Forest Test', marker='o')
     plt.legend(loc='best')
     plt.show()
 
