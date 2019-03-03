@@ -34,29 +34,97 @@ maximum tree height. The implementation of id3 allows the user to terminate
 the depth of tree using the max_depth argument.
 
 ## Ensemble Learning
-Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
+[//]: <> (Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
 of the assignment. Keep in mind that these were written with me just having 
 learned python so they have not fully utilized multiprocessing or other more
 efficient libraries like numpy. Some of the run-times reach 20 minutes for the
-subproblem. Note that this is still significantly quicker than for the students
-on Canvas who said they could not get theirs run quicker than 2 hours. 
+subproblems. Note that this is still significantly quicker than for the students
+on Canvas who said they could not get theirs run quicker than 2 hours. )
 
 If you are not running the shell script to reproduce the results in the report, 
 you can use the the Bagging Trees, AdaBoost, or RandomForests modules. 
 Again you must pre-process the data. See BankData.py in the DecisionTree package
 as an example of data construction to use these algorithms. 
 
-If you choose problem 3, this corresponds to the extra credit programming option. Due to the much 
+To use AdaBoost, which currently has a somewhat poor design, create data as in
+BankData.py and call 
+```python
+run_Adaboost(data, test_data, t_value)
+```
+where t_value is the number of desired trees to create in the boosting algorithm. 
+The algorithm returns a python list of the test and train percentages and a list 
+containing all the created classifiers. To be precise, it returns a list as
+```python
+[[test_percentage_float, train_percentage_float], [t_value_amount_of_classifiers]]
+```
+Feel free to change this as it was not written too well. 
+
+To use BaggingTrees, again create a data structure object in the vein of BankData.py, 
+then call
+```python
+run_bagging_trees(t_value, data_examples, attributes, labels, factor, print_status_bar)
+```
+where t_value is the size of the desired bag of trees, examples is a python list of lists
+of examples containing features (preferably numeric), a list of attributes, a list
+of labels, "factor" which is the factor of the data you wish to use to construct the 
+trees (i.e., a factor of 3 uses 1/3 of the data training examples), and lastly a 
+boolean print_status_bar if you would like the algorithm to print a status bar to 
+inform the user (it can be slow for large enough t_value). The data structures passed
+in should be as created from the data structure object.
+ 
+Lastly to use RandomForests, call
+```python
+run_random_forests(t_value, examples, attributes, labels, size, print_status_bar)
+```
+where t_value is the number of desired trees in the forest, examples, attributes, and 
+labels are as above, size is a parameter to create a fixed-cardinality subset of 
+the attributes (i.e., if you only want at most 3 random attributes in the subset,
+pass in 3), and print_status_bar is a bool whether to give the user a progress update
+(which again is useful for large t_value).
+
+[//]: <> (If you choose problem 3, this corresponds to the extra credit programming option. Due to the much 
 larger dataset, running statistics on 1000 trees took very much too long so I 
 reduced to 100 trees. The runtime is still about 30 minutes even with this 
-reduction. 
+reduction.) 
 
 ## Linear Regression
-Upon selecting Homework 2 problem 4, you can choose any of the three subproblems
+[//]: <> (Upon selecting Homework 2 problem 4, you can choose any of the three subproblems
 of the assignment. These are all fairly quick for the small "concrete" dataset. If
 are not running the shell script to reproduce the results in the report, 
 GradientDescent requires you to first construct the features as a numpy matrix and
 the resultant lables as a numpy array. Additionally, this gradient descent is not
-passed a gradient yet so is not portable to other uses other than linear regression.
+passed a gradient yet so is not portable to other uses other than linear regression.)
 
+If you are not running the shell script to reproduce the results in the report, 
+you can use the the GradientDescent module. If you wish to use the batch gradient
+descent algorithm for linear regression, call
+```python
+run_gradient_descent(features, output, max_iters, constant_step_size, tolerance)
+```
+where features is a numpy array (not a matrix) of all the features in the train data, 
+output is a numpy array of all the labels of the train data, max_iters is a
+terminating condition (since we use a fixed step-size, the algorithm is not guaranteed 
+to converge), and a tolerance for terminating the algorithm. The algorithm returns 
+a python list as the following
+```python
+[[w_vector], num_iters, [evaluated_costs]]
+```
+where w_vector is a numpy array of the most updated weight vector, num_iters is the
+iteration when the algorithm terminated (in case the user needs the result) and
+evaluated_costs is a python list of the cost function evaluated at each iteration.
 
+If you wish to use the stochastic gradient descent, you can run
+```python
+run_stochastic_grad_descent(features, output, max_iters, constant_step_size, tolerance)
+```
+where all the inputs are the same as for run_gradient_descent. It returns a python
+array conataining the same as for run_gradient_descent.
+
+Lastly, if you wish to have the analytic solution, if the dimension of the column space
+is larger than the dimension of the row space (i.e., more rows than columns), then
+you can call 
+```python
+get_analytic_solution(features, output)
+```
+where features and output are again the same as above. It returns a numpy array of
+the analytic vector solution.
