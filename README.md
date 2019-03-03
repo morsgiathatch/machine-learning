@@ -71,7 +71,7 @@ trees (i.e., a factor of 3 uses 1/3 of the data training examples), and lastly a
 boolean print_status_bar if you would like the algorithm to print a status bar to 
 inform the user (it can be slow for large enough t_value). The data structures passed
 in should be as created from the data structure object.
- 
+  
 Lastly to use RandomForests, call
 ```python
 run_random_forests(t_value, examples, attributes, labels, size, print_status_bar)
