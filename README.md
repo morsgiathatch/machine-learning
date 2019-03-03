@@ -34,7 +34,7 @@ maximum tree height. The implementation of id3 allows the user to terminate
 the depth of tree using the max_depth argument.
 
 ## Ensemble Learning
-[//]: <> (Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
+[//]: # (Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
 of the assignment. Keep in mind that these were written with me just having 
 learned python so they have not fully utilized multiprocessing or other more
 efficient libraries like numpy. Some of the run-times reach 20 minutes for the
@@ -82,13 +82,13 @@ the attributes (i.e., if you only want at most 3 random attributes in the subset
 pass in 3), and print_status_bar is a bool whether to give the user a progress update
 (which again is useful for large t_value).
 
-[//]: <> (If you choose problem 3, this corresponds to the extra credit programming option. Due to the much 
+[//]: # (If you choose problem 3, this corresponds to the extra credit programming option. Due to the much 
 larger dataset, running statistics on 1000 trees took very much too long so I 
 reduced to 100 trees. The runtime is still about 30 minutes even with this 
 reduction.) 
 
 ## Linear Regression
-[//]: <> (Upon selecting Homework 2 problem 4, you can choose any of the three subproblems
+[//]: # (Upon selecting Homework 2 problem 4, you can choose any of the three subproblems
 of the assignment. These are all fairly quick for the small "concrete" dataset. If
 are not running the shell script to reproduce the results in the report, 
 GradientDescent requires you to first construct the features as a numpy matrix and
