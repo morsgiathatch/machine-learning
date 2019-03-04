@@ -2,6 +2,7 @@ from DecisionTree import HW1
 from EnsembleLearning import HW2p2
 from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
+from Perceptron import HW3p2
 
 redo_hm = True
 
@@ -10,16 +11,16 @@ while redo_hm:
     print("||    Welcome to Corbin Baldwin's Programming Assignments     ||")
     print("================================================================")
 
-    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. Exit\n"))
+    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. Exit\n"))
 
     valid_choice = True
-    if homework != 1 and homework != 2 and homework != 3:
+    if homework != 1 and homework != 2 and homework != 3 and homework != 4:
         valid_choice = False
 
     while not valid_choice:
         print("Incorrect Choice")
-        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. Exit\n"))
-        if homework == 1 or homework == 2 or homework == 3:
+        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. Exit\n"))
+        if homework == 1 or homework == 2 or homework == 3 or homework == 4:
             valid_choice = True
 
     if homework == 1:
@@ -42,7 +43,8 @@ while redo_hm:
             ExtraCredit.extra_credit()
         elif choice == 4:
             HW2p4.hw2p4()
-
+    elif homework == 3:
+        HW3p2.hw3p2()
     else:
         break
 
