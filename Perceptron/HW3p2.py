@@ -104,7 +104,7 @@ def choice_d():
     test_errors = [[], [], []]
 
     print("Calculating statistics")
-    sys.stdout.write("Progress: [%s]" % (" " * 100))
+    sys.stdout.write('Progress: [%s]' % (' ' * 100))
     sys.stdout.flush()
     for i in range(1, 101):
         standard_perceptron = Perceptron.perceptron(10, data.features, data.output, 0.5)
@@ -119,9 +119,7 @@ def choice_d():
         test_errors[1].append(get_percentages(voted_perceptron, test_data, Perceptron.get_voted_prediction))
         test_errors[2].append(get_percentages(averaged_perceptron, test_data, Perceptron.get_prediction))
 
-        sys.stdout.write('\r')
-        sys.stdout.flush()
-        sys.stdout.write('Progress: [%s' % ('#' * i))
+        sys.stdout.write('\rProgress: [%s' % ('#' * i))
         sys.stdout.write('%s]' % (' ' * (100 - i)))
         sys.stdout.flush()
 

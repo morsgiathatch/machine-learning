@@ -3,6 +3,7 @@ from EnsembleLearning import HW2p2
 from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
 from Perceptron import HW3p2
+from SVM import HW4p2
 
 redo_hm = True
 
@@ -11,16 +12,16 @@ while redo_hm:
     print("||    Welcome to Corbin Baldwin's Programming Assignments     ||")
     print("================================================================")
 
-    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. Exit\n"))
+    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. Exit\n"))
 
     valid_choice = True
-    if homework != 1 and homework != 2 and homework != 3 and homework != 4:
+    if homework != 1 and homework != 2 and homework != 3 and homework != 4 and homework != 5:
         valid_choice = False
 
     while not valid_choice:
         print("Incorrect Choice")
-        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. Exit\n"))
-        if homework == 1 or homework == 2 or homework == 3 or homework == 4:
+        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. Exit\n"))
+        if homework == 1 or homework == 2 or homework == 3 or homework == 4 or homework == 5:
             valid_choice = True
 
     if homework == 1:
@@ -45,6 +46,8 @@ while redo_hm:
             HW2p4.hw2p4()
     elif homework == 3:
         HW3p2.hw3p2()
+    elif homework == 4:
+        HW4p2.hw4p2()
     else:
         break
 
