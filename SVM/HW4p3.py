@@ -90,7 +90,7 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
     test_percentages = np.array(test_percentages_per_C)
 
     if return_stats:
-        return [train_percentages, test_percentages, alphas_by_C]
+        return [train_percentages, test_percentages]
     else:
         print("Calculating results from first schedule")
         [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = HW4p2.choice_a_or_b('a', print_progress=False,
@@ -136,7 +136,7 @@ def choice_b():
     print("Running Kernel SVM")
     for gamma in gammas:
         print("Using gamma = %f:" % gamma)
-        [train_pcts_by_gamma, test_pcts_by_gamma] = choice_a(gamma, True, use_kernel_prediction=True, get_alphas=False)
+        [train_pcts_by_gamma, test_pcts_by_gamma] = choice_a(gamma=gamma, return_stats=True, use_kernel_prediction=True, get_alphas=False)
         for i, c_value in enumerate(C_values):
             print("For C value of %f we have the following errors" % c_value)
             print("Training error: %f" % train_pcts_by_gamma[i])
