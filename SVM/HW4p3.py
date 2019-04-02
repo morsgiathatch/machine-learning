@@ -30,7 +30,7 @@ def hw4p3():
                 valid_choice = True
 
         if problem == 1:
-            choice_a(gamma=None, return_stats=False, use_kernel_prediction=False)
+            choice_a(gamma=None, return_stats=False, use_kernel_prediction=False, get_alphas=False)
         elif problem == 2:
             choice_b()
         elif problem == 3:
@@ -43,7 +43,7 @@ def hw4p3():
             redo_problem = False
 
 
-def choice_a(gamma, return_stats, use_kernel_prediction):
+def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
     test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
@@ -73,14 +73,18 @@ def choice_a(gamma, return_stats, use_kernel_prediction):
         w_vectors.append(w_vector)
         print(w_vector)
 
-        if use_kernel_prediction:
-            train_percentage = get_percentages(data, data, res.x, gamma)
-            test_percentage = get_percentages(test_data, data, res.x, gamma)
-        else:
-            train_percentage = HW3p2.get_percentages(w_vector, data, Perceptron.get_prediction)
-            test_percentage = HW3p2.get_percentages(w_vector, test_data, Perceptron.get_prediction)
-        train_percentages_per_C.append(train_percentage)
-        test_percentages_per_C.append(test_percentage)
+        if not get_alphas:
+            if use_kernel_prediction:
+                train_percentage = get_percentages(data, data, res.x, gamma)
+                test_percentage = get_percentages(test_data, data, res.x, gamma)
+            else:
+                train_percentage = HW3p2.get_percentages(w_vector, data, Perceptron.get_prediction)
+                test_percentage = HW3p2.get_percentages(w_vector, test_data, Perceptron.get_prediction)
+            train_percentages_per_C.append(train_percentage)
+            test_percentages_per_C.append(test_percentage)
+
+    if get_alphas:
+        return alphas_by_C
 
     train_percentages = np.array(train_percentages_per_C)
     test_percentages = np.array(test_percentages_per_C)
@@ -132,51 +136,60 @@ def choice_b():
     print("Running Kernel SVM")
     for gamma in gammas:
         print("Using gamma = %f:" % gamma)
-        [train_pcts_by_gamma, test_pcts_by_gamma, unused] = choice_a(gamma, True, use_kernel_prediction=True)
+        [train_pcts_by_gamma, test_pcts_by_gamma] = choice_a(gamma, True, use_kernel_prediction=True, get_alphas=False)
         for i, c_value in enumerate(C_values):
             print("For C value of %f we have the following errors" % c_value)
             print("Training error: %f" % train_pcts_by_gamma[i])
             print("Testing error: %f\n" % test_pcts_by_gamma[i])
 
     print("Running Linear SVM")
-    [train_pcts, test_pcts, unused] = choice_a(gamma=None, return_stats=True, use_kernel_prediction=False)
-    for i, c_value in enumerate(C_values):
-        print("For C value of %f we have the following errors" % c_value)
-        print("Training error: %f" % train_pcts)
-        print("Testing error: %f\n" % test_pcts)
-
-
-def choice_c():
-    C_values = np.array([100., 500., 700.])
-    C_values = (1.0 / 873. * C_values).tolist()
-    gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
-    print("Running Kernel SVM")
-    for gamma in gammas:
-        print("Using gamma = %f:" % gamma)
-        [train_pcts_by_gamma, test_pcts_by_gamma, alphas_by_gamma] = choice_a(gamma, True, use_kernel_prediction=True)
-        for i, c_value in enumerate(C_values):
-            print("For C value of %f we have the following errors" % c_value)
-            print("Training error: %f" % train_pcts_by_gamma[i])
-            print("Testing error: %f\n" % test_pcts_by_gamma[i])
-
-    print("Running Linear SVM")
-    [train_pcts, test_pcts, alphas] = choice_a(gamma=None, return_stats=True, use_kernel_prediction=False)
+    [train_pcts, test_pcts] = choice_a(gamma=None, return_stats=True, use_kernel_prediction=False, get_alphas=False)
     for i, c_value in enumerate(C_values):
         print("For C value of %f we have the following errors" % c_value)
         print("Training error: %f" % train_pcts[i])
         print("Testing error: %f\n" % test_pcts[i])
 
-def svm(a, data, XXt):
-    # _sum = 0.0
-    # for i in range(0, data.features.shape[0]):
-    #     for j in range(0, data.features.shape[0]):
-    #         _sum += (data.features[i, :]).dot(data.features[j, :]) * data.output[i] * data.output[j] * a[i] * a[j]
-    #
-    # for i in range(0, data.features.shape[0]):
-    #     _sum -= a[i]
-    #
-    # return 0.5 * _sum
 
+def choice_c():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
+    C_values = np.array([100., 500., 700.])
+    C_values = (1.0 / 873. * C_values).tolist()
+    gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
+    alphas_for_500 = []
+
+    for gamma in gammas:
+        alphas_by_gamma = choice_a(gamma, return_stats=True, use_kernel_prediction=True, get_alphas=True)
+        alphas_for_500.append(alphas_by_gamma[1])
+        print("\nGamma = %f" % gamma)
+
+        for i, alpha_vector in enumerate(alphas_by_gamma):
+            num_support_vectors = 0
+            for j in range(0, alpha_vector.shape[0]):
+                if alpha_vector[j] > 0.0:
+                    num_support_vectors += 1
+
+            print("C value: %f\tNum Support Vectors: %i" % (C_values[i], num_support_vectors))
+
+    for i in range(0, len(gammas) - 1):
+        left_supports = []
+        right_supports = []
+        for j in range(0, alphas_for_500[i].shape[0]):
+            if alphas_for_500[i][j] > 0.0:
+                left_supports.append(data.features[j, :])
+
+        for j in range(0, alphas_for_500[i + 1].shape[0]):
+            if alphas_for_500[i + 1][j] > 0.0:
+                right_supports.append(data.features[j, :])
+
+        left_supports = set(left_supports)
+        right_supports = set(right_supports)
+
+        print("gamma1 = %f and gamma2 = %f share %i support vectors" % (gammas[i], gammas[i + 1], len(left_supports.intersection(right_supports))))
+
+
+
+def svm(a, data, XXt):
     # Compact notation that may save computation time
     return 0.5 * np.matmul(np.multiply(a, data.output), np.matmul(XXt, np.multiply(a, data.output))) - np.sum(a)
 
@@ -190,18 +203,6 @@ def generate_bounds(a, C):
 
 
 def grad_svm(a, data, XXt):
-    # grad = []
-    # for i in range(0, a.shape[0]):
-    #     _sum = 0.0
-    #     for j in range(0, a.shape[0]):
-    #         _sum += data.output[i] * data.output[j] * a[j] * (data.features[i, :].dot(data.features[j, :]))
-    #
-    #     _sum *= 0.5
-    #     _sum += 0.5 * data.output[i] * data.output[i] * a[i] * (data.features[i, :].dot(data.features[i, :]))
-    #     grad.append(_sum - 1.0)
-    #
-    # return np.array(grad)
-
     # Try compact notation
     return np.matmul(np.multiply(a, data.output), XXt) - np.ones(a.shape[0])
 
