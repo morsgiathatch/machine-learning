@@ -86,7 +86,7 @@ def choice_a(gamma, return_stats, use_kernel_prediction):
     test_percentages = np.array(test_percentages_per_C)
 
     if return_stats:
-        return [train_percentages, test_percentages]
+        return [train_percentages, test_percentages, alphas_by_C]
     else:
         print("Calculating results from first schedule")
         [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = HW4p2.choice_a_or_b('a', print_progress=False,
@@ -132,14 +132,14 @@ def choice_b():
     print("Running Kernel SVM")
     for gamma in gammas:
         print("Using gamma = %f:" % gamma)
-        [train_pcts_by_gamma, test_pcts_by_gamma] = choice_a(gamma, True, use_kernel_prediction=True)
+        [train_pcts_by_gamma, test_pcts_by_gamma, unused] = choice_a(gamma, True, use_kernel_prediction=True)
         for i, c_value in enumerate(C_values):
             print("For C value of %f we have the following errors" % c_value)
             print("Training error: %f" % train_pcts_by_gamma[i])
             print("Testing error: %f\n" % test_pcts_by_gamma[i])
 
     print("Running Linear SVM")
-    [train_pcts, test_pcts] = choice_a(gamma=None, return_stats=True, use_kernel_prediction=False)
+    [train_pcts, test_pcts, unused] = choice_a(gamma=None, return_stats=True, use_kernel_prediction=False)
     for i, c_value in enumerate(C_values):
         print("For C value of %f we have the following errors" % c_value)
         print("Training error: %f" % train_pcts)
@@ -147,8 +147,24 @@ def choice_b():
 
 
 def choice_c():
-    return None
+    C_values = np.array([100., 500., 700.])
+    C_values = (1.0 / 873. * C_values).tolist()
+    gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
+    print("Running Kernel SVM")
+    for gamma in gammas:
+        print("Using gamma = %f:" % gamma)
+        [train_pcts_by_gamma, test_pcts_by_gamma, alphas_by_gamma] = choice_a(gamma, True, use_kernel_prediction=True)
+        for i, c_value in enumerate(C_values):
+            print("For C value of %f we have the following errors" % c_value)
+            print("Training error: %f" % train_pcts_by_gamma[i])
+            print("Testing error: %f\n" % test_pcts_by_gamma[i])
 
+    print("Running Linear SVM")
+    [train_pcts, test_pcts, alphas] = choice_a(gamma=None, return_stats=True, use_kernel_prediction=False)
+    for i, c_value in enumerate(C_values):
+        print("For C value of %f we have the following errors" % c_value)
+        print("Training error: %f" % train_pcts[i])
+        print("Testing error: %f\n" % test_pcts[i])
 
 def svm(a, data, XXt):
     # _sum = 0.0
@@ -208,7 +224,7 @@ def get_kernel_prediction(alphas, x, gamma, data):
 def get_percentages(test_data, data, alphas, gamma):
     num_correct = 0
     for row_ndx in range(0, test_data.features.shape[0]):
-        if test_data.output[row_ndx] == get_kernel_prediction(alphas, data.features[row_ndx, :], gamma, data):
+        if test_data.output[row_ndx] == get_kernel_prediction(alphas, test_data.features[row_ndx, :], gamma, data):
             num_correct += 1
 
     return 1.0 - float(num_correct / test_data.features.shape[0])
