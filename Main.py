@@ -3,7 +3,7 @@ from EnsembleLearning import HW2p2
 from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
 from Perceptron import HW3p2
-from SVM import HW4p2
+from SVM import HW4
 
 redo_hm = True
 
@@ -47,7 +47,7 @@ while redo_hm:
     elif homework == 3:
         HW3p2.hw3p2()
     elif homework == 4:
-        HW4p2.hw4p2()
+        HW4.hw4()
     else:
         break
 

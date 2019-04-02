@@ -3,32 +3,41 @@ from numpy import linalg as la
 import random
 
 
-def run_stochastic_sub_grad_descent(features, output, max_iters, constant_step_size, tolerance, C):
+def run_stochastic_sub_grad_descent(features, output, max_iters, C, gamma_0, d, part):
     # initialize weight vector
-    w_vector = np.zeros(features.shape[1])
+    w_0_vector = np.zeros(features.shape[1] - 1)
+    # w_vector = np.zeros(features.shape[1])
 
-    evaluated_costs = []
-    num_iters = 0
     for t in range(0, max_iters + 1):
-        rand_ndx = random.randint(0, features.shape[0] - 1)
-        num_iters = t + 1
+
         if t == max_iters:
             break
 
-        if t % 10 == 0:
-            evaluated_costs.append(get_cost(features, output, w_vector))
+        shuffled_indices = random.sample(range(0, features.shape[0]), features.shape[0])
 
-        # w_(t + 1) = w_t - r* (y_i - x_i * w_t)x_i
-        w_old = w_vector
-        w_vector = w_vector + constant_step_size * \
-                   (output[rand_ndx] - w_vector.dot(features[rand_ndx, :])) *(features[rand_ndx, :])
+        for index in shuffled_indices:
 
-        # || w_(t + 1) - w_t || <= epsilon ?
-        if la.norm(w_vector - w_old) <= tolerance:
-            print("Success! Converged after " + str(num_iters) + " iterations.")
-            break
+            if part == 'a':
+                gamma_t = gamma_0 / (1 + (gamma_0 / d) * t)
+            else:
+                gamma_t = gamma_0 / (1 + t)
 
-    return [w_vector, num_iters, evaluated_costs]
+
+            temp_w = (w_0_vector.tolist())
+            temp_w.append(0.0)
+            w_vector = np.array(temp_w)
+
+            if output[index] * w_vector.dot(features[index, :]) <= 1.0:
+
+                w_vector = (1.0 - gamma_t) * w_vector + gamma_t * C * (features.shape[0]) * output[index] * features[index, :]
+                temp_w = w_vector.tolist()
+                temp_w.pop()
+                w_0_vector = np.array(temp_w)
+
+            else:
+                w_0_vector = (1.0 - gamma_t) * w_0_vector
+
+    return w_vector
 
 
 def get_analytic_solution(features, output):
@@ -37,3 +46,4 @@ def get_analytic_solution(features, output):
 
 def get_cost(features, output, w_vector):
     return 0.5 * la.norm(features.dot(w_vector) - output)
+
