@@ -161,6 +161,7 @@ def choice_c():
     C_values = (1.0 / 873. * C_values).tolist()
     gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
     alphas_for_500 = []
+    zero_cutoff = 1e-6
 
     for gamma in gammas:
 
@@ -171,7 +172,7 @@ def choice_c():
         for i, alpha_vector in enumerate(alphas_by_gamma):
             num_support_vectors = 0
             for j in range(0, alpha_vector.shape[0]):
-                if alpha_vector[j] > 0.0:
+                if alpha_vector[j] > zero_cutoff:
                     num_support_vectors += 1
 
             print("C value: %f\tNum Support Vectors: %i" % (C_values[i], num_support_vectors))
@@ -180,11 +181,11 @@ def choice_c():
         left_supports = []
         right_supports = []
         for j in range(0, alphas_for_500[i].shape[0]):
-            if alphas_for_500[i][j] > 0.0:
+            if alphas_for_500[i][j] > zero_cutoff:
                 left_supports.append(tuple(data.features[j, :].tolist()))
 
         for j in range(0, alphas_for_500[i + 1].shape[0]):
-            if alphas_for_500[i + 1][j] > 0.0:
+            if alphas_for_500[i + 1][j] > zero_cutoff:
                 right_supports.append(tuple(data.features[j, :].tolist()))
 
         left_supports = set(left_supports)
