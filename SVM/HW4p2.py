@@ -71,11 +71,9 @@ def choice_c(C_values):
 
 def choice_a_or_b(part, print_progress, num_reps, C_values):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
-
-
+    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
     gamma_0 = float(input("Please enter a positive value for gamma_0\n"))
     if part == 'a':

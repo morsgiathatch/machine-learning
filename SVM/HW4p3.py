@@ -45,8 +45,12 @@ def hw4p3():
 
 def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
+    if get_alphas:
+        data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=False)
+        test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=False)
+    else:
+        data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+        test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
     C_values = np.array([100., 500., 700.])
     C_values = (1.0 / 873. * C_values).tolist()
@@ -99,30 +103,30 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
         [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = HW4p2.choice_a_or_b('b', print_progress=False,
                                                                                       num_reps=10, C_values=C_values)
         norms = []
-        abs_train_diffs = []
-        abs_test_diffs = []
+        rel_train_diffs = []
+        rel_test_diffs = []
         for i in range(0, len(w_vectors_from_a)):
             norms.append(la.norm((w_vectors_from_a[i] / la.norm(w_vectors_from_a[i]))
                                  - (w_vectors[i] / la.norm(w_vectors[i]))))
-            abs_train_diffs.append(np.abs(train_pcts_from_a[i] - train_percentages[i]))
-            abs_test_diffs.append(np.abs(test_pcts_from_a[i] - test_percentages[i]))
+            rel_train_diffs.append(np.abs(train_pcts_from_a[i] - train_percentages[i]) / train_pcts_from_a[i])
+            rel_test_diffs.append(np.abs(test_pcts_from_a[i] - test_percentages[i]) / test_pcts_from_a[i])
 
-        plt.plot(C_values, np.array(norms), C_values, np.array(abs_train_diffs), C_values, np.array(abs_test_diffs))
+        plt.plot(C_values, np.array(norms), C_values, np.array(rel_train_diffs), C_values, np.array(rel_test_diffs))
         plt.xlabel('C values')
         plt.ylabel('Errors')
         plt.legend(('Norm error', 'Train Error', 'Test Error'))
         plt.show()
 
         norms = []
-        abs_train_diffs = []
-        abs_test_diffs = []
+        rel_train_diffs = []
+        rel_test_diffs = []
         for i in range(0, len(w_vectors_from_a)):
             norms.append(la.norm((w_vectors_from_b[i] / la.norm(w_vectors_from_b[i]))
                                  - (w_vectors[i] / la.norm(w_vectors[i]))))
-            abs_train_diffs.append(np.abs(train_pcts_from_b[i] - train_percentages[i]))
-            abs_test_diffs.append(np.abs(test_pcts_from_b[i] - test_percentages[i]))
+            rel_train_diffs.append(np.abs(train_pcts_from_b[i] - train_percentages[i]) / train_pcts_from_b[i])
+            rel_test_diffs.append(np.abs(test_pcts_from_b[i] - test_percentages[i]) / test_pcts_from_b[i])
 
-        plt.plot(C_values, np.array(norms), C_values, np.array(abs_train_diffs), C_values, np.array(abs_test_diffs))
+        plt.plot(C_values, np.array(norms), C_values, np.array(rel_train_diffs), C_values, np.array(rel_test_diffs))
         plt.xlabel('C values')
         plt.ylabel('Errors')
         plt.legend(('Norm error', 'Train Error', 'Test Error'))
@@ -152,13 +156,14 @@ def choice_b():
 
 def choice_c():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=False)
     C_values = np.array([100., 500., 700.])
     C_values = (1.0 / 873. * C_values).tolist()
     gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
     alphas_for_500 = []
 
     for gamma in gammas:
+
         alphas_by_gamma = choice_a(gamma, return_stats=True, use_kernel_prediction=True, get_alphas=True)
         alphas_for_500.append(alphas_by_gamma[1])
         print("\nGamma = %f" % gamma)

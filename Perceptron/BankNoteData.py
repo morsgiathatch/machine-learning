@@ -2,7 +2,7 @@ import numpy as np
 
 
 class BankNoteData:
-    def __init__(self, filepath):
+    def __init__(self, filepath, shift_origin):
         self.features = []
         self.output = []
 
@@ -16,7 +16,8 @@ class BankNoteData:
                 else:
                     self.output.append(1.0)
                 temp_list = []
-                temp_list.append(1.0)  # Add 1.0 for first term to get bias
+                if shift_origin:
+                    temp_list.append(1.0)  # Add 1.0 for first term to get bias
                 for term in terms:
                     temp_list.append(float(term.rstrip('\n')))
                 self.features.append(temp_list)

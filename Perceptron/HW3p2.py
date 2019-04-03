@@ -43,9 +43,9 @@ def hw3p2():
 
 def choice_a():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
+    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
     perceptron = Perceptron.perceptron(10, data.features, data.output, 0.5)
 
@@ -60,9 +60,9 @@ def choice_a():
 
 def choice_b():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
+    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
     perceptron = Perceptron.voted_perceptron(10, data.features, data.output, 0.5)
 
@@ -80,9 +80,9 @@ def choice_b():
 
 def choice_c():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
+    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
     perceptron = Perceptron.averaged_perceptron(10, data.features, data.output, 0.5)
 
@@ -97,8 +97,8 @@ def choice_c():
 
 def choice_d():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv')
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv')
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
     train_errors = [[], [], []]
     test_errors = [[], [], []]
