@@ -181,11 +181,11 @@ def choice_c():
         right_supports = []
         for j in range(0, alphas_for_500[i].shape[0]):
             if alphas_for_500[i][j] > 0.0:
-                left_supports.append(data.features[j, :])
+                left_supports.append(data.features[j, :].tolist())
 
         for j in range(0, alphas_for_500[i + 1].shape[0]):
             if alphas_for_500[i + 1][j] > 0.0:
-                right_supports.append(data.features[j, :])
+                right_supports.append(data.features[j, :].tolist())
 
         left_supports = set(left_supports)
         right_supports = set(right_supports)
