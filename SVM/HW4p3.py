@@ -98,10 +98,11 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
     else:
         print("Calculating results from first schedule")
         [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = HW4p2.choice_a_or_b('a', print_progress=False,
-                                                                                      num_reps=10, C_values=C_values)
+                                                                                      num_reps=10, C_values=C_values, show_plots=False)
         print("Calculating results from second schedule")
         [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = HW4p2.choice_a_or_b('b', print_progress=False,
-                                                                                      num_reps=10, C_values=C_values)
+                                                                                      num_reps=10, C_values=C_values, show_plots=False)
+
         norms = []
         rel_train_diffs = []
         rel_test_diffs = []
@@ -111,10 +112,24 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
             rel_train_diffs.append(np.abs(train_pcts_from_a[i] - train_percentages[i]) / train_pcts_from_a[i])
             rel_test_diffs.append(np.abs(test_pcts_from_a[i] - test_percentages[i]) / test_pcts_from_a[i])
 
+        plt.plot(C_values, np.array(train_pcts_from_a), C_values, np.array(test_pcts_from_a),
+                 C_values, np.array(train_percentages), C_values, np.array(test_percentages))
+        plt.xlabel('C values')
+        plt.ylabel('Errors')
+        plt.legend(('2a Train Error', '2a Test Error', 'SVM Train Error', 'SVM Test Error'))
+        plt.show()
+
+        plt.plot(C_values, np.array(train_pcts_from_b), C_values, np.array(test_pcts_from_b),
+                 C_values, np.array(train_percentages), C_values, np.array(test_percentages))
+        plt.xlabel('C values')
+        plt.ylabel('Errors')
+        plt.legend(('2b Train Error', '2b Test Error', 'SVM Train Error', 'SVM Test Error'))
+        plt.show()
+
         plt.plot(C_values, np.array(norms), C_values, np.array(rel_train_diffs), C_values, np.array(rel_test_diffs))
         plt.xlabel('C values')
         plt.ylabel('Errors')
-        plt.legend(('Norm error', 'Train Error', 'Test Error'))
+        plt.legend(('Norm error', '2a Rel Train Error', '2a Rel Test Error'))
         plt.show()
 
         norms = []
@@ -129,8 +144,9 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
         plt.plot(C_values, np.array(norms), C_values, np.array(rel_train_diffs), C_values, np.array(rel_test_diffs))
         plt.xlabel('C values')
         plt.ylabel('Errors')
-        plt.legend(('Norm error', 'Train Error', 'Test Error'))
+        plt.legend(('Norm error', '2b Rel Train Error', '2b Rel Test Error'))
         plt.show()
+
 
 
 def choice_b():
@@ -160,6 +176,8 @@ def choice_c():
     C_values = np.array([100., 500., 700.])
     C_values = (1.0 / 873. * C_values).tolist()
     gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
+    # gammas = [100.]
+
     alphas_for_500 = []
     zero_cutoff = 1e-6
 
@@ -196,6 +214,16 @@ def choice_c():
 
 
 def svm(a, data, XXt):
+    # _sum = 0.0
+    # for i in range(0, data.features.shape[0]):
+    #     for j in range(0, data.features.shape[0]):
+    #         _sum += gaussian_kernel(data.features[i, :], data.features[j, :], 100.0) * data.output[i] * data.output[j] * a[i] * a[j]
+    #
+    # for i in range(0, data.features.shape[0]):
+    #     _sum -= a[i]
+    #
+    # return 0.5 * _sum
+
     # Compact notation that may save computation time
     return 0.5 * np.matmul(np.multiply(a, data.output), np.matmul(XXt, np.multiply(a, data.output))) - np.sum(a)
 
@@ -203,14 +231,25 @@ def svm(a, data, XXt):
 def generate_bounds(a, C):
     bounds = []
     for i in range(0, a.shape[0]):
-        bounds.append((0, C))
+        bounds.append((0.0, C))
 
     return tuple(bounds)
 
 
 def grad_svm(a, data, XXt):
+    # grad = []
+    # for i in range(0, a.shape[0]):
+    #     _sum = 0.0
+    #     for j in range(0, a.shape[0]):
+    #         _sum += data.output[i] * data.output[j] * a[j] * gaussian_kernel(data.features[i, :], data.features[j, :], 100.0)
+    #
+    #     _sum *= 0.5
+    #     _sum += 0.5 * data.output[i] * data.output[i] * a[i] * gaussian_kernel(data.features[i, :], data.features[i, :], 100.0)
+    #     grad.append(_sum - 1.0)
+    #
+    # return np.array(grad)
     # Try compact notation
-    return np.matmul(np.multiply(a, data.output), XXt) - np.ones(a.shape[0])
+    return np.multiply(np.matmul(np.multiply(a, data.output), XXt), data.output) - np.ones(a.shape[0])
 
 
 def a_dot_y(a, data):

@@ -33,9 +33,9 @@ def hw4p2():
         C_values = (1.0 / 873. * C_values).tolist()
 
         if problem == 1:
-            choice_a_or_b('a', print_progress=True, num_reps=10, C_values=C_values)
+            choice_a_or_b('a', print_progress=True, num_reps=10, C_values=C_values, show_plots=True)
         elif problem == 2:
-            choice_a_or_b('b', print_progress=False, num_reps=10, C_values=C_values)
+            choice_a_or_b('b', print_progress=True, num_reps=10, C_values=C_values, show_plots=True)
         elif problem == 3:
             choice_c(C_values)
         else:
@@ -49,9 +49,9 @@ def hw4p2():
 def choice_c(C_values):
     num_reps = int(input("How many iterates would you like to use to calculate averages?\n"))
     print("Calculating results from first schedule")
-    [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = choice_a_or_b('a', print_progress=False, num_reps=num_reps, C_values=C_values)
+    [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = choice_a_or_b('a', print_progress=False, num_reps=num_reps, C_values=C_values, show_plots=False)
     print("Calculating results from second schedule")
-    [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = choice_a_or_b('b', print_progress=False, num_reps=num_reps, C_values=C_values)
+    [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = choice_a_or_b('b', print_progress=False, num_reps=num_reps, C_values=C_values, show_plots=False)
 
     # plot differences of norms and absolute training/testing errors by C
     norms = []
@@ -69,7 +69,7 @@ def choice_c(C_values):
     plt.show()
 
 
-def choice_a_or_b(part, print_progress, num_reps, C_values):
+def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
 
@@ -98,7 +98,7 @@ def choice_a_or_b(part, print_progress, num_reps, C_values):
 
         for j in range(0, num_reps):
             count += 1
-            w_vector = GradientDescent.run_stochastic_sub_grad_descent \
+            [w_vector, obj_func_vals] = GradientDescent.run_stochastic_sub_grad_descent \
                 (data.features, data.output, max_iters=100, C=C_value, gamma_0=gamma_0, d=d, part=part)
 
             w_vectors_by_C.append(w_vector)
@@ -110,14 +110,21 @@ def choice_a_or_b(part, print_progress, num_reps, C_values):
                 sys.stdout.write('\rProgress: %i / %i' % (count, len(C_values) * num_reps))
                 sys.stdout.flush()
 
-            train_percentage = HW3p2.get_percentages(w_vector, data, Perceptron.get_prediction)
-            test_percentage = HW3p2.get_percentages(w_vector, test_data, Perceptron.get_prediction)
-            train_percentages_per_C.append(train_percentage)
-            test_percentages_per_C.append(test_percentage)
+            # train_percentage = HW3p2.get_percentages(w_vector, data, Perceptron.get_prediction)
+            # test_percentage = HW3p2.get_percentages(w_vector, test_data, Perceptron.get_prediction)
+            # train_percentages_per_C.append(train_percentage)
+            # test_percentages_per_C.append(test_percentage)
+            if j == 0 and show_plots:
+                plt.plot(np.linspace(0, 100, 100), obj_func_vals)
+                plt.show()
 
         # Compute average vector
         w_vectors_by_C = np.array(w_vectors_by_C)
-        w_vectors.append(w_vectors_by_C.mean(0))
+        avg_w_vector = w_vectors_by_C.mean(0)
+
+        train_percentages_per_C.append(HW3p2.get_percentages(avg_w_vector, data, Perceptron.get_prediction))
+        test_percentages_per_C.append(HW3p2.get_percentages(avg_w_vector, test_data, Perceptron.get_prediction))
+        w_vectors.append(avg_w_vector)
 
         if print_progress:
             sys.stdout.write('\n')
@@ -129,8 +136,8 @@ def choice_a_or_b(part, print_progress, num_reps, C_values):
         test_percentages.append(test_percentage)
 
         if print_progress:
-            print("Average train error percentage was %.16f" % train_percentage)
-            print("Average test error percentage was %.16f" % test_percentage)
+            print("Train error percentage with average vector was %.16f" % train_percentage)
+            print("Test error percentage with average vector was %.16f" % test_percentage)
 
     train_percentages = np.array(train_percentages)
     test_percentages = np.array(test_percentages)
