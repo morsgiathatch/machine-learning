@@ -174,3 +174,40 @@ directly into get_voted_prediction() if you just need the prediction or you can 
 it however you want.
 
 Both the get_*_prediction() methods return an element of {-1, +1}.
+
+## SVM
+
+If you are grading this, all the different portions of the homework can be accessed
+similary as past homeworks, i.e., following the prompts and entering the required
+integers. Keep in mind that the results for HW4 Problems 3a, 3b, 3c can take some 
+time to run due to the optimization software even using matrix form of the objective
+function and its gradient. I would estimate about 5-10 minutes for each part.
+
+To use stochastic sub-gradient descent on the SVM objective function, call 
+```python
+run_stochastic_sub_grad_descent(features, output, max_iters, C, gamma_0, d, part)
+``` 
+from the `GradientDescent` module. `features` is a numpy array of the containing the 
+dataset features, `output` is the cooresponding labels for the features as a numpy
+array, `max_iters` is the number of epochs, `C` is a positive hyper-parameter denoting 
+how strong to punish an example for lying within the margin, `gamma_0` is a positive
+hyper-parameter dictating the step-size or learning rate, `d` is a similar positive 
+hyper-parameter, and `part` is a flag for the purposes of choosing a learning rate
+paradigm. If `part='a'`, then the learning rate is `gamma_0 / (1 + (gamma_0 / d) * t) ` 
+where `t` is the current epoch count. If `part='b'` then the learning rate paradigm is
+`gamma_0 / (1 + t)`. In this case simply set `d=0` or any value. Upon termination the
+algorithm returns a list
+```python
+[w_vector, np.array(objective_function_values)]
+```
+where `w_vector` is the array of weights, assuming the offset was folded in the features,
+`objective_function_values` is an evaluation of the objective function at each epoch
+for the user to gain a sense of convergence.
+
+To use kernel perceptron, first make a `KernelPerceptron` object which takes a learning
+rate `gamma`, a set of dataset features `examples` as a numpy array, and `labels` as
+a numpy array of the corresponding dataset labels. After this, call the objects 
+`run_kernel_percetpron` method and pass it an integer for `num_epochs`. It returns
+a numpy array of the weights, assuming folding of the offset into the training examples.
+You may use the objects `get_prediction` to get the prediction of a specific example.
+ 

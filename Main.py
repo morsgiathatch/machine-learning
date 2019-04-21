@@ -4,6 +4,8 @@ from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
 from Perceptron import HW3p2
 from SVM import HW4
+from LinearRegression import HW5p3
+from NeuralNetworks import HW5p2
 
 redo_hm = True
 
@@ -12,16 +14,16 @@ while redo_hm:
     print("||    Welcome to Corbin Baldwin's Programming Assignments     ||")
     print("================================================================")
 
-    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. Exit\n"))
+    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
 
     valid_choice = True
-    if homework != 1 and homework != 2 and homework != 3 and homework != 4 and homework != 5:
+    if homework != 1 and homework != 2 and homework != 3 and homework != 4 and homework != 5 and homework != 6:
         valid_choice = False
 
     while not valid_choice:
         print("Incorrect Choice")
-        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. Exit\n"))
-        if homework == 1 or homework == 2 or homework == 3 or homework == 4 or homework == 5:
+        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
+        if homework == 1 or homework == 2 or homework == 3 or homework == 4 or homework == 5 or homework == 6:
             valid_choice = True
 
     if homework == 1:
@@ -48,6 +50,22 @@ while redo_hm:
         HW3p2.hw3p2()
     elif homework == 4:
         HW4.hw4()
+    elif homework == 5:
+        choice = int(input("Which problem do you wish to view? `2`, `3`, `0` for exit?\n"))
+        hw5_choice = True
+        if choice != 2 and choice != 3 and choice != 0:
+            hw5_choice = False
+
+        while not hw5_choice:
+            print("Incorrect Choice")
+            choice = int(input("Which problem do you wish to view? `2`, `3`, `0` for exit?\n"))
+            if choice == 2 or choice == 3 or choice == 0:
+                hw5_choice = True
+
+        if choice == 2:
+            HW5p2.hw5p2()
+        elif choice == 3:
+            HW5p3.hw5p3()
     else:
         break
 
