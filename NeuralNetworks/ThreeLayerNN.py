@@ -25,8 +25,8 @@ class ThreeLayerNN:
 
     # Call this to predict a label for example x
     def predict(self, x):
-        cache = np.array(np.shape(3, self.num_units_per_layer))
-        cache.fill(-1.0)
+        cache = np.zeros((3, self.num_units_per_layer))
+        cache.fill(float('Inf'))
         # Update zeroth layer
         self.layer0 = []
         for i in range(0, self.num_units_per_layer):
@@ -37,7 +37,7 @@ class ThreeLayerNN:
                 self.layer1[i].add_edge(self.layer0[j], next_=False)
 
         val = self.predict_(self.output_vertex, cache=cache)
-        return val
+        return np.sign(val)
 
     def predict_(self, vertex, cache):
         if vertex.layer == 0:
@@ -54,15 +54,18 @@ class ThreeLayerNN:
             vertex.val = 1.0
             return vertex.val
 
-        _sum = 0.0
-        for vert_ in vertex.adj_prev:
-            if cache[vert_.layer][vert_.index] == -1.0:
-                cache[vert_.layer][vert_.index] = self.predict_(vert_, cache)
+        if cache[vertex.layer][vertex.index] == float('Inf'):
+            _sum = 0.0
+            for vert_ in vertex.adj_prev:
+                if cache[vert_.layer][vert_.index] == float('Inf'):
+                    cache[vert_.layer][vert_.index] = self.predict_(vert_, cache)
+                    vert_.val = cache[vert_.layer][vert_.index]
 
-            _sum += self.weights[vert_.index, vertex.index, vertex.layer] * cache[vert_.layer][vert_.index]
+                _sum += self.weights[vert_.index, vertex.index, vertex.layer] * vert_.val
 
-        vertex.val = sigmoid(_sum)
-        return vertex.val
+            vertex.val = sigmoid(_sum)
+            cache[vertex.layer][vertex.index] = vertex.val
+        return cache[vertex.layer][vertex.index]
 
     def update_weights(self, weights):
         self.weights = weights
@@ -80,7 +83,7 @@ class ThreeLayerNN:
 
         # Begin backtracking
         y = self.predict(x)
-        grad_cache = np.array(np.shape(self.num_units_per_layer, self.num_units_per_layer, 3))
+        grad_cache = np.zeros((self.num_units_per_layer, self.num_units_per_layer, 4))
         grad_cache.fill(0.0)
 
         # Find 3rd layer of derivatives
@@ -98,6 +101,12 @@ class ThreeLayerNN:
                 grad_cache[i, j, 1] = self.layer0[i].val * (1.0 - self.layer1[j].val) * np.sum(np.multiply(self.weights[j, :, 2], grad_cache[j, :, 2]))
 
         return grad_cache
+
+    def objective_function(self, features, labels):
+        _sum = 0.0
+        for i in range(0, features.shape[0]):
+            _sum += (self.predict(features[i, :]) - labels[i]) ** 2
+        return 0.5 * _sum
 
 
 class Vertex:

@@ -1,5 +1,6 @@
-import numpy as np
 import random
+import sys
+import numpy as np
 
 
 class GradientDescent:
@@ -9,9 +10,8 @@ class GradientDescent:
         self.gamma_0 = gamma_0
         self.d = d
 
-    def run_stochastic_sub_grad_descent(self, max_iters, obj_func, grad_func):
+    def run_stochastic_sub_grad_descent(self, max_iters, obj_func, grad_func, weights):
         # initialize weight vector
-        w_vector = np.zeros(self.features.shape[1])
         objective_function_values = []
 
         for t in range(0, max_iters + 1):
@@ -21,12 +21,12 @@ class GradientDescent:
 
             shuffled_indices = random.sample(range(0, self.features.shape[0]), self.features.shape[0])
 
-            for index in shuffled_indices:
+            for i, index in enumerate(shuffled_indices):
+                gamma_t = self.gamma_0 / (1.0 + (self.gamma_0 / self.d) * t)
+                weights = weights - gamma_t * grad_func(self.features[index, :], self.labels[index], weights)
+                sys.stdout.write("\r%i / %i" % (i, len(shuffled_indices)))
+                sys.stdout.flush()
+            # objective_function_values.append(obj_func(self.features, self.labels))
 
-                gamma_t = self.gamma_0 / (1 + (self.gamma_0 / self.d) * t)
-
-                w_vector = w_vector - gamma_t * grad_func(self.features[index, :], self.labels[index], w_vector)
-
-            objective_function_values.append(obj_func(self.features, self.labels, w_vector))
-
-        return [w_vector, np.array(objective_function_values)]
+        return [weights, np.array(objective_function_values)]
+        # return weights
