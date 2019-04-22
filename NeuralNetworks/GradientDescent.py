@@ -24,9 +24,11 @@ class GradientDescent:
             for i, index in enumerate(shuffled_indices):
                 gamma_t = self.gamma_0 / (1.0 + (self.gamma_0 / self.d) * t)
                 weights = weights - gamma_t * grad_func(self.features[index, :], self.labels[index], weights)
-                sys.stdout.write("\r%i / %i" % (i, len(shuffled_indices)))
-                sys.stdout.flush()
-            # objective_function_values.append(obj_func(self.features, self.labels))
+            sys.stdout.write("\r%i / %i" % (t + 1, max_iters))
+            sys.stdout.flush()
+            objective_function_values.append(obj_func(self.features, self.labels))
 
+        sys.stdout.write('\n')
+        sys.stdout.flush()
         return [weights, np.array(objective_function_values)]
         # return weights

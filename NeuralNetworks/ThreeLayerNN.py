@@ -2,70 +2,25 @@ import numpy as np
 
 
 class ThreeLayerNN:
-    def __init__(self, num_units_per_layer, weights):   # if we have w_{ij}^k, call weights[i][j][k] to get it
+    def __init__(self, num_units_per_layer, weights):   # if we have w_{ij}^k, call weights[i, j, k] to get it
         self.num_units_per_layer = num_units_per_layer
         self.weights = weights
-        self.layer0 = []
-        self.layer1 = []
-        self.layer2 = []
-        self.output_vertex = Vertex(0.0, 3, 0)
-
-        # Construct layer 1, 2
-        for i in range(0, self.num_units_per_layer):
-            self.layer1.append(Vertex(0.0, 1, i))
-            self.layer2.append(Vertex(0.0, 2, i))
-
-        for i in range(1, self.num_units_per_layer):
-            for j in range(0, self.num_units_per_layer):
-                self.layer2[i].add_edge(self.layer1[j], next_=False)
-
-        # edges between layer 2 and 3
-        for i in range(0, self.num_units_per_layer):
-            self.layer2[i].add_edge(self.output_vertex, next_=True)
+        self.layer0 = None
+        self.layer1 = np.array([1.0] * self.num_units_per_layer)
+        self.layer2 = np.array([1.0] * self.num_units_per_layer)
 
     # Call this to predict a label for example x
     def predict(self, x):
-        cache = np.zeros((3, self.num_units_per_layer))
-        cache.fill(float('Inf'))
-        # Update zeroth layer
-        self.layer0 = []
-        for i in range(0, self.num_units_per_layer):
-            self.layer0.append(Vertex(x[i], 0, i))
+        self.layer0 = np.copy(x)
 
         for i in range(1, self.num_units_per_layer):
-            for j in range(0, self.num_units_per_layer):
-                self.layer1[i].add_edge(self.layer0[j], next_=False)
+            self.layer1[i] = sigmoid(x.dot(self.weights[0:x.shape[0], i, 1]))
 
-        val = self.predict_(self.output_vertex, cache=cache)
-        return np.sign(val)
+        for i in range(1, self.num_units_per_layer):
+            self.layer2[i] = sigmoid(self.layer1.dot(self.weights[:, i, 2]))
 
-    def predict_(self, vertex, cache):
-        if vertex.layer == 0:
-            return vertex.val
-
-        if vertex.layer == 3:
-            _sum = 0.0
-            for vert_ in vertex.adj_prev:
-                _sum += self.weights[vert_.index, 1, 3] * self.predict_(vert_, cache)
-            vertex.val = _sum
-            return vertex.val
-
-        if len(vertex.adj_prev) == 0:
-            vertex.val = 1.0
-            return vertex.val
-
-        if cache[vertex.layer][vertex.index] == float('Inf'):
-            _sum = 0.0
-            for vert_ in vertex.adj_prev:
-                if cache[vert_.layer][vert_.index] == float('Inf'):
-                    cache[vert_.layer][vert_.index] = self.predict_(vert_, cache)
-                    vert_.val = cache[vert_.layer][vert_.index]
-
-                _sum += self.weights[vert_.index, vertex.index, vertex.layer] * vert_.val
-
-            vertex.val = sigmoid(_sum)
-            cache[vertex.layer][vertex.index] = vertex.val
-        return cache[vertex.layer][vertex.index]
+        return np.sign(self.layer2.dot(self.weights[0:self.layer2.shape[0], 1, 3]))
+        # return self.layer2.dot(self.weights[0:self.layer2.shape[0], 1, 3])
 
     def update_weights(self, weights):
         self.weights = weights
@@ -73,13 +28,7 @@ class ThreeLayerNN:
     def gradient(self, x, y_actual, weights):
         self.update_weights(weights)
         # Update zeroth layer
-        self.layer0 = []
-        for i in range(0, self.num_units_per_layer):
-            self.layer0.append(Vertex(x[i], 0, i))
-
-        for i in range(1, self.num_units_per_layer):
-            for j in range(0, self.num_units_per_layer):
-                self.layer1[i].add_edge(self.layer0[j], next_=False)
+        self.layer0 = x.tolist()
 
         # Begin backtracking
         y = self.predict(x)
@@ -88,17 +37,17 @@ class ThreeLayerNN:
 
         # Find 3rd layer of derivatives
         for i in range(0, self.num_units_per_layer):
-            grad_cache[i, 1, 3] = (y - y_actual) * self.layer2[i].val
+            grad_cache[i, 1, 3] = (y - y_actual) * self.layer2[i]
 
         # Find 2nd layer of derivatives
         for i in range(0, self.num_units_per_layer):
             for j in range(1, self.num_units_per_layer):
-                grad_cache[i, j, 2] = grad_cache[j, 1, 3] * self.weights[j][1][3] * (1.0 - self.layer2[j].val) * self.layer1[i].val
+                grad_cache[i, j, 2] = grad_cache[j, 1, 3] * self.weights[j, 1, 3] * (1.0 - self.layer2[j]) * self.layer1[i]
 
         # Find 3rd layer of derivatives
-        for i in range(0, self.num_units_per_layer):
+        for i in range(0, x.shape[0]):
             for j in range(1, self.num_units_per_layer):
-                grad_cache[i, j, 1] = self.layer0[i].val * (1.0 - self.layer1[j].val) * np.sum(np.multiply(self.weights[j, :, 2], grad_cache[j, :, 2]))
+                grad_cache[i, j, 1] = x[i] * (1.0 - self.layer1[j]) * np.sum(np.multiply(self.weights[j, :, 2], grad_cache[j, :, 2]))
 
         return grad_cache
 
@@ -107,30 +56,6 @@ class ThreeLayerNN:
         for i in range(0, features.shape[0]):
             _sum += (self.predict(features[i, :]) - labels[i]) ** 2
         return 0.5 * _sum
-
-
-class Vertex:
-    def __init__(self, val, layer, index):
-        self.val = val
-        self.layer = layer
-        self.index = index
-        self.adj_next = []
-        self.adj_prev = []
-
-    def add_edge(self, vertex, next_):
-        if next_ and vertex not in self.adj_next:
-            self.adj_next.append(vertex)
-            vertex.add_edge(self, not next_)
-        elif not next_ and vertex not in self.adj_prev:
-            self.adj_prev.append(vertex)
-            vertex.add_edge(self, not next_)
-
-    def __eq__(self, other):
-        if self.layer != other.layer:
-            return False
-        if self.index != other.index:
-            return False
-        return False
 
 
 def sigmoid(val):

@@ -40,28 +40,59 @@ def hw5pb():
     data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
     test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
-    weights = np.zeros((data.features.shape[1], data.features.shape[1], 4))
-    for i in range(0, data.features.shape[1]):
-        for j in range(0, data.features.shape[1]):
-            for k in range(0, 3):
-                weights[i, j, k] = np.random.normal()
+    layer_widths = [5, 10, 25, 50, 100]
+    max_iters = 5
+    for layer_width in layer_widths:
+        print("Running test width hidden layer width: %i" % layer_width)
+        weights = np.zeros((layer_width, layer_width, 4))
+        for i in range(0, layer_width):
+            for j in range(0, layer_width):
+                weights[i, j, 2] = np.random.normal()
 
-    three_layer_nn = ThreeLayerNN.ThreeLayerNN(num_units_per_layer=data.features.shape[1], weights=weights)
-    grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output, gamma_0=0.1, d=1.0)
-    grad_descent.run_stochastic_sub_grad_descent(max_iters=1, obj_func=three_layer_nn.objective_function,
-                                                 grad_func=three_layer_nn.gradient, weights=weights)
-    train_percentage = get_percentages(data, three_layer_nn.predict)
-    test_percentage = get_percentages(test_data, three_layer_nn.predict)
-    print("Train error percentage was %.16f" % train_percentage)
-    print("Test error percentage was %.16f" % test_percentage)
+        for i in range(0, layer_width):
+            weights[i, 1, 3] = np.random.normal()
 
-    t = np.linspace(0, data.features.shape[0], data.features.shape[0])
-    # plt.plot(t, results[1])
+        for i in range(0, data.features.shape[1]):
+            for j in range(0, layer_width):
+                weights[i, j, 1] = np.random.normal()
+
+
+        three_layer_nn = ThreeLayerNN.ThreeLayerNN(num_units_per_layer=layer_width, weights=weights)
+        grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output, gamma_0=0.5, d=0.1)
+        results = grad_descent.run_stochastic_sub_grad_descent(max_iters=max_iters, obj_func=three_layer_nn.objective_function,
+                                                     grad_func=three_layer_nn.gradient, weights=weights)
+        train_percentage = get_percentages(data, three_layer_nn.predict)
+        test_percentage = get_percentages(test_data, three_layer_nn.predict)
+        print("Train error percentage was %.16f" % train_percentage)
+        print("Test error percentage was %.16f" % test_percentage)
+
+        t = np.linspace(0, max_iters, max_iters)
+        plt.plot(t, results[1])
+        plt.show()
 
 def hw5pc():
-    return None
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
+    layer_widths = [5, 10, 25, 50, 100]
+    max_iters = 5
+    for layer_width in layer_widths:
+        print("Running test width hidden layer width: %i" % layer_width)
+        weights = np.zeros((layer_width, layer_width, 4))
 
+        three_layer_nn = ThreeLayerNN.ThreeLayerNN(num_units_per_layer=layer_width, weights=weights)
+        grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output, gamma_0=0.5, d=0.1)
+        results = grad_descent.run_stochastic_sub_grad_descent(max_iters=max_iters, obj_func=three_layer_nn.objective_function,
+                                                     grad_func=three_layer_nn.gradient, weights=weights)
+        train_percentage = get_percentages(data, three_layer_nn.predict)
+        test_percentage = get_percentages(test_data, three_layer_nn.predict)
+        print("Train error percentage was %.16f" % train_percentage)
+        print("Test error percentage was %.16f" % test_percentage)
+
+        t = np.linspace(0, max_iters, max_iters)
+        plt.plot(t, results[1])
+        plt.show()
 def hw5pd():
     return None
 
