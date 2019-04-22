@@ -4,8 +4,8 @@ from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
 from Perceptron import HW3p2
 from SVM import HW4
-from LinearRegression import HW5p3
-from NeuralNetworks import HW5p2
+from LogisticRegression import HW5p2
+from NeuralNetworks import HW5p3
 
 redo_hm = True
 

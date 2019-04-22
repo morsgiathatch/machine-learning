@@ -5,6 +5,7 @@ class ThreeLayerNN:
     def __init__(self, num_units_per_layer, weights):   # if we have w_{ij}^k, call weights[i][j][k] to get it
         self.num_units_per_layer = num_units_per_layer
         self.weights = weights
+        self.layer0 = []
         self.layer1 = []
         self.layer2 = []
         self.output_vertex = Vertex(0.0, 3, 0)
@@ -16,78 +17,104 @@ class ThreeLayerNN:
 
         for i in range(1, self.num_units_per_layer):
             for j in range(0, self.num_units_per_layer):
-                self.layer2[i].add_edge(self.layer1[j], self.weights[j][i][2], next_=False)
+                self.layer2[i].add_edge(self.layer1[j], next_=False)
 
         # edges between layer 2 and 3
         for i in range(0, self.num_units_per_layer):
-            self.layer2[i].add_edge(self.output_vertex, self.weights[i][1][3], next_=True)
+            self.layer2[i].add_edge(self.output_vertex, next_=True)
 
     # Call this to predict a label for example x
     def predict(self, x):
         cache = np.array(np.shape(3, self.num_units_per_layer))
         cache.fill(-1.0)
-        layer0 = []
+        # Update zeroth layer
+        self.layer0 = []
         for i in range(0, self.num_units_per_layer):
-            layer0.append(Vertex(x[i], 0, i))
+            self.layer0.append(Vertex(x[i], 0, i))
 
         for i in range(1, self.num_units_per_layer):
             for j in range(0, self.num_units_per_layer):
-                self.layer1[i].add_edge(layer0[j], self.weights[j][i][1], next_=False)
+                self.layer1[i].add_edge(self.layer0[j], next_=False)
 
-        val = self.predict_(self.output_vertex, prev_vertex=None, cache=cache)
+        val = self.predict_(self.output_vertex, cache=cache)
         return val
 
-    def predict_(self, vertex, prev_vertex, cache):
+    def predict_(self, vertex, cache):
         if vertex.layer == 0:
-            return vertex.val * vertex.adj_next[prev_vertex]
+            return vertex.val
 
         if vertex.layer == 3:
             _sum = 0.0
             for vert_ in vertex.adj_prev:
-                _sum += vert_.adj_next[vertex] * self.predict_(vert_, vertex, cache)
-            return _sum
+                _sum += self.weights[vert_.index, 1, 3] * self.predict_(vert_, cache)
+            vertex.val = _sum
+            return vertex.val
 
         if len(vertex.adj_prev) == 0:
-            return 1.0
+            vertex.val = 1.0
+            return vertex.val
 
         _sum = 0.0
         for vert_ in vertex.adj_prev:
             if cache[vert_.layer][vert_.index] == -1.0:
-                cache[vert_.layer][vert_.index] = self.predict_(vert_, vertex, cache)
+                cache[vert_.layer][vert_.index] = self.predict_(vert_, cache)
 
-            _sum += vert_.adj_next[vertex] * cache[vert_.layer][vert_.index]
+            _sum += self.weights[vert_.index, vertex.index, vertex.layer] * cache[vert_.layer][vert_.index]
 
-        return sigmoid(_sum)
+        vertex.val = sigmoid(_sum)
+        return vertex.val
 
     def update_weights(self, weights):
         self.weights = weights
+
+    def gradient(self, x, y_actual, weights):
+        self.update_weights(weights)
+        # Update zeroth layer
+        self.layer0 = []
+        for i in range(0, self.num_units_per_layer):
+            self.layer0.append(Vertex(x[i], 0, i))
+
+        for i in range(1, self.num_units_per_layer):
+            for j in range(0, self.num_units_per_layer):
+                self.layer1[i].add_edge(self.layer0[j], next_=False)
+
+        # Begin backtracking
+        y = self.predict(x)
+        grad_cache = np.array(np.shape(self.num_units_per_layer, self.num_units_per_layer, 3))
+        grad_cache.fill(0.0)
+
+        # Find 3rd layer of derivatives
+        for i in range(0, self.num_units_per_layer):
+            grad_cache[i, 1, 3] = (y - y_actual) * self.layer2[i].val
+
+        # Find 2nd layer of derivatives
+        for i in range(0, self.num_units_per_layer):
+            for j in range(1, self.num_units_per_layer):
+                grad_cache[i, j, 2] = grad_cache[j, 1, 3] * self.weights[j][1][3] * (1.0 - self.layer2[j].val) * self.layer1[i].val
+
+        # Find 3rd layer of derivatives
+        for i in range(0, self.num_units_per_layer):
+            for j in range(1, self.num_units_per_layer):
+                grad_cache[i, j, 1] = self.layer0[i].val * (1.0 - self.layer1[j].val) * np.sum(np.multiply(self.weights[j, :, 2], grad_cache[j, :, 2]))
+
+        return grad_cache
+
 
 class Vertex:
     def __init__(self, val, layer, index):
         self.val = val
         self.layer = layer
         self.index = index
-        self.vertices = []
-        self.adj_next = {}
-        self.adj_prev = {}
+        self.adj_next = []
+        self.adj_prev = []
 
-    def add_edge(self, vertex, weight, next_):
-        if vertex not in self.vertices:
-            self.vertices.append(vertex)
-            if next_:
-                self.adj_next[vertex] = weight
-            else:
-                self.adj_prev[vertex] = weight
-            vertex.add_edge(self, weight, not next_)
-
-    def remove_edge(self, vertex):
-        if vertex in self.vertices:
-            self.vertices.remove(vertex)
-            if vertex in self.adj_next:
-                del self.adj_next[vertex]
-            else:
-                del self.adj_prev[vertex]
-            vertex.remove_edge(self)
+    def add_edge(self, vertex, next_):
+        if next_ and vertex not in self.adj_next:
+            self.adj_next.append(vertex)
+            vertex.add_edge(self, not next_)
+        elif not next_ and vertex not in self.adj_prev:
+            self.adj_prev.append(vertex)
+            vertex.add_edge(self, not next_)
 
     def __eq__(self, other):
         if self.layer != other.layer:
