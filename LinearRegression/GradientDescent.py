@@ -26,7 +26,7 @@ def run_gradient_descent(features, output, max_iters, constant_step_size, tolera
 
         # w_(t + 1) = w_t - r* X^t (X * w_t - y)
         w_old = w_vector
-        w_vector = w_vector - (constant_step_size * (features.transpose()).dot((features.dot(w_vector)) - output))
+        w_vector = w_vector - constant_step_size * (features.transpose()).dot((features.dot(w_vector)) - output)
 
         # || w_(t + 1) - w_t || <= epsilon ?
         if la.norm(w_vector - w_old) <= tolerance:
@@ -65,6 +65,7 @@ def run_stochastic_grad_descent(features, output, max_iters, constant_step_size,
 
 def get_analytic_solution(features, output):
     return (la.inv((features.transpose()).dot(features))).dot((features.transpose()).dot(output))
+
 
 def get_cost(features, output, w_vector):
     return 0.5 * la.norm(features.dot(w_vector) - output)

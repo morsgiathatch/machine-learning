@@ -1,9 +1,11 @@
 from LinearRegression import ConcreteData
-from LinearRegression import GradientDescent
+from Algorithms import GradientDescent
+from LinearRegression import LinearRegressor as lr
 import os
 import numpy as np
 from numpy import linalg as la
 import matplotlib.pyplot as plt
+
 
 def problem4(part):
     # Construct data sets
@@ -27,13 +29,17 @@ def problem4(part):
             tolerance = float(1e-6)
             step_size = 0.02
 
+        grad_desc = GradientDescent.GradientDescent(data.features, data.output)
         if part == 1:
             step_size = 0.0145
-            result = GradientDescent.run_gradient_descent(data.features, data.output,
-                                                          max_iters, step_size, tolerance)
+            result = grad_desc.run_gradient_descent(obj_func=lr.objective_function, grad_func=lr.obj_gradient_function,
+                                                    args=None, max_iters=max_iters, step_function=lambda x: step_size,
+                                                    tolerance=tolerance)
         else:
-            result = GradientDescent.run_stochastic_grad_descent(data.features, data.output,
-                                                                 max_iters, step_size, tolerance)
+            result = grad_desc.run_stochastic_grad_descent(obj_func=lr.objective_function,
+                                                           grad_func=lr.stoch_gradient_function, args=None,
+                                                           max_iters=max_iters, step_function=lambda x: step_size,
+                                                           tolerance=tolerance)
 
         print("step size was " + str(step_size))
         if result[1] == max_iters + 1:
@@ -45,20 +51,20 @@ def problem4(part):
             print(result[0])
 
         print("\nEvaluating at the vector yields train cost of %.16f"
-              % (GradientDescent.get_cost(data.features, data.output, result[0])))
+              % (lr.objective_function(data.features, data.output, result[0])))
         t_vals = np.linspace(0, (len(result[2])) * 10, len(result[2]))
 
         print("Using the above, we then have the following test cost:")
-        test_cost = GradientDescent.get_cost(test_data.features, test_data.output, result[0])
+        test_cost = lr.objective_function(test_data.features, test_data.output, result[0])
         print("%.16f" % test_cost)
 
         if analytic_answer == "y":
             print("\nAnalytic minimizer is:")
-            minimizer = GradientDescent.get_analytic_solution(data.features, data.output)
+            minimizer = lr.analytic_solution(data.features, data.output)
             print(minimizer)
             print("Cost using analytic minimizer is: %.16f"
-                  % (GradientDescent.get_cost(data.features, data.output, minimizer)))
-            minimizer_cost = GradientDescent.get_cost(test_data.features, test_data.output, minimizer)
+                  % (lr.objective_function(data.features, data.output, minimizer)))
+            minimizer_cost = lr.objective_function(test_data.features, test_data.output, minimizer)
             print("Test cost using analytic minimizer is: %.16f" % minimizer_cost)
             print("\n2-norm error in result vector vs. minimizer is %.16f" % (la.norm(result[0] - minimizer)))
 
@@ -72,10 +78,9 @@ def problem4(part):
 
     else:
         print("\nAnalytic minimizer is:")
-        minimizer = GradientDescent.get_analytic_solution(data.features, data.output)
+        minimizer = lr.analytic_solution(data.features, data.output)
         print(minimizer)
         print("Cost using analytic minimizer is: %.16f"
-              % (GradientDescent.get_cost(data.features, data.output, minimizer)))
+              % (lr.objective_function(data.features, data.output, minimizer)))
         print("Test cost using analytic minimizer is: %.16f"
-              % (GradientDescent.get_cost(test_data.features, test_data.output, minimizer)))
-
+              % (lr.objective_function(test_data.features, test_data.output, minimizer)))

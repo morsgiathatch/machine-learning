@@ -10,7 +10,7 @@ class GradientDescent:
         self.gamma_0 = gamma_0
         self.d = d
 
-    def run_stochastic_sub_grad_descent(self, max_iters, obj_func, grad_func, weights):
+    def run_stochastic_sub_grad_descent(self, max_iters, obj_func, grad_func, weights, args):
         # initialize weight vector
         objective_function_values = []
 
@@ -23,10 +23,10 @@ class GradientDescent:
 
             for i, index in enumerate(shuffled_indices):
                 gamma_t = self.gamma_0 / (1.0 + (self.gamma_0 / self.d) * t)
-                weights = weights - gamma_t * grad_func(self.features[index, :], self.labels[index], weights)
+                weights -= gamma_t * grad_func(self.features[index, :], self.labels[index], [weights, args])
             sys.stdout.write("\r%i / %i" % (t + 1, max_iters))
             sys.stdout.flush()
-            objective_function_values.append(obj_func(self.features, self.labels))
+            objective_function_values.append(obj_func(self.features, self.labels, [weights, args]))
 
         sys.stdout.write('\n')
         sys.stdout.flush()

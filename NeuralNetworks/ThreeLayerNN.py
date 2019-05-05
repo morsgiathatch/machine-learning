@@ -25,7 +25,8 @@ class ThreeLayerNN:
     def update_weights(self, weights):
         self.weights = weights
 
-    def gradient(self, x, y_actual, weights):
+    def gradient(self, x, y_actual, args):
+        weights = args[0]
         self.update_weights(weights)
         # Update zeroth layer
         self.layer0 = x.tolist()
@@ -51,7 +52,7 @@ class ThreeLayerNN:
 
         return grad_cache
 
-    def objective_function(self, features, labels):
+    def objective_function(self, features, labels, extra_args=None):
         _sum = 0.0
         for i in range(0, features.shape[0]):
             _sum += (self.predict(features[i, :]) - labels[i]) ** 2
