@@ -1,6 +1,5 @@
 import os
-from Perceptron import BankNoteData
-from SVM import KernelPerceptron
+from Perceptron import BankNoteData, KernelPerceptron
 
 
 def hw4xc():

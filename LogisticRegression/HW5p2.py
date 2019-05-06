@@ -1,5 +1,5 @@
 from Perceptron import BankNoteData
-from NeuralNetworks import GradientDescent
+from Algorithms import GradientDescent
 from LogisticRegression import LogisticRegressors as lr
 import numpy as np
 import matplotlib.pyplot as plt
@@ -54,10 +54,10 @@ def helper(parta, obj_fun, grad_func):
     train_percentages = []
     test_percentages = []
     for var in variances:
-        grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output, gamma_0=0.001, d=100.0)
-        results = grad_descent.run_stochastic_sub_grad_descent(max_iters=max_iters, obj_func=obj_fun,
-                                                               grad_func=grad_func,
-                                                               weights=np.zeros(data.features.shape[1]), args=var)
+        grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output)
+        results = grad_descent.run_stochastic_grad_descent(max_iters=max_iters, obj_func=obj_fun,
+                                                           grad_func=grad_func, step_function=training_schedule,
+                                                           weights=np.zeros(data.features.shape[1]), args=var)
 
         train_percentage_ = lr.get_percentages(data, results[0])
         test_percentage_ = lr.get_percentages(test_data, results[0])
@@ -76,3 +76,9 @@ def helper(parta, obj_fun, grad_func):
         plt.semilogx(variances, test_percentages, label='Test Percentages')
         plt.legend()
         plt.show()
+
+
+def training_schedule(t):
+    gamma_0 = 0.001
+    d = 100.0
+    return gamma_0 / (1.0 + (gamma_0 / d) * t)

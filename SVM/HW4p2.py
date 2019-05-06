@@ -1,8 +1,9 @@
 import numpy as np
-from SVM import GradientDescent
+from Algorithms import GradientDescent
 from Perceptron import BankNoteData
 from Perceptron import Perceptron
 from Perceptron import HW3p2
+from SVM import SVM
 import matplotlib.pyplot as plt
 from numpy import linalg as la
 import os
@@ -75,16 +76,14 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
 
     test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
 
-    gamma_0 = float(input("Please enter a positive value for gamma_0\n"))
-    if part == 'a':
-        d = float(input("Please enter a positive value for d\n"))
-    else:
-        d = 0.0
-
     test_percentages = []
     train_percentages = []
 
     w_vectors = []
+
+    training_schedule = training_schedule_b
+    if part == 'a':
+        training_schedule = training_schedule_a
 
     count = 0
     for i, C_value in enumerate(C_values):
@@ -98,8 +97,13 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
 
         for j in range(0, num_reps):
             count += 1
-            [w_vector, obj_func_vals] = GradientDescent.run_stochastic_sub_grad_descent \
-                (data.features, data.output, max_iters=100, C=C_value, gamma_0=gamma_0, d=d, part=part)
+            grad_desc = GradientDescent.GradientDescent(data.features, data.output)
+            [w_vector, obj_func_vals] = grad_desc.run_stochastic_grad_descent(max_iters=100,
+                                                                              obj_func=SVM.objective_function,
+                                                                              grad_func=SVM.stoch_grad_func,
+                                                                              args=[C_value, data.features.shape[0]],
+                                                                              step_function=training_schedule,
+                                                                              print_status=False)
 
             w_vectors_by_C.append(w_vector)
 
@@ -110,10 +114,6 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
                 sys.stdout.write('\rProgress: %i / %i' % (count, len(C_values) * num_reps))
                 sys.stdout.flush()
 
-            # train_percentage = HW3p2.get_percentages(w_vector, data, Perceptron.get_prediction)
-            # test_percentage = HW3p2.get_percentages(w_vector, test_data, Perceptron.get_prediction)
-            # train_percentages_per_C.append(train_percentage)
-            # test_percentages_per_C.append(test_percentage)
             if j == 0 and show_plots:
                 plt.plot(np.linspace(0, 100, 100), obj_func_vals)
                 plt.show()
@@ -153,3 +153,14 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
         sys.stdout.flush()
 
     return [w_vectors, train_percentages, test_percentages]
+
+
+def training_schedule_a(t):
+    gamma_0 = 0.5
+    d = 0.1
+    return gamma_0 / (1 + (gamma_0 / d) * t)
+
+
+def training_schedule_b(t):
+    gamma_0 = 0.5
+    return gamma_0 / (1 + t)

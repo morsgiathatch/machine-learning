@@ -6,7 +6,6 @@ import copy
 
 class Id3:
     def __init__(self):
-
         self.max_height = 0
 
     def id3(self, examples, attributes, prev_value, labels, current_depth,

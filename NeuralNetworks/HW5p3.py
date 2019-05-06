@@ -1,6 +1,6 @@
-from NeuralNetworks import GradientDescent
 from NeuralNetworks import ThreeLayerNN
 from Perceptron import BankNoteData
+from Algorithms import GradientDescent
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -68,10 +68,11 @@ def helper(partb):
             weights = np.zeros((layer_width, layer_width, 4))
 
         three_layer_nn = ThreeLayerNN.ThreeLayerNN(num_units_per_layer=layer_width, weights=weights)
-        grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output, gamma_0=0.5, d=0.1)
-        results = grad_descent.run_stochastic_sub_grad_descent(max_iters=max_iters, args=None,
-                                                               obj_func=three_layer_nn.objective_function,
-                                                               grad_func=three_layer_nn.gradient, weights=weights)
+        grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output)
+        results = grad_descent.run_stochastic_grad_descent(max_iters=max_iters, args=None, weights=weights,
+                                                           step_function=training_schedule,
+                                                           obj_func=three_layer_nn.objective_function,
+                                                           grad_func=three_layer_nn.gradient)
 
         train_percentage = get_percentages(data, three_layer_nn.predict)
         test_percentage = get_percentages(test_data, three_layer_nn.predict)
@@ -97,3 +98,9 @@ def get_percentages(data, prediction):
             num_correct += 1
 
     return 1.0 - float(num_correct / data.features.shape[0])
+
+
+def training_schedule(t):
+    gamma_0 = 0.5
+    d = 0.1
+    return gamma_0 / (1.0 + (gamma_0 / d) * t)
