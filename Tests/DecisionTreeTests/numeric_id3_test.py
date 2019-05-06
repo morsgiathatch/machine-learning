@@ -1,12 +1,12 @@
 from DecisionTree import Id3
-from DecisionTree import BankData
-from DecisionTree import Metrics
+from Data.bank import BankData
 import os
+from Tests.DecisionTreeTests import non_numeric_id3_test
 
 
-def problem2():
+def numeric_id3_test():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    metrics = {0: Metrics.information_gain, 1: Metrics.majority_error_gain, 2: Metrics.gini_index_gain}
+    metrics = {0: 'information_gain', 1: 'majority_error_gain', 2: 'gini_index_gain'}
 
     # Begin prompts
     unknown_choice = input("Do you wish to use 'unknown' as an attribute? y/n ")
@@ -26,7 +26,7 @@ def problem2():
     test_data = BankData.Data()
     test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', use_unknown)
     if use_averages == "y":
-        calculate_averages(data, test_data, metrics)
+        non_numeric_id3_test.calculate_averages(data, test_data, metrics, 17)
 
     else:
         tree_depth = int(input("Please enter desired tree depth [1 - 16] (0 to run entire tree):"))
@@ -34,7 +34,7 @@ def problem2():
             tree_depth = float("inf")
 
         metric_choice = int(input("Please enter a number for choice of metric:\n0: Information Gain\n"
-                                      "1. Majority Error\n2. Gini Index\n"))
+                                  "1. Majority Error\n2. Gini Index\n"))
         metric = metrics[metric_choice]
 
         # Test for noise in data
@@ -53,15 +53,14 @@ def problem2():
         print("max tree height: " + str(height))
 
 
-
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
-    id3 = Id3.Id3()
+    id3 = Id3.Id3(metric)
     print("\n--- Using Tree level " + str(tree_depth) + " ---")
-    root = id3.id3(data.examples, data.attributes, None, data.labels, 0, tree_depth, metric)
+    id3.id3(data.examples, data.attributes, None, data.labels, 0, tree_depth)
 
     correct_results = 0
     for example in test_data.examples:
-        if example.get_label() == test_data.get_test_result(example, root):
+        if example.get_label() == id3.get_prediction(example):
             correct_results += 1
 
     percentage = float(correct_results) / float(len(test_data.examples))
@@ -72,7 +71,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
 
     correct_results = 0
     for example in data.examples:
-        if example.get_label() == data.get_test_result(example, root):
+        if example.get_label() == id3.get_prediction(example):
             correct_results += 1
 
     percentage = float(correct_results) / float(len(data.examples))
@@ -84,48 +83,3 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
     id3.reset_max_height()
 
     return max_height
-
-
-def calculate_averages(data, test_data, metrics):
-    information_gains = []
-    information_gains_train = []
-    max_errors = []
-    max_errors_train = []
-    ginis = []
-    ginis_train = []
-    values = [information_gains, max_errors, ginis]
-    values_train = [information_gains_train, max_errors_train, ginis_train]
-    metric_names = {0: " Information Gain ", 1: " Majority Error ", 2: " Gini Index "}
-
-    max_j = 0
-    for i in range(0, 3):
-        print("\n------------- " + metric_names[i] + " -------------\n")
-        for j in range(1, 17):
-            max_height = run_id3(data, test_data, metrics[i], j, values[i], values_train[i])
-            if max_height < j:
-                max_j = j
-                break
-
-    # Pop last value since it is a duplicate and we can no longer grow the tree
-    if max_j != 0:
-        values.pop()
-        values_train.pop()
-
-    # Calculate and print averages
-    print("\n-- Test data average for metrics --")
-    print("Information gain: " + "%.16f" % (1.0 - average(values[0])))
-    print("Majority Error: " + "%.16f" % (1.0 - average(values[1])))
-    print("Gini Index: " + "%.16f" % (1.0 - average(values[2])))
-    print("\n-- Train data average for metrics --")
-    print("Information gain: " + "%.16f" % (1.0 - average(values_train[0])))
-    print("Majority Error: " + "%.16f" % (1.0 - average(values_train[1])))
-    print("Gini Index: " + "%.16f" % (1.0 - average(values_train[2])))
-
-
-def average(data):
-    length = len(data)
-    temp_sum = 0.0
-    for element in data:
-        temp_sum += element
-
-    return temp_sum / float(length)

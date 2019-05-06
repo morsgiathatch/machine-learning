@@ -1,4 +1,4 @@
-from DecisionTree import HW1
+from Tests.DecisionTreeTests import DecisionTreeTest
 from EnsembleLearning import HW2p2
 from EnsembleLearning import ExtraCredit
 from LinearRegression import HW2p4
@@ -11,24 +11,24 @@ redo_hm = True
 
 while redo_hm:
     print("\n================================================================")
-    print("||    Welcome to Corbin Baldwin's Programming Assignments     ||")
+    print("||     Welcome to Corbin Baldwin's Machine Learning Tests     ||")
     print("================================================================")
 
-    homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
+    test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. HW2\n3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
 
     valid_choice = True
-    if homework != 1 and homework != 2 and homework != 3 and homework != 4 and homework != 5 and homework != 6:
+    if test_choice != 1 and test_choice != 2 and test_choice != 3 and test_choice != 4 and test_choice != 5 and test_choice != 6:
         valid_choice = False
 
     while not valid_choice:
         print("Incorrect Choice")
-        homework = int(input("Please select a homework to choose from\n1. HW1\n2. HW2\n3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
-        if homework == 1 or homework == 2 or homework == 3 or homework == 4 or homework == 5 or homework == 6:
+        test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. HW2\n3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
+        if test_choice == 1 or test_choice == 2 or test_choice == 3 or test_choice == 4 or test_choice == 5 or test_choice == 6:
             valid_choice = True
 
-    if homework == 1:
-        HW1.hw1()
-    elif homework == 2:
+    if test_choice == 1:
+        DecisionTreeTest.decision_tree_test()
+    elif test_choice == 2:
         choice = int(input("Which problem do you wish to view? `2`, `3`, `4` or `0` for exit?\n"))
         valid_choice = True
         if choice != 2 and choice != 3 and choice != 4 and choice != 0:
@@ -46,11 +46,11 @@ while redo_hm:
             ExtraCredit.extra_credit()
         elif choice == 4:
             HW2p4.hw2p4()
-    elif homework == 3:
+    elif test_choice == 3:
         HW3p2.hw3p2()
-    elif homework == 4:
+    elif test_choice == 4:
         HW4.hw4()
-    elif homework == 5:
+    elif test_choice == 5:
         choice = int(input("Which problem do you wish to view? `2`, `3`, `0` for exit?\n"))
         hw5_choice = True
         if choice != 2 and choice != 3 and choice != 0:
@@ -69,6 +69,6 @@ while redo_hm:
     else:
         break
 
-    should_redo = str(input("Would you like to review another homework? y/n\n"))
+    should_redo = str(input("Would you like to review another test? y/n\n"))
     if should_redo == "n":
         redo_hm = False

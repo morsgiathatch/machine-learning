@@ -1,5 +1,7 @@
 class Node:
+    """Node class for use in decision tree
 
+    """
     # splitting_attribute is the value of the branch leading to this node
     # value is the value of the branch leading to this node from the previous splitting attribute
     # label is the label

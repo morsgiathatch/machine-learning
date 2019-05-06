@@ -3,12 +3,6 @@
 This is a machine learning library developed by Corbin Baldwin for 
 CS5350/6350 at the University of Utah.
 
-## To Run
-Simply open a shell and change to the directory containing the run.sh file. 
-Note that this shell script only works for unix machines. Once in the directory,
-simply run ./run.sh and follow the prompts. You will be asked to enter integers 
-for the options to choose between the homeworks and the subproblems.
-
 ## Decision Tree
 To test the decision tree library, you can download all the files and run 
 the run.sh script to reproduce results necessary for class (made sure that 
@@ -25,7 +19,7 @@ of id3 is:
 id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric):
 ```
 The examples should be the list of training examples. It is advised to 
-follow the class declarations of Attribute and Example in BankData.py. 
+follow the class declarations of Attribute and Feature in BankData.py. 
 Attributes is a list containing feature attributes, labels is the set of 
 possible feature labels, and metric is a reference to the desired metric
 contained in Metrics.py. Upon initialization, prev_value should be set to
@@ -33,6 +27,17 @@ None, current_depth should be set to 0, and max_depth should be the desired
 maximum tree height. The implementation of id3 allows the user to terminate
 the depth of tree using the max_depth argument.
 
+ID3 is the standard algorithm for constructing a decision tree. Contained in 
+`Id3.py` are contained two algorithms for ID3. To use the standard ID3 algorithm,
+consider the following example
+```python
+from DecisionTree import Id3
+id3 = Id3.Id3()
+root_node = id3.id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric)
+
+```
+In the example, an `Id3` object is first instantiated and it takes no parameters. Next 
+the `id3` function is called from the object which returns a `Node` object. 
 ## Ensemble Learning
 [//]: # (Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
 of the assignment. Keep in mind that these were written with me just having 
@@ -211,3 +216,22 @@ a numpy array of the corresponding dataset labels. After this, call the objects
 a numpy array of the weights, assuming folding of the offset into the training examples.
 You may use the objects `get_prediction` to get the prediction of a specific example.
  
+ 
+## Tests
+This folder does not contain tests in the usual sense of unit testing. Rather it 
+is a collection of tests that verify that the algorithm in question is in fact
+learning. These were developed for the homework and their structure may reflect
+that fact and as such, they may be hackish and slow. To run the tests, simply run
+```bash
+bash ./run.sh
+```
+and follow the prompts to run the tests explained below.
+* Decision Tree Tests has two parts
+    *  Non-numeric ID3 algorithm allowing a user-desired metric (see ID3 above) as
+    well as a user-desired tree depth. For statistical purposes, a prompt asks if 
+    you would like to run some simple statistics over all implemented metrics and
+    tree depths (up to maximum tree depth).  
+    * Numeric ID3 algorithm offers the same features as the non-numeric ID3 in addition 
+    to allowing 'unknown' attribute values to be considered attributes or to be filled
+    in with some other attribute value. In our case, we replace the 'unknown' attribute
+    value with the most common attribute value. As before, simply follow the prompts.

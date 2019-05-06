@@ -1,4 +1,4 @@
-class Example:
+class Feature:
 
     def __init__(self, terms, weight, base_size):
         self.label = terms.pop()
@@ -60,7 +60,10 @@ class Attribute:
 
 # Define data structures
 class Data:
+    """Data class for bank data
 
+    """
+    # All class attributes below are hard-coded due to poor data-desc.txt
     age = Attribute((0, 1), 0)
     job = Attribute((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 1)
     marital = Attribute((0, 1, 2), 2)
@@ -107,9 +110,20 @@ class Data:
                 contact_map, day_map, month_map, duration_map, campaign_map, pdays_map, previous_map, poutcome_map]
 
     def __init__(self):
+        """Data constructor
+
+        """
         self.examples = []
 
     def initialize_data_from_file(self, filepath, unknown_is_not_attribute):
+        """Initialize data from csv file
+
+        :param filepath: absolute path to csv file
+        :type filepath: string
+        :param unknown_is_not_attribute: are 'unknown' values considered attributes?
+        :type unknown_is_not_attribute: bool
+        :return: None
+        """
         # Initialize necessary data structures to modify data
         ages = []           # index 0
         balances = []       # index 5
@@ -129,7 +143,7 @@ class Data:
         with open(filepath, 'r') as f:
             for line in f:
                 terms = line.strip().split(',')
-                self.examples.append(Example(terms, 1.0, 0.0))
+                self.examples.append(Feature(terms, 1.0, 0.0))
 
                 ages.append(float(terms[0]))
                 balances.append(float(terms[5]))
@@ -148,10 +162,9 @@ class Data:
         common_elements = [get_common_element(job_distro), get_common_element(education_distro),
                            get_common_element(contact_distro), get_common_element(poutcome_distro)]
 
-        thresholds = [None]*7
-
+        thresholds = []
         for i in range(0, 7):
-            thresholds[i] = get_median(sorted(lists[i]))
+            thresholds.append(get_median(sorted(lists[i])))
 
         for example in self.examples:
             example.set_attribute_value(thresholds[0], 0)
@@ -176,19 +189,6 @@ class Data:
 
         for example in self.examples:
             example.convert_to_numeric()
-
-    def get_test_result(self, example, node):
-        if node.get_splitting_attribute() is None:
-            return node.get_label()
-
-        next_node = None
-        attribute = node.get_splitting_attribute()
-        for i in range(len(node.get_children())):
-            value = node.child_nodes[i].get_value()
-            if value == example.get_attribute_value(attribute):
-                next_node = node.child_nodes[i]
-
-        return self.get_test_result(example, next_node)
 
 
 # Get double Median of list

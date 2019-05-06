@@ -4,6 +4,8 @@ import random
 import numpy as np
 import sys
 
+from DecisionTree.Id3 import get_prediction
+
 
 def run_random_forests(t_value, examples, attributes, labels, size, print_status_bar):
 
@@ -47,7 +49,7 @@ def get_bootstrap_sample(examples):
 def get_result(example, trees, data):
     _sum = 0.0
     for tree in trees:
-        _sum += data.get_test_result(example, tree)
+        _sum += get_prediction(example, tree)
 
     _sum /= float(len(trees))
 

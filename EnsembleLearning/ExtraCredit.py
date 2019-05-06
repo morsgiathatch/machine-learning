@@ -1,3 +1,4 @@
+from DecisionTree.Id3 import get_prediction
 from EnsembleLearning import CreditDefaultData
 from EnsembleLearning import AdaBoost
 from EnsembleLearning import BaggingTrees
@@ -94,7 +95,7 @@ def get_bag_error(examples, data, trees, t_value):
 def get_dec_error(examples, data, root):
     correct_results = 0
     for example in examples:
-        if example.get_label() == data.get_test_result(example, root):
+        if example.get_label() == get_prediction(example, root):
             correct_results += 1
 
     return 1.0 - float(correct_results) / float(len(examples))

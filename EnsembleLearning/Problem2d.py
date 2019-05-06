@@ -1,4 +1,4 @@
-from DecisionTree import BankData
+from Data.bank import BankData
 from EnsembleLearning import RandomForests
 import matplotlib.pyplot as plt
 import os

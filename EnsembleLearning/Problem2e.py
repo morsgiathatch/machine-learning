@@ -1,4 +1,5 @@
-from DecisionTree import BankData
+from Data.bank import BankData
+from DecisionTree.Id3 import get_prediction
 from EnsembleLearning import RandomForests
 from DecisionTree import Id3
 from DecisionTree import Metrics
@@ -88,7 +89,7 @@ def get_squared_mean_error_np(data, trees, random_forest):
     else:
         for i, example in enumerate(data.examples):
             for j, tree in enumerate(trees):
-                results[i, j] = data.get_test_result(example, tree)
+                results[i, j] = get_prediction(example, tree)
 
             counter += 1
             if counter % subdivision == 0:

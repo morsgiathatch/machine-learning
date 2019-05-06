@@ -1,4 +1,5 @@
-from DecisionTree import BankData
+from Data.bank import BankData
+from DecisionTree.Id3 import get_prediction
 from EnsembleLearning import AdaBoost
 import matplotlib.pyplot as plt
 import numpy as np
@@ -37,7 +38,7 @@ def problem2a():
     for stump in decision_stumps:
         correct_results = 0
         for example in test_data.examples:
-            if example.get_label() == test_data.get_test_result(example, stump):
+            if example.get_label() == get_prediction(example, stump):
                 correct_results += 1
 
         percentage = float(correct_results) / float(len(test_data.examples))
@@ -46,7 +47,7 @@ def problem2a():
 
         correct_results = 0
         for example in data.examples:
-            if example.get_label() == data.get_test_result(example, stump):
+            if example.get_label() == get_prediction(example, stump):
                 correct_results += 1
 
         percentage = float(correct_results) / float(len(data.examples))

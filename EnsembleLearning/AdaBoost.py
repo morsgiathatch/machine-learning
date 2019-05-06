@@ -6,6 +6,9 @@ import sys
 
 # This module was written kind of hackishly and in order to not have to rewrite a bit of the other
 # modules due to time constraints, this poor work has to be maintained
+from DecisionTree.Id3 import get_prediction
+
+
 def run_Adaboost(data, test_data, t_value):
     print("\nRunning AdaBoost on " + str(t_value) + " iterations.\n")
     dt = []
@@ -25,7 +28,7 @@ def run_Adaboost(data, test_data, t_value):
         # Get predictions
         h_predictions = []
         for example in data.examples:
-            h_predictions.append(data.get_test_result(example, root))
+            h_predictions.append(get_prediction(example, root))
 
         epsilon = get_epsilon(data, h_predictions, dt)
         alphas.append(0.5 * np.log((1.0 - epsilon) / epsilon))
@@ -91,7 +94,7 @@ def run_credit_Adaboost(data, t_value):
         # Get predictions
         h_predictions = []
         for example in data.train_examples:
-            h_predictions.append(data.get_test_result(example, root))
+            h_predictions.append(get_prediction(example, root))
 
         epsilon = get_credit_epsilon(data, h_predictions, dt)
         alphas.append(0.5 * np.log((1.0 - epsilon) / epsilon))
@@ -144,7 +147,7 @@ def update_dt(dt, alpha, data, h_predictions):
 def get_final_hypothesis(t_value, alphas, example, h_classifiers, data):
     sum = 0.0
     for i in range(0, t_value):
-        sum += alphas[i] * data.get_test_result(example, h_classifiers[i])
+        sum += alphas[i] * get_prediction(example, h_classifiers[i])
 
     return np.sign(sum)
 

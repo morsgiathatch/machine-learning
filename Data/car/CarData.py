@@ -1,4 +1,4 @@
-class Example:
+class Feature:
 
     def __init__(self, terms):
         self.label = terms.pop()
@@ -34,7 +34,10 @@ class Attribute:
 
 # Define data structures
 class Data:
+    """Data class for car data
 
+    """
+    # All class attributes below are hard-coded due to poor data-desc.txt
     buying = Attribute((0, 1, 2, 3), 0)
     maint = Attribute((0, 1, 2, 3), 1)
     doors = Attribute((0, 1, 2, 3), 2)
@@ -57,25 +60,19 @@ class Data:
     data_map = [buying_map, maint_map, doors_map, persons_map, lug_boot_map, safety_map]
 
     def __init__(self):
+        """Data constructor
+
+        """
         self.examples = []
 
     def initialize_data_from_file(self, filepath):
+        """Initialize data from path
 
+        :param filepath: absolute path to csv file
+        :type filepath: string
+        :return: None
+        """
         with open(filepath, 'r') as f:
             for line in f:
                 terms = line.strip().split(',')
-                self.examples.append(Example(terms))
-
-    def get_test_result(self, example, node):
-
-        if node.get_splitting_attribute() is None:
-            return node.get_label()
-
-        next_node = None
-        attribute = node.get_splitting_attribute()
-        for i in range(len(node.get_children())):
-            value = node.child_nodes[i].get_value()
-            if value == example.get_attribute_value(attribute):
-                next_node = node.child_nodes[i]
-
-        return self.get_test_result(example, next_node)
+                self.examples.append(Feature(terms))

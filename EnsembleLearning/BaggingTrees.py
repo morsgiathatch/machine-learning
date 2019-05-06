@@ -4,6 +4,8 @@ import numpy as np
 import random
 import sys
 
+from DecisionTree.Id3 import get_prediction
+
 
 def run_bagging_trees(t_value, data_examples, attributes, labels, factor, print_status_bar):
 
@@ -47,7 +49,7 @@ def get_sample(examples, factor):
 def get_result(example, trees, data, t_value):
     _sum = 0.0
     for i in range(0, t_value):
-        _sum += data.get_test_result(example, trees[i])
+        _sum += get_prediction(example, trees[i])
 
     _sum /= float(len(trees))
 
