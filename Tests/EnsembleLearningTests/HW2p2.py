@@ -1,8 +1,4 @@
-from EnsembleLearning import Problem2a
-from EnsembleLearning import Problem2b
-from EnsembleLearning import Problem2c
-from EnsembleLearning import Problem2d
-from EnsembleLearning import Problem2e
+from Tests.EnsembleLearningTests import Problem2c, Problem2b, Problem2a, Problem2e, Problem2d
 
 
 def hw2p2():

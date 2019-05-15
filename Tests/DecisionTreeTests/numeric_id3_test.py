@@ -48,7 +48,7 @@ def numeric_id3_test():
 
         print("Detected " + str(noise_count) + " examples of noise")
 
-        # Begin id3
+        # Begin run_id3
         height = run_id3(data, test_data, metric, tree_depth, None, None)
         print("max tree height: " + str(height))
 
@@ -56,7 +56,7 @@ def numeric_id3_test():
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
     id3 = Id3.Id3(metric)
     print("\n--- Using Tree level " + str(tree_depth) + " ---")
-    id3.id3(data.examples, data.attributes, None, data.labels, 0, tree_depth)
+    id3.run_id3(data.examples, data.attributes, None, data.labels, 0, tree_depth)
 
     correct_results = 0
     for example in test_data.examples:

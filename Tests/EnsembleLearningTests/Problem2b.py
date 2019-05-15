@@ -7,10 +7,10 @@ import os
 def problem2b():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()
-    data.initialize_data_from_file(dir_path + '/../Data/bank/train.csv', False)
+    data.initialize_data_from_file(dir_path + '/../../Data/bank/train.csv', False)
 
     test_data = BankData.Data()
-    test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', False)
+    test_data.initialize_data_from_file(dir_path + '/../../Data/bank/test.csv', False)
 
     test_percentages = []
     train_percentages = []
@@ -21,11 +21,13 @@ def problem2b():
     # t_values = [1, 2, 5, 10]
     for t_value in t_values:
         print("\nRunning Bagging Trees on " + str(t_value) + " Trees\n")
-        trees = BaggingTrees.run_bagging_trees(t_value, data.examples, data.attributes, data.labels, factor, False)
+        bagging_trees = BaggingTrees.BaggingTrees(t_value=t_value, features=data.examples, attributes=data.attributes,
+                                                  labels=data.labels, attribute_factor=factor)
+        bagging_trees.run_bagging_trees(print_status_bar=False)
 
         correct_results = 0
         for example in test_data.examples:
-            if example.get_label() == BaggingTrees.get_result(example, trees, data):
+            if example.get_label() == bagging_trees.get_prediction(example):
                 correct_results += 1
 
         percentage = float(correct_results) / float(len(test_data.examples))
@@ -36,7 +38,7 @@ def problem2b():
 
         correct_results = 0
         for example in data.examples:
-            if example.get_label() == BaggingTrees.get_result(example, trees, test_data, t_value):
+            if example.get_label() == bagging_trees.get_prediction(example):
                 correct_results += 1
 
         percentage = float(correct_results) / float(len(data.examples))

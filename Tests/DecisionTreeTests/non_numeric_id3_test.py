@@ -8,13 +8,13 @@ def non_numeric_id3_test():
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
     data = CarData.Data()
-    data.initialize_data_from_file(dir_path + '/../Data/car/train.csv')
+    data.initialize_data_from_file(dir_path + '/../../Data/car/train.csv')
 
     metrics = {0: 'information_gain', 1: 'majority_error_gain', 2: 'gini_index_gain'}
 
     # Test tree
     test_data = CarData.Data()
-    test_data.initialize_data_from_file(dir_path + '/../Data/car/test.csv')
+    test_data.initialize_data_from_file(dir_path + '/../../Data/car/test.csv')
 
     # Detect Noise
     print("Begin detecting noise")
@@ -50,7 +50,7 @@ def non_numeric_id3_test():
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
     id3 = Id3.Id3(metric)
     print("\n--- Using Tree level " + str(tree_depth) + " ---")
-    id3.id3(data.examples, data.attributes, None, data.labels, 0, tree_depth)
+    id3.run_id3(data.examples, data.attributes, None, data.labels, 0, tree_depth)
 
     correct_results = 0
     for example in test_data.examples:

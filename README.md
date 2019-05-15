@@ -11,12 +11,12 @@ to use the ID3 algorithm, you are responsible for constructing the
 dataset to be read in to Id3. You can use the Metrics class to use any of
 the three metrics used for this project. You should additionally use the
 provided Node class for the tree structure. After making an instance of Id3,
-calling the method id3 with the appropriate arguments will return a 
+calling the method run_id3 with the appropriate arguments will return a 
 reference to the root node with which you can traverse the tree however 
 you want. For an example, see getTestResult() in BankData.py. The signature
-of id3 is:     
+of run_id3 is:     
 ```python
-id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric):
+run_id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric):
 ```
 The examples should be the list of training examples. It is advised to 
 follow the class declarations of Attribute and Feature in BankData.py. 
@@ -24,7 +24,7 @@ Attributes is a list containing feature attributes, labels is the set of
 possible feature labels, and metric is a reference to the desired metric
 contained in Metrics.py. Upon initialization, prev_value should be set to
 None, current_depth should be set to 0, and max_depth should be the desired
-maximum tree height. The implementation of id3 allows the user to terminate
+maximum tree height. The implementation of run_id3 allows the user to terminate
 the depth of tree using the max_depth argument.
 
 ID3 is the standard algorithm for constructing a decision tree. Contained in 
@@ -32,12 +32,12 @@ ID3 is the standard algorithm for constructing a decision tree. Contained in
 consider the following example
 ```python
 from DecisionTree import Id3
-id3 = Id3.Id3()
-root_node = id3.id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric)
+run_id3 = Id3.Id3()
+root_node = run_id3.run_id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric)
 
 ```
 In the example, an `Id3` object is first instantiated and it takes no parameters. Next 
-the `id3` function is called from the object which returns a `Node` object. 
+the `run_id3` function is called from the object which returns a `Node` object. 
 ## Ensemble Learning
 [//]: # (Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
 of the assignment. Keep in mind that these were written with me just having 

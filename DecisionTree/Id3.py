@@ -9,7 +9,7 @@ class Id3:
 
     """
     metrics = {'information_gain': Metrics.information_gain, 'majority_error_gain': Metrics.majority_error_gain,
-               'gini_index_gain': Metrics.gini_index_gain}
+               'gini_index_gain': Metrics.gini_index_gain, 'weighted_information_gain': Metrics.weighted_information_gain}
 
     def __init__(self, metric):
         """ Constructor for ID3.
@@ -21,12 +21,12 @@ class Id3:
         self.root = None
         self.metric = Id3.metrics[metric]
 
-    def id3(self, features, attributes, prev_value, labels, current_depth, max_depth, rand_attribute_size=None):
+    def run_id3(self, features, attributes, prev_value, labels, current_depth, max_depth, rand_attribute_size=None):
         """Standard Id3 algorithm
 
         :param features: ordered features from dataset
         :type features: python list containing Feature objects
-        :param attributes: attributes for current id3 iteration
+        :param attributes: attributes for current run_id3 iteration
         :type attributes: python tuple containing Attribute objects
         :param prev_value: attribute value of previous adjacent node
         :type prev_value: integer or None
@@ -35,7 +35,7 @@ class Id3:
         :param current_depth: current tree depth
         :type current_depth: integer
         :param max_depth: maximum desired tree depth
-        :type max_depth: integer
+        :type max_depth: integer or float
         :param rand_attribute_size: size of desired random attribute subset if not None
         :type rand_attribute_size: integer or None
         :return: root node of decision tree
@@ -89,8 +89,8 @@ class Id3:
             else:
                 less_attributes = list(copy.deepcopy(attributes))
                 less_attributes.remove(attribute_to_split_on)
-                node.add_child(self.id3(examples_less_split_attribute, less_attributes, attribute_value, labels,
-                               current_depth + 1, max_depth, rand_attribute_size))
+                node.add_child(self.run_id3(examples_less_split_attribute, less_attributes, attribute_value, labels,
+                                            current_depth + 1, max_depth, rand_attribute_size))
 
         if prev_value is None:
             self.root = node

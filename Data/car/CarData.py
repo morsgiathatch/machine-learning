@@ -66,7 +66,7 @@ class Data:
         self.examples = []
 
     def initialize_data_from_file(self, filepath):
-        """Initialize data from path
+        """Initialize data from csv file
 
         :param filepath: absolute path to csv file
         :type filepath: string

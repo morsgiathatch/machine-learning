@@ -63,7 +63,9 @@ class Attribute:
 
 # Define data structures
 class Data:
+    """Data class for credit default data
 
+    """
     labels = (-1, 1)
     labels_map = {"1": 1, "0": -1}
     attr_0 = Attribute((0, 1), 0)
@@ -122,12 +124,20 @@ class Data:
                 attr_16_map, attr_17_map, attr_18_map, attr_19_map, attr_20_map, attr_21_map, attr_22_map, ]
 
     def __init__(self):
+        """Data constructor
+
+        """
         self.examples = []
         self.train_examples = []
         self.test_examples = []
 
     def initialize_data_from_file(self, filepath):
+        """Initialize data from csv file
 
+        :param filepath: absolute path to csv file
+        :type filepath: string
+        :return: None
+        """
         cts_attr0 = []
         cts_attr4 = []
         cts_attr11 = []
@@ -170,10 +180,10 @@ class Data:
 
                 line_ndx += 1
 
-        thresholds = [None]*14
+        thresholds = []
 
         for i in range(0, 14):
-            thresholds[i] = get_median(sorted(lists[i]))
+            thresholds.append(get_median(sorted(lists[i])))
 
         for example in self.examples:
             example.set_attribute_value(thresholds[0], 0)
@@ -198,26 +208,11 @@ class Data:
         indices = sorted(random.sample(range(0, 29999), 24000))
         indices_ndx = 0
         for i in range(0, 30000):
-            # if indices_ndx >= 24000:
-            #     a = 3
             if indices_ndx < 24000 and i == indices[indices_ndx]:
                 self.train_examples.append(self.examples[i])
                 indices_ndx += 1
             else:
                 self.test_examples.append(self.examples[i])
-
-    def get_test_result(self, example, node):
-        if node.get_splitting_attribute() is None:
-            return node.get_label()
-
-        next_node = None
-        attribute = node.get_splitting_attribute()
-        for i in range(len(node.get_children())):
-            value = node.child_nodes[i].get_value()
-            if value == example.get_attribute_value(attribute):
-                next_node = node.child_nodes[i]
-
-        return self.get_test_result(example, next_node)
 
 
 # Get double Median of list
@@ -227,4 +222,3 @@ def get_median(values):
         return float(values[int(length / 2)] + values[int(length / 2) - 1]) / 2.0
     else:
         return float(values[length / 2])
-

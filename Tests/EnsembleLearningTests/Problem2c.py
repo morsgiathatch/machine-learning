@@ -1,8 +1,6 @@
 from Data.bank import BankData
-from DecisionTree.Id3 import get_prediction
 from EnsembleLearning import BaggingTrees
 from DecisionTree import Id3
-from DecisionTree import Metrics
 import numpy as np
 import sys
 import os
@@ -13,11 +11,11 @@ def problem2c():
     # Train data
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()
-    data.initialize_data_from_file(dir_path + '/../Data/bank/train.csv', False)
+    data.initialize_data_from_file(dir_path + '/../../Data/bank/train.csv', False)
 
     # Test data
     test_data = BankData.Data()
-    test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', False)
+    test_data.initialize_data_from_file(dir_path + '/../../Data/bank/test.csv', False)
 
     bagged_trees = []
     full_trees = []
@@ -33,9 +31,12 @@ def problem2c():
     for i in range(0, 100):
         # sample 100 examples uniformly without replacement
         examples = get_samples(data)
-        bagged_trees.append(BaggingTrees.run_bagging_trees(100, examples, data.attributes, data.labels, factor, False))
-        id3 = Id3.Id3()
-        full_trees.append(id3.id3(examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain))
+        forest = BaggingTrees.BaggingTrees(t_value=100, features=examples, attributes=data.attributes,
+                                           labels=data.labels, attribute_factor=factor)
+        forest.run_bagging_trees(print_status_bar=False)
+        bagged_trees.append(forest)
+        id3 = Id3.Id3(metric='information_gain')
+        full_trees.append(id3.run_id3(examples, data.attributes, None, data.labels, 0, float("inf")))
         sys.stdout.write('\r')
         sys.stdout.flush()
         sys.stdout.write('Progress: [%s' % ('#' * counter))
@@ -49,7 +50,8 @@ def problem2c():
     print("Bias was %s, Variance was %s" % (full_trees_results[0], full_trees_results[1]))
     print("Calculating squared mean error for bagged trees.")
     bagged_trees_results = get_squared_mean_error_np(data, bagged_trees, True)
-    print("\nMean Squared Error for the bagged trees is: " + "%.16f" % (bagged_trees_results[0] + bagged_trees_results[1]))
+    print("\nMean Squared Error for the bagged trees is: " + "%.16f"
+          % (bagged_trees_results[0] + bagged_trees_results[1]))
     print("Bias was %s, Variance was %s" % (bagged_trees_results[0], bagged_trees_results[1]))
 
 
@@ -78,7 +80,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
     if bagged_trees:
         for i, example in enumerate(data.examples):
             for j, tree_set in enumerate(trees):
-                results[i, j] = BaggingTrees.get_result(example, tree_set, data, len(tree_set))
+                results[i, j] = tree_set.get_prediction(example)
 
             counter += 1
             if counter % subdivision == 0:
@@ -90,7 +92,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
     else:
         for i, example in enumerate(data.examples):
             for j, tree in enumerate(trees):
-                results[i, j] = get_prediction(example, tree)
+                results[i, j] = tree.get_prediction(example)
 
             counter += 1
             if counter % subdivision == 0:

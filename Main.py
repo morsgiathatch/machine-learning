@@ -1,6 +1,5 @@
 from Tests.DecisionTreeTests import DecisionTreeTest
-from EnsembleLearning import HW2p2
-from EnsembleLearning import ExtraCredit
+from Tests.EnsembleLearningTests import HW2p2 #, ExtraCredit
 from LinearRegression import HW2p4
 from Perceptron import HW3p2
 from SVM import HW4
@@ -42,8 +41,8 @@ while redo_hm:
 
         if choice == 2:
             HW2p2.hw2p2()
-        elif choice == 3:
-            ExtraCredit.extra_credit()
+        # elif choice == 3:
+        #     ExtraCredit.extra_credit()
         elif choice == 4:
             HW2p4.hw2p4()
     elif test_choice == 3:

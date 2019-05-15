@@ -8,11 +8,11 @@ def problem2d():
     # Train data
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()
-    data.initialize_data_from_file(dir_path + '/../Data/bank/train.csv', False)
+    data.initialize_data_from_file(dir_path + '/../../Data/bank/train.csv', False)
 
     # Test data
     test_data = BankData.Data()
-    test_data.initialize_data_from_file(dir_path + '/../Data/bank/test.csv', False)
+    test_data.initialize_data_from_file(dir_path + '/../../Data/bank/test.csv', False)
 
     t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
     # t_values = [1, 2, 5, 10]
@@ -26,11 +26,13 @@ def problem2d():
 
         for t_value in t_values:
             print("\nRunning Random Forests on " + str(t_value) + " Trees with Attribute Size " + str(size) + "\n")
-            forest = RandomForests.run_random_forests(t_value, data.examples, data.attributes, data.labels, size, False)
+            forest = RandomForests.RandomForests(t_value=t_value, features=data.examples, attributes=data.attributes,
+                                                 labels=data.labels, size=size)
+            forest.run_random_forests(print_status_bar=False)
 
             correct_results = 0
             for example in test_data.examples:
-                if example.get_label() == RandomForests.get_result(example, forest, data):
+                if example.get_label() == forest.get_prediction(example):
                     correct_results += 1
 
             percentage = float(correct_results) / float(len(test_data.examples))
@@ -41,7 +43,7 @@ def problem2d():
 
             correct_results = 0
             for example in data.examples:
-                if example.get_label() == RandomForests.get_result(example, forest, test_data):
+                if example.get_label() == forest.get_prediction(example):
                     correct_results += 1
 
             percentage = float(correct_results) / float(len(data.examples))

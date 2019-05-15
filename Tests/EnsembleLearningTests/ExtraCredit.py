@@ -1,5 +1,5 @@
 from DecisionTree.Id3 import get_prediction
-from EnsembleLearning import CreditDefaultData
+from Data.credit import CreditDefaultData
 from EnsembleLearning import AdaBoost
 from EnsembleLearning import BaggingTrees
 from EnsembleLearning import RandomForests
@@ -17,7 +17,7 @@ def extra_credit():
     data.initialize_data_from_file(dir_path + '/../Data/credit/credit.csv')
 
     # t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
-    t_values = [1, 2, 5, 10, 15, 20, 30, 40, 50, 70, 90, 100]
+    iterates = [1, 2, 5, 10, 15, 20, 30, 40, 50, 70, 90, 100]
     t_sum = np.sum(t_values)
 
     ada_boost_train_error = []
@@ -27,33 +27,33 @@ def extra_credit():
     random_forests_train_error = []
     random_forests_test_error = []
 
-    ada_trees = AdaBoost.run_credit_Adaboost(data, 100)
+    ada_trees = AdaBoost.Adaboost(features=data.f, attributes=data.attributes, labelset=data.labels, t_value=100)
     bag_trees = BaggingTrees.run_bagging_trees(100, data.train_examples, data.attributes, data.labels, 2, True)
     r_forest = RandomForests.run_random_forests(100, data.train_examples, data.attributes, data.labels, 4, True)
     print("Tree construction complete. Calculating Data.")
 
     counter = int(100 / t_sum)
     toolbar_width = 100
-    sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
-    sys.stdout.flush()
+    # sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
+    # sys.stdout.flush()
 
-    for t_value in t_values:
-        ada_boost_train_error.append(get_ada_error(data.train_examples, data, ada_trees, t_value))
-        ada_boost_test_error.append(get_ada_error(data.test_examples, data, ada_trees, t_value))
+    for num_iterates in iterates:
+        ada_boost_train_error.append(get_ada_error(data.train_examples, data, ada_trees, num_iterates))
+        ada_boost_test_error.append(get_ada_error(data.test_examples, data, ada_trees, num_iterates))
 
-        bagging_trees_train_error.append(get_bag_error(data.train_examples, data, bag_trees, t_value))
-        bagging_trees_test_error.append(get_bag_error(data.test_examples, data, bag_trees, t_value))
+        bagging_trees_train_error.append(get_bag_error(data.train_examples, data, bag_trees, num_iterates))
+        bagging_trees_test_error.append(get_bag_error(data.test_examples, data, bag_trees, num_iterates))
 
-        random_forests_train_error.append(get_bag_error(data.train_examples, data, r_forest, t_value))
-        random_forests_test_error.append(get_bag_error(data.test_examples, data, r_forest, t_value))
+        random_forests_train_error.append(get_bag_error(data.train_examples, data, r_forest, num_iterates))
+        random_forests_test_error.append(get_bag_error(data.test_examples, data, r_forest, num_iterates))
 
-        sys.stdout.write('\r')
-        sys.stdout.flush()
-        sys.stdout.write('Progress: [%s' % ('#' * counter))
-        sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
-        sys.stdout.flush()
-        fractor = float(t_value * 100 / t_sum)  # May be broken
-        counter += int(fractor)
+        # sys.stdout.write('\r')
+        # sys.stdout.flush()
+        # sys.stdout.write('Progress: [%s' % ('#' * counter))
+        # sys.stdout.write('%s]' % (' ' * (toolbar_width - counter)))
+        # sys.stdout.flush()
+        # fractor = float(t_value * 100 / t_sum)  # May be broken
+        # counter += int(fractor)
 
     print("")
     plt.plot(t_values, ada_boost_train_error, label='Ada Train')
@@ -66,8 +66,8 @@ def extra_credit():
     plt.show()
 
     print("Now running statistics on a fully developed decision tree.")
-    id3 = Id3.Id3()
-    dec_tree = id3.id3(data.train_examples, data.attributes, None, data.labels, 0, float("inf"), Metrics.information_gain)
+    id3 = Id3.Id3(metric='information_gain')
+    dec_tree = id3.run_id3(data.train_examples, data.attributes, None, data.labels, 0, float("inf"))
     dec_tree_train_error = get_dec_error(data.train_examples, data, dec_tree)
     dec_tree_test_error = get_dec_error(data.test_examples, data, dec_tree)
     print("Train error for full decision tree is %.16f" % dec_tree_train_error)

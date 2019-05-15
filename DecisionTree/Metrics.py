@@ -1,4 +1,6 @@
+import numpy as np
 import math
+import metricModule
 
 
 # INFORMATION GAIN METRIC
@@ -14,15 +16,16 @@ def entropy(examples, labels):
         p_values[example.get_label()] += 1.0
 
     # Calculate entropy
-    _sum = 0.0
-    for p in p_values:
-        if p_values[p] > 0.0:
-            pr = float(p_values[p]) / float(len(examples))
-            _sum += pr * math.log(pr) / math.log(2)
 
-
-    _sum *= -1.0
-    return _sum
+    return metricModule.entropy(list(p_values.values()))
+    # _sum = 0.0
+    # for p in p_values:
+    #     if p_values[p] > 0.0:
+    #         pr = float(p_values[p]) / float(len(examples))
+    #         _sum += pr * np.log2(pr)
+    #
+    # _sum *= -1.0
+    # return _sum
 
 
 # Get gain using information gain
@@ -51,8 +54,7 @@ def weighted_entropy(examples, labels):
     for p in p_values:
         if p_values[p] > 0.0:
             pr = float(p_values[p]) / examples_sum
-            _sum += pr * math.log(pr) / math.log(2.0)
-
+            _sum += pr * np.log2(pr)
 
     _sum *= -1.0
     return _sum
@@ -63,6 +65,7 @@ def weighted_information_gain(examples, attribute, labels):
 
     gain = get_weighted_gain(examples, attribute, labels, weighted_entropy)
     return gain
+
 
 # MAJORITY ERROR METRIC
 # Definition of Majority Error
