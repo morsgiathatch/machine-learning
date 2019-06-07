@@ -21,12 +21,12 @@ class Id3:
         self.root = None
         self.metric = Id3.metrics[metric]
 
-    def run_id3(self, features, attributes, prev_value, labels, current_depth, max_depth, rand_attribute_size=None):
-        """Standard Id3 algorithm
+    def fit(self, features, attributes, prev_value, labels, current_depth, max_depth, rand_attribute_size=None):
+        """train Id3 decision tree
 
         :param features: ordered features from dataset
         :type features: python list containing Feature objects
-        :param attributes: attributes for current run_id3 iteration
+        :param attributes: attributes for current fit iteration
         :type attributes: python tuple containing Attribute objects
         :param prev_value: attribute value of previous adjacent node
         :type prev_value: integer or None
@@ -89,8 +89,8 @@ class Id3:
             else:
                 less_attributes = list(copy.deepcopy(attributes))
                 less_attributes.remove(attribute_to_split_on)
-                node.add_child(self.run_id3(examples_less_split_attribute, less_attributes, attribute_value, labels,
-                                            current_depth + 1, max_depth, rand_attribute_size))
+                node.add_child(self.fit(examples_less_split_attribute, less_attributes, attribute_value, labels,
+                                        current_depth + 1, max_depth, rand_attribute_size))
 
         if prev_value is None:
             self.root = node
@@ -103,7 +103,7 @@ class Id3:
     def reset_max_height(self):
         self.max_height = 0
 
-    def get_prediction(self, feature):
+    def predict(self, feature):
         """Predict label for example
 
         :param feature: feature to be used for prediction

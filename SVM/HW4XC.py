@@ -25,7 +25,7 @@ def hw4xc():
 def get_percentages(data, kernel_perceptron):
     num_correct = 0
     for row_ndx in range(0, data.features.shape[0]):
-        if data.output[row_ndx] == kernel_perceptron.get_prediction(data.features[row_ndx, :]):
+        if data.output[row_ndx] == kernel_perceptron.predict(data.features[row_ndx, :]):
             num_correct += 1
 
     return 1.0 - float(num_correct / data.features.shape[0])

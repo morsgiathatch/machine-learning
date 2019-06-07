@@ -27,12 +27,12 @@ def problem2d():
         for t_value in t_values:
             print("\nRunning Random Forests on " + str(t_value) + " Trees with Attribute Size " + str(size) + "\n")
             forest = RandomForests.RandomForests(t_value=t_value, features=data.examples, attributes=data.attributes,
-                                                 labels=data.labels, size=size)
-            forest.run_random_forests(print_status_bar=False)
+                                                 size=size)
+            forest.fit(print_status_bar=False)
 
             correct_results = 0
             for example in test_data.examples:
-                if example.get_label() == forest.get_prediction(example):
+                if example.get_label() == forest.predict(example):
                     correct_results += 1
 
             percentage = float(correct_results) / float(len(test_data.examples))
@@ -43,7 +43,7 @@ def problem2d():
 
             correct_results = 0
             for example in data.examples:
-                if example.get_label() == forest.get_prediction(example):
+                if example.get_label() == forest.predict(example):
                     correct_results += 1
 
             percentage = float(correct_results) / float(len(data.examples))

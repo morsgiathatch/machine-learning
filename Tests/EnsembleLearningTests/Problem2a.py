@@ -22,9 +22,9 @@ def problem2a():
     test_percentages = []
     decision_stumps = []
     for t_value in t_values:
-        adaboost = AdaBoost.Adaboost(features=data.examples, attributes=data.attributes, labelset=data.labels,
+        adaboost = AdaBoost.Adaboost(features=data.examples, attributes=data.attributes,
                                      t_value=t_value)
-        adaboost.run_adaboost(print_status=True)
+        adaboost.fit(print_status=True)
         percentages = get_percentages(adaboost, test_data, data)
 
         test_percentages.append(percentages[0])
@@ -42,7 +42,7 @@ def problem2a():
     for stump in decision_stumps:
         correct_results = 0
         for example in test_data.examples:
-            if example.get_label() == stump.get_prediction(example):
+            if example.get_label() == stump.predict(example):
                 correct_results += 1
 
         percentage = float(correct_results) / float(len(test_data.examples))
@@ -51,7 +51,7 @@ def problem2a():
 
         correct_results = 0
         for example in data.examples:
-            if example.get_label() == stump.get_prediction(example):
+            if example.get_label() == stump.predict(example):
                 correct_results += 1
 
         percentage = float(correct_results) / float(len(data.examples))
@@ -71,7 +71,7 @@ def get_percentages(adaboost, test_data, data):
 
     correct_results = 0
     for example in test_data.examples:
-        if example.get_label() == adaboost.get_prediction(example):
+        if example.get_label() == adaboost.predict(example):
             correct_results += 1
 
     percentage = float(correct_results) / float(len(test_data.examples))
@@ -82,7 +82,7 @@ def get_percentages(adaboost, test_data, data):
 
     correct_results = 0
     for example in data.examples:
-        if example.get_label() == adaboost.get_prediction(example):
+        if example.get_label() == adaboost.predict(example):
             correct_results += 1
 
     percentage = float(correct_results) / float(len(data.examples))

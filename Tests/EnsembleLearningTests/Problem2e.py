@@ -31,11 +31,11 @@ def problem2e():
         # sample 1000 examples uniformly without replacement
         examples = get_samples(data)
         forest = RandomForests.RandomForests(t_value=100, features=examples, attributes=data.attributes,
-                                             labels=data.labels, size=size)
-        forest.run_random_forests(print_status_bar=False)
+                                             size=size)
+        forest.fit(print_status_bar=False)
         random_forests.append(forest)
         id3 = Id3.Id3(metric='information_gain')
-        full_trees.append(id3.run_id3(examples, data.attributes, None, data.labels, 0, float("inf")))
+        full_trees.append(id3.fit(examples, data.attributes, None, data.labels, 0, float("inf")))
         sys.stdout.write('\r')
         sys.stdout.flush()
         sys.stdout.write('Progress: [%s' % ('#' * counter))
@@ -79,7 +79,7 @@ def get_squared_mean_error_np(data, trees, random_forest):
     if random_forest:
         for i, example in enumerate(data.examples):
             for j, tree_set in enumerate(trees):
-                results[i, j] = tree_set.get_prediction(example)
+                results[i, j] = tree_set.predict(example)
 
             counter += 1
             if counter % subdivision == 0:
@@ -91,7 +91,7 @@ def get_squared_mean_error_np(data, trees, random_forest):
     else:
         for i, example in enumerate(data.examples):
             for j, tree in enumerate(trees):
-                results[i, j] = tree.get_prediction(example)
+                results[i, j] = tree.predict(example)
 
             counter += 1
             if counter % subdivision == 0:

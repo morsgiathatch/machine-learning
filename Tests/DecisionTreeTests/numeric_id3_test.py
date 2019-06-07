@@ -48,7 +48,7 @@ def numeric_id3_test():
 
         print("Detected " + str(noise_count) + " examples of noise")
 
-        # Begin run_id3
+        # Begin fit
         height = run_id3(data, test_data, metric, tree_depth, None, None)
         print("max tree height: " + str(height))
 
@@ -56,11 +56,11 @@ def numeric_id3_test():
 def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_percents):
     id3 = Id3.Id3(metric)
     print("\n--- Using Tree level " + str(tree_depth) + " ---")
-    id3.run_id3(data.examples, data.attributes, None, data.labels, 0, tree_depth)
+    id3.fit(data.examples, data.attributes, None, data.labels, 0, tree_depth)
 
     correct_results = 0
     for example in test_data.examples:
-        if example.get_label() == id3.get_prediction(example):
+        if example.get_label() == id3.predict(example):
             correct_results += 1
 
     percentage = float(correct_results) / float(len(test_data.examples))
@@ -71,7 +71,7 @@ def run_id3(data, test_data, metric, tree_depth, data_percents, train_data_perce
 
     correct_results = 0
     for example in data.examples:
-        if example.get_label() == id3.get_prediction(example):
+        if example.get_label() == id3.predict(example):
             correct_results += 1
 
     percentage = float(correct_results) / float(len(data.examples))

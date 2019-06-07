@@ -5,7 +5,6 @@
  * A small speedup was noticed but nothing too great unfortunately.
  */
 
-
 static double get_entropy(double * p_values, int size){
     double sum = 0.0;
 
@@ -39,7 +38,7 @@ static PyObject * entropy(PyObject *self, PyObject *args)
 // Our Module's Function Definition struct
 // We require this `NULL` to signal the end of our method
 // definition
-static PyMethodDef myMethods[] = {
+static PyMethodDef methods[] = {
     { "entropy", entropy, METH_VARARGS, "Calculates information entropy" },
     { NULL, NULL, 0, NULL }
 };
@@ -50,7 +49,7 @@ static struct PyModuleDef metricModule = {
     "metricModule",
     "Test Module",
     -1,
-    myMethods
+    methods
 };
 
 // Initializes our module using our above struct

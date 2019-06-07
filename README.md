@@ -11,12 +11,12 @@ to use the ID3 algorithm, you are responsible for constructing the
 dataset to be read in to Id3. You can use the Metrics class to use any of
 the three metrics used for this project. You should additionally use the
 provided Node class for the tree structure. After making an instance of Id3,
-calling the method run_id3 with the appropriate arguments will return a 
+calling the method fit with the appropriate arguments will return a 
 reference to the root node with which you can traverse the tree however 
 you want. For an example, see getTestResult() in BankData.py. The signature
-of run_id3 is:     
+of fit is:     
 ```python
-run_id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric):
+fit(examples, attributes, prev_value, labels, current_depth, max_depth, metric):
 ```
 The examples should be the list of training examples. It is advised to 
 follow the class declarations of Attribute and Feature in BankData.py. 
@@ -24,7 +24,7 @@ Attributes is a list containing feature attributes, labels is the set of
 possible feature labels, and metric is a reference to the desired metric
 contained in Metrics.py. Upon initialization, prev_value should be set to
 None, current_depth should be set to 0, and max_depth should be the desired
-maximum tree height. The implementation of run_id3 allows the user to terminate
+maximum tree height. The implementation of fit allows the user to terminate
 the depth of tree using the max_depth argument.
 
 ID3 is the standard algorithm for constructing a decision tree. Contained in 
@@ -32,12 +32,12 @@ ID3 is the standard algorithm for constructing a decision tree. Contained in
 consider the following example
 ```python
 from DecisionTree import Id3
-run_id3 = Id3.Id3()
-root_node = run_id3.run_id3(examples, attributes, prev_value, labels, current_depth, max_depth, metric)
+fit = Id3.Id3()
+root_node = fit.fit(examples, attributes, prev_value, labels, current_depth, max_depth, metric)
 
 ```
 In the example, an `Id3` object is first instantiated and it takes no parameters. Next 
-the `run_id3` function is called from the object which returns a `Node` object. 
+the `fit` function is called from the object which returns a `Node` object. 
 ## Ensemble Learning
 [//]: # (Upon selecting Homework 2 problem 2, you can choose any of the five subproblems
 of the assignment. Keep in mind that these were written with me just having 
@@ -67,7 +67,7 @@ Feel free to change this as it was not written too well.
 To use BaggingTrees, again create a data structure object in the vein of BankData.py, 
 then call
 ```python
-run_bagging_trees(t_value, data_examples, attributes, labels, factor, print_status_bar)
+fit(t_value, data_examples, attributes, labels, factor, print_status_bar)
 ```
 where t_value is the size of the desired bag of trees, examples is a python list of lists
 of examples containing features (preferably numeric), a list of attributes, a list
@@ -79,7 +79,7 @@ in should be as created from the data structure object.
   
 Lastly to use RandomForests, call
 ```python
-run_random_forests(t_value, examples, attributes, labels, size, print_status_bar)
+fit(t_value, examples, attributes, labels, size, print_status_bar)
 ```
 where t_value is the number of desired trees in the forest, examples, attributes, and 
 labels are as above, size is a parameter to create a fixed-cardinality subset of 
@@ -160,9 +160,9 @@ array of the example labels, and r_step is the desired step size for the algorit
 The function signatures for the voted and averaged perceptrons are identical except
 with the function name.
 
-To calculate the prediction, you can use the get_prediction function with signature
+To calculate the prediction, you can use the predict function with signature
 ```python
-get_prediction(w_vector, x_vector)
+predict(w_vector, x_vector)
 ```
 where both w_vector and x_vector are numpy arrays. The w_vector is simply the 
 w_vector returned by both perceptron() and averaged_perceptron() and x_vector is
@@ -171,7 +171,7 @@ For the voted perceptron, use get_voted_prediction with signature
 ```python
 get_voted_prediction(voted_ret_array, x_vector)
 ```
-where x_vector is the same as get_prediction but voted_ret_array is the array
+where x_vector is the same as predict but voted_ret_array is the array
 returned by voted_perceptron. It is a python list [[], []] where the zeroeth sub-list
 is a python list of the distinct weight_vectors as numpy arrays and the first 
 sub-list is a python list of the counts of the respective vectors. You can pass this
@@ -214,7 +214,7 @@ rate `gamma`, a set of dataset features `examples` as a numpy array, and `labels
 a numpy array of the corresponding dataset labels. After this, call the objects 
 `run_kernel_percetpron` method and pass it an integer for `num_epochs`. It returns
 a numpy array of the weights, assuming folding of the offset into the training examples.
-You may use the objects `get_prediction` to get the prediction of a specific example.
+You may use the objects `predict` to get the prediction of a specific example.
  
  
 ## Tests

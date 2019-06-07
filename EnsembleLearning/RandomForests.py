@@ -5,16 +5,36 @@ import sys
 
 
 class RandomForests:
-    def __init__(self, t_value, features, attributes, labels, size):
+    """
+    RandomForests class for binary labeled features (-1, 1)
+    """
+    def __init__(self, features, attributes, t_value, size):
+        """
+        RandomForests constructor
+        :param features: ordered features from dataset
+        :type features: python list containing Feature objects
+        :param attributes: attributes for current fit iteration
+        :type attributes: python tuple containing Attribute objects
+        :param t_value: number of decision trees in forest
+        :type t_value: integer
+        :param size: size of random attribute subset in ID3 iteration
+        :type size: integer
+        """
         self.t_value = t_value
         self.features = features
         self.attributes = attributes
-        self.labels = labels
+        self.labels = (-1, 1)
         self.size = size
         self.forest = []
 
-    def run_random_forests(self, print_status_bar):
-
+    def fit(self, print_status_bar):
+        """
+        train random forests
+        :param print_status_bar: set to True if a status printout is desired
+        :type print_status_bar: boolean
+        :return: None
+        :rtype: None
+        """
         counter = 1
         toolbar_width = 100
         factor = int(self.t_value / toolbar_width)
@@ -28,8 +48,8 @@ class RandomForests:
             # Get bootstrap example
             bootstrap_sample = get_bootstrap_sample(self.features)
             id3 = Id3.Id3(metric='information_gain')
-            id3.run_id3(features=bootstrap_sample, attributes=self.attributes, prev_value=None, labels=self.labels,
-                        current_depth=0, max_depth=float("inf"), rand_attribute_size=self.size)
+            id3.fit(features=bootstrap_sample, attributes=self.attributes, prev_value=None, labels=self.labels,
+                    current_depth=0, max_depth=float("inf"), rand_attribute_size=self.size)
             self.forest.append(id3)
 
             if i % factor == 0 and print_status_bar:
@@ -43,10 +63,17 @@ class RandomForests:
         if print_status_bar:
             print("")
 
-    def get_prediction(self, example):
+    def predict(self, example):
+        """
+        Get prediction from single example
+        :param example: example with which to make prediction
+        :type example: Feature object
+        :return: +/- 1.0 label for example
+        :rtype: float
+        """
         _sum = 0.0
         for tree in self.forest:
-            _sum += tree.get_prediction(example)
+            _sum += tree.predict(example)
 
         _sum /= float(len(self.forest))
 
