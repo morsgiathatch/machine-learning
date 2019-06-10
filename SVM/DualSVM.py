@@ -2,6 +2,7 @@ import numpy as np
 from numpy import linalg as la
 
 
+# methods to be passed to scipy minimize function
 def svm(a, data, XXt):
     return 0.5 * np.matmul(np.multiply(a, data.output), np.matmul(XXt, np.multiply(a, data.output))) - np.sum(a)
 

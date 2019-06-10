@@ -46,7 +46,7 @@ def numeric_id3_test():
                     if example.label != other_example.label:
                         noise_count += 1
 
-        print("Detected " + str(noise_count) + " examples of noise")
+        print("Detected " + str(noise_count) + " features of noise")
 
         # Begin fit
         height = run_id3(data, test_data, metric, tree_depth, None, None)

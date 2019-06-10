@@ -1,11 +1,11 @@
-from Perceptron import BankNoteData
+from Data.bank_note import BankNoteData
 from SVM import DualSVM as ds
 import numpy as np
 import os
 from scipy.optimize import minimize
-from SVM import HW4p2
+from Tests.SVMTests import HW4p2
 import matplotlib.pyplot as plt
-from Perceptron import HW3p2
+from Tests.PerceptronTests import HW3p2
 from Perceptron import Perceptron
 from numpy import linalg as la
 

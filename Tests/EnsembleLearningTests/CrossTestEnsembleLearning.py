@@ -14,7 +14,7 @@ def run_cross_comparison():
     print_error_calculation_status = False
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = CreditDefaultData.Data()
-    data.initialize_data_from_file(dir_path + '/../Data/credit/credit.csv')
+    data.initialize_data_from_file(dir_path + '/../../Data/credit/credit.csv')
 
     iterates = [1, 2, 5, 10, 15, 20, 30, 40, 50, 70, 90, 100]
     it_sum = float(np.sum(iterates))

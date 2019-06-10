@@ -7,7 +7,7 @@ import metricModule
 # Definition of Entropy
 def entropy(examples, labels):
 
-    # First get proportion values from examples
+    # First get proportion values from features
     p_values = {}
     for label in labels:
         p_values[label] = 0.0
@@ -21,7 +21,7 @@ def entropy(examples, labels):
     # _sum = 0.0
     # for p in p_values:
     #     if p_values[p] > 0.0:
-    #         pr = float(p_values[p]) / float(len(examples))
+    #         pr = float(p_values[p]) / float(len(features))
     #         _sum += pr * np.log2(pr)
     #
     # _sum *= -1.0
@@ -39,7 +39,7 @@ def information_gain(examples, attribute, labels):
 # Definition of Entropy
 def weighted_entropy(examples, labels):
 
-    # First get proportion values from examples
+    # First get proportion values from features
     p_values = {}
     for label in labels:
         p_values[label] = 0.0
@@ -103,7 +103,7 @@ def gini_index(examples, labels):
     if len(examples) == 0:
         return 0.0
 
-    # First get proportion values from examples
+    # First get proportion values from features
     p_values = {}
     for label in labels:
         p_values[label] = 0
@@ -128,7 +128,7 @@ def get_gain(examples, attribute, labels, metric):
     gain = metric(examples, labels)
 
     for value in attribute.values:
-        # Make copy of examples without the attribute value
+        # Make copy of features without the attribute value
         examples_v = []
         for example in examples:
             if example.get_attribute_value(attribute) == value:
@@ -145,7 +145,7 @@ def get_weighted_gain(examples, attribute, labels, metric):
     gain = metric(examples, labels)
 
     for value in attribute.values:
-        # Make copy of examples without the attribute value
+        # Make copy of features without the attribute value
         examples_v = []
         examples_v_sum = 0.0
         examples_sum = 0.0

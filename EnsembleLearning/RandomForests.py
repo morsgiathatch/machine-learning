@@ -8,7 +8,7 @@ class RandomForests:
     """
     RandomForests class for binary labeled features (-1, 1)
     """
-    def __init__(self, features, attributes, t_value, size):
+    def __init__(self, features, labels, attributes, t_value, size):
         """
         RandomForests constructor
         :param features: ordered features from dataset
@@ -23,7 +23,7 @@ class RandomForests:
         self.t_value = t_value
         self.features = features
         self.attributes = attributes
-        self.labels = (-1, 1)
+        self.labels = labels
         self.size = size
         self.forest = []
 
@@ -48,7 +48,7 @@ class RandomForests:
             # Get bootstrap example
             bootstrap_sample = get_bootstrap_sample(self.features)
             id3 = Id3.Id3(metric='information_gain')
-            id3.fit(features=bootstrap_sample, attributes=self.attributes, prev_value=None, labels=self.labels,
+            id3.fit(features=bootstrap_sample, attributes=self.attributes, prev_value=None, label_set=(-1, 1),
                     current_depth=0, max_depth=float("inf"), rand_attribute_size=self.size)
             self.forest.append(id3)
 

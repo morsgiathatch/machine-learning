@@ -104,7 +104,7 @@ If you are not running the shell script to reproduce the results in the report,
 you can use the the GradientDescent module. If you wish to use the batch gradient
 descent algorithm for linear regression, call
 ```python
-run_gradient_descent(features, output, max_iters, constant_step_size, tolerance)
+fit(features, output, max_iters, constant_step_size, tolerance)
 ```
 where features is a numpy array (not a matrix) of all the features in the train data, 
 output is a numpy array of all the labels of the train data, max_iters is a
@@ -120,10 +120,10 @@ evaluated_costs is a python list of the cost function evaluated at each iteratio
 
 If you wish to use the stochastic gradient descent, you can run
 ```python
-run_stochastic_grad_descent(features, output, max_iters, constant_step_size, tolerance)
+fit_stochastic(features, output, max_iters, constant_step_size, tolerance)
 ```
-where all the inputs are the same as for run_gradient_descent. It returns a python
-array conataining the same as for run_gradient_descent.
+where all the inputs are the same as for fit. It returns a python
+array conataining the same as for fit.
 
 Lastly, if you wish to have the analytic solution, if the dimension of the column space
 is larger than the dimension of the row space (i.e., more rows than columns), then

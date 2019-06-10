@@ -1,5 +1,6 @@
 import os
-from Perceptron import BankNoteData, KernelPerceptron
+from Perceptron import KernelPerceptron
+from Data.bank_note import BankNoteData
 
 
 def hw4xc():
@@ -10,8 +11,8 @@ def hw4xc():
     gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]
     for gamma in gammas:
         print("Running Kernel Perceptron with Gamma = %.16f" % gamma)
-        kernel_perceptron = KernelPerceptron.KernelPerceptron(examples=data.features, labels=data.output, gamma=gamma)
-        perceptron = kernel_perceptron.run_kernel_perceptron(num_epochs=10)
+        kernel_perceptron = KernelPerceptron.KernelPerceptron(features=data.features, labels=data.output, gamma=gamma)
+        perceptron = kernel_perceptron.fit(num_epochs=10)
 
         train_percentage = get_percentages(data, kernel_perceptron)
         test_percentage = get_percentages(test_data, kernel_perceptron)

@@ -27,7 +27,6 @@ class Adaboost:
         self.labels = np.array(self.labels)
 
         self.attributes = attributes
-        self.labels = (-1, 1)
         self.t_value = t_value
         self.alphas = np.zeros(self.t_value)
         self.h_classifiers = [None] * self.t_value
@@ -49,7 +48,7 @@ class Adaboost:
 
         for i in range(0, self.t_value):
             id3 = Id3.Id3(metric='weighted_information_gain')
-            id3.fit(features=self.features, attributes=self.attributes, prev_value=None, labels=self.labels,
+            id3.fit(features=self.features, attributes=self.attributes, prev_value=None, label_set=(-1, 1),
                     current_depth=0, max_depth=1)
             self.h_classifiers[i] = id3
             # Get predictions

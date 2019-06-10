@@ -8,7 +8,7 @@ class BaggingTrees:
     """
     BaggingTrees class for binary labeled data (-1, 1)
     """
-    def __init__(self, features, attributes, t_value, attribute_factor):
+    def __init__(self, features, labels, attributes, t_value, attribute_factor):
         """
         BaggingTrees constructor
         :param features: ordered features from dataset
@@ -23,7 +23,7 @@ class BaggingTrees:
         self.t_value = t_value
         self.features = features
         self.attributes = attributes
-        self.labels = (-1, 1)
+        self.labels = labels
         self.attribute_factor = attribute_factor
         self.trees = []
 
@@ -49,7 +49,7 @@ class BaggingTrees:
             # Run Id3 and keep root node
             id3 = Id3.Id3(metric='information_gain')
             id3.fit(features=sample_features, attributes=self.attributes, prev_value=None,
-                    labels=self.labels, current_depth=0, max_depth=float("inf"))
+                    label_set=(-1, 1), current_depth=0, max_depth=float("inf"))
             self.trees.append(id3)
 
             if i % fractor == 0 and print_status_bar:

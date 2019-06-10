@@ -1,4 +1,4 @@
-from Perceptron import BankNoteData
+from Data.bank_note import BankNoteData
 from Algorithms import GradientDescent
 from LogisticRegression import LogisticRegressors as lr
 import numpy as np
@@ -55,9 +55,9 @@ def helper(parta, obj_fun, grad_func):
     test_percentages = []
     for var in variances:
         grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output)
-        results = grad_descent.run_stochastic_grad_descent(max_iters=max_iters, obj_func=obj_fun,
-                                                           grad_func=grad_func, step_function=training_schedule,
-                                                           weights=np.zeros(data.features.shape[1]), args=var)
+        results = grad_descent.fit_stochastic(max_iters=max_iters, obj_func=obj_fun,
+                                              grad_func=grad_func, step_function=training_schedule,
+                                              weights=np.zeros(data.features.shape[1]), args=var)
 
         train_percentage_ = lr.get_percentages(data, results[0])
         test_percentage_ = lr.get_percentages(test_data, results[0])

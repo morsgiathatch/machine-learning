@@ -15,7 +15,7 @@ def problem2b():
     test_percentages = []
     train_percentages = []
 
-    factor = float(input("Please enter a number to get fraction of examples. (e.g., `2` uses 1/2 of examples):\n"))
+    factor = float(input("Please enter a number to get fraction of features. (e.g., `2` uses 1/2 of features):\n"))
 
     t_values = [1, 2, 5, 10, 25, 50, 75, 125, 250, 500, 1000]
     # t_values = [1, 2, 5, 10]

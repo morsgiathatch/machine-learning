@@ -1,10 +1,9 @@
 from Tests.DecisionTreeTests import DecisionTreeTest
-from Tests.EnsembleLearningTests import EnsembleLearningTest #, ExtraCredit
-from LinearRegression import HW2p4
-from Perceptron import HW3p2
-from SVM import HW4
-from LogisticRegression import HW5p2
-from NeuralNetworks import HW5p3
+from Tests.EnsembleLearningTests import EnsembleLearningTest
+from Tests.PerceptronTests import HW3p2
+from Tests.SVMTests import HW4
+from Tests.LogisticRegressionTests import HW5p2
+from Tests.NeuralNetworkTests import HW5p3
 
 redo_hm = True
 

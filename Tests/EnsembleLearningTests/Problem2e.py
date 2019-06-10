@@ -28,7 +28,7 @@ def problem2e():
     sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
     sys.stdout.flush()
     for i in range(0, 100):
-        # sample 1000 examples uniformly without replacement
+        # sample 1000 features uniformly without replacement
         examples = get_samples(data)
         forest = RandomForests.RandomForests(t_value=100, features=examples, attributes=data.attributes,
                                              size=size)

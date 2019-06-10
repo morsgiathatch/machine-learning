@@ -1,12 +1,11 @@
-import random
 import numpy as np
 
 
 class Feature:
 
-    def __init__(self, terms, weight, base_size):
-        self.label = terms.pop()
-        self.attributes = terms
+    def __init__(self, features, label, weight, base_size):
+        self.label = label
+        self.attributes = features
         self.weight = weight
         self.base_size = base_size
 
@@ -129,62 +128,68 @@ class Data:
 
         """
         self.examples = []
-        self.train_examples = []
-        self.test_examples = []
+        self.data_map = []
+        self.attributes = []
 
-    def initialize_data_from_file(self, filepath):
+    def initialize_data_from_file(self, filepath, start_ndx=0, column_ignore=(), features_to_map_to_num=(), features_to_make_median=(), median_key=None):
         """Initialize data from csv file
 
         :param filepath: absolute path to csv file
         :type filepath: string
+        :param start_ndx: line number to start reading csv. 0-based
+        :type start_ndx: integer
+        :param column_ignore: indices of columns of csv file to ignore. 0-based.
+        :type column_ignore: python tuple of integers
         :return: None
+        :rtype: None
         """
-        cts_attr0 = []
-        cts_attr4 = []
-        cts_attr11 = []
-        cts_attr12 = []
-        cts_attr13 = []
-        cts_attr14 = []
-        cts_attr15 = []
-        cts_attr16 = []
-        cts_attr17 = []
-        cts_attr18 = []
-        cts_attr19 = []
-        cts_attr20 = []
-        cts_attr21 = []
-        cts_attr22 = []
 
-        lists = [cts_attr0, cts_attr4, cts_attr11, cts_attr12, cts_attr13, cts_attr14, cts_attr15,
-                 cts_attr16, cts_attr17, cts_attr18, cts_attr19, cts_attr20, cts_attr21, cts_attr22]
+        dict_of_vals_to_track = {}
 
-        line_ndx = 0
         with open(filepath, 'r') as f:
-            for line in f:
-                if line_ndx > 1:
-                    terms = line.strip().split(',')
-                    terms.pop(0)
-                    self.examples.append(Feature(terms, 1.0, 0.0))
-                    cts_attr0.append(float(terms[0]))
-                    cts_attr4.append(float(terms[4]))
-                    cts_attr11.append(float(terms[11]))
-                    cts_attr12.append(float(terms[12]))
-                    cts_attr13.append(float(terms[13]))
-                    cts_attr14.append(float(terms[14]))
-                    cts_attr15.append(float(terms[15]))
-                    cts_attr16.append(float(terms[16]))
-                    cts_attr17.append(float(terms[17]))
-                    cts_attr18.append(float(terms[18]))
-                    cts_attr19.append(float(terms[19]))
-                    cts_attr20.append(float(terms[20]))
-                    cts_attr21.append(float(terms[21]))
-                    cts_attr22.append(float(terms[22]))
+            for i in range(0, start_ndx):
+                f.readline()
+            line = f.readline()
+            first_line = True
+            while line:
+                terms = line.strip().split(',')
+                # Read each line and ignore unneeded columns, isolate features and label
+                features = []
+                for i, term in enumerate(terms):
+                    if i not in column_ignore:
+                        features.append(term)
+                label = features.pop()
 
-                line_ndx += 1
+                # Initialize data map
+                if first_line:
+                    first_line = False
+                    self.data_map = [{}] * len(features)
+
+                # Update data structures
+                for i in range(0, len(features)):
+                    # Update data map
+                    if i in features_to_map_to_num:
+                        if features[i] not in self.data_map[i]:
+                            self.data_map[i] = len(self.data_map) - 1
+
+                    # Update attributes
+
+                    # Update values to track to set median
+                    if i in features_to_make_median:
+                        if i not in dict_of_vals_to_track:
+                            dict_of_vals_to_track[i] = []
+                            dict_of_vals_to_track[i].append(float(features[i]))
+                        else:
+                            dict_of_vals_to_track[i].append(float(features[i]))
+
+
+
+                self.examples.append(Feature(features, label, 1.0, 0.0))
 
         thresholds = []
 
-        for i in range(0, 14):
-            thresholds.append(get_median(sorted(lists[i])))
+        for key in dict_of_vals_to_track:
+            thresholds.append(get_median(dict_of_vals_to_track[key]))
 
         for example in self.examples:
             example.set_attribute_value(thresholds[0], 0)
@@ -206,14 +211,9 @@ class Data:
         for example in self.examples:
             example.convert_to_numeric()
 
-        indices = sorted(random.sample(range(0, 29999), 24000))
-        indices_ndx = 0
-        for i in range(0, 30000):
-            if indices_ndx < 24000 and i == indices[indices_ndx]:
-                self.train_examples.append(self.examples[i])
-                indices_ndx += 1
-            else:
-                self.test_examples.append(self.examples[i])
+
+    def update_data_structures(self, features, label):
+
 
     def get_features(self, subset_type):
         """

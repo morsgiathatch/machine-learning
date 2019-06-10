@@ -1,5 +1,5 @@
 import os
-from Perceptron import BankNoteData
+from Data.bank_note import BankNoteData
 from Perceptron import Perceptron
 import numpy as np
 import sys
@@ -43,36 +43,36 @@ def hw3p2():
 
 def choice_a():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+    data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
-    perceptron = Perceptron.perceptron(10, data.features, data.output, 0.5)
+    perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5)
 
-    train_percentage = get_percentages(perceptron, data, Perceptron.get_prediction)
-    test_percentage = get_percentages(perceptron, test_data, Perceptron.get_prediction)
+    train_percentage = get_percentages(perceptron, data)
+    test_percentage = get_percentages(perceptron, test_data)
 
     print("Weight vector was:")
-    print(perceptron)
+    print(perceptron.weights)
     print("Train error percentage was %.16f" % train_percentage)
     print("Test error percentage was %.16f" % test_percentage)
 
 
 def choice_b():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+    data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
-    perceptron = Perceptron.voted_perceptron(10, data.features, data.output, 0.5)
+    perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='voted')
 
     print("The vectors and their respective count are:")
     np.set_printoptions(precision=4)
-    for i in range(0, len(perceptron[0])):
-        print(perceptron[0][i], "  : %s" % (str(perceptron[1][i])), )
+    for i in range(0, len(perceptron.weights[0])):
+        print(perceptron.weights[0][i], "  : %s" % (str(perceptron.weights[1][i])), )
 
-    train_percentage = get_percentages(perceptron, data, Perceptron.get_voted_prediction)
-    test_percentage = get_percentages(perceptron, test_data, Perceptron.get_voted_prediction)
+    train_percentage = get_percentages(perceptron, data)
+    test_percentage = get_percentages(perceptron, test_data)
 
     print("Train error percentage was %.16f" % train_percentage)
     print("Test error percentage was %.16f" % test_percentage)
@@ -80,25 +80,25 @@ def choice_b():
 
 def choice_c():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+    data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
-    perceptron = Perceptron.averaged_perceptron(10, data.features, data.output, 0.5)
+    perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='averaged')
 
-    train_percentage = get_percentages(perceptron, data, Perceptron.get_prediction)
-    test_percentage = get_percentages(perceptron, test_data, Perceptron.get_prediction)
+    train_percentage = get_percentages(perceptron, data)
+    test_percentage = get_percentages(perceptron, test_data)
 
     print("Weight vector was:")
-    print(perceptron)
+    print(perceptron.weights)
     print("Train error percentage was %.16f" % train_percentage)
     print("Test error percentage was %.16f" % test_percentage)
 
 
 def choice_d():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
+    data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
     train_errors = [[], [], []]
     test_errors = [[], [], []]
@@ -107,17 +107,17 @@ def choice_d():
     sys.stdout.write('Progress: [%s]' % (' ' * 100))
     sys.stdout.flush()
     for i in range(1, 101):
-        standard_perceptron = Perceptron.perceptron(10, data.features, data.output, 0.5)
-        voted_perceptron = Perceptron.voted_perceptron(10, data.features, data.output, 0.5)
-        averaged_perceptron = Perceptron.averaged_perceptron(10, data.features, data.output, 0.5)
+        standard_perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5)
+        voted_perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='voted')
+        averaged_perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='averaged')
 
-        train_errors[0].append(get_percentages(standard_perceptron, data, Perceptron.get_prediction))
-        train_errors[1].append(get_percentages(voted_perceptron, data, Perceptron.get_voted_prediction))
-        train_errors[2].append(get_percentages(averaged_perceptron, data, Perceptron.get_prediction))
+        train_errors[0].append(get_percentages(standard_perceptron, data))
+        train_errors[1].append(get_percentages(voted_perceptron, data))
+        train_errors[2].append(get_percentages(averaged_perceptron, data))
 
-        test_errors[0].append(get_percentages(standard_perceptron, test_data, Perceptron.get_prediction))
-        test_errors[1].append(get_percentages(voted_perceptron, test_data, Perceptron.get_voted_prediction))
-        test_errors[2].append(get_percentages(averaged_perceptron, test_data, Perceptron.get_prediction))
+        test_errors[0].append(get_percentages(standard_perceptron, test_data))
+        test_errors[1].append(get_percentages(voted_perceptron, test_data))
+        test_errors[2].append(get_percentages(averaged_perceptron, test_data))
 
         sys.stdout.write('\rProgress: [%s' % ('#' * i))
         sys.stdout.write('%s]' % (' ' * (100 - i)))
@@ -132,11 +132,10 @@ def choice_d():
                                                 float(np.mean(np.array(test_errors[2])))))
 
 
-def get_percentages(perceptron, data, prediction):
+def get_percentages(perceptron, data):
     num_correct = 0
     for row_ndx in range(0, data.features.shape[0]):
-        if data.output[row_ndx] == prediction(perceptron, data.features[row_ndx, :]):
+        if data.output[row_ndx] == perceptron.predict(data.features[row_ndx, :]):
             num_correct += 1
 
     return 1.0 - float(num_correct / data.features.shape[0])
-

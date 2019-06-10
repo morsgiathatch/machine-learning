@@ -20,7 +20,7 @@ def problem2c():
     bagged_trees = []
     full_trees = []
 
-    factor = float(input("Please enter a number to get fraction of examples. (e.g., `2` uses 1/2 of examples):\n"))
+    factor = float(input("Please enter a number to get fraction of features. (e.g., `2` uses 1/2 of features):\n"))
 
     counter = 1
     toolbar_width = 100
@@ -29,7 +29,7 @@ def problem2c():
     sys.stdout.flush()
 
     for i in range(0, 100):
-        # sample 100 examples uniformly without replacement
+        # sample 100 features uniformly without replacement
         examples = get_samples(data)
         forest = BaggingTrees.BaggingTrees(t_value=100, features=examples, attributes=data.attributes,
                                            attribute_factor=factor)

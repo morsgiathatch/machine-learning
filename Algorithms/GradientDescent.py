@@ -5,7 +5,17 @@ import sys
 
 
 class GradientDescent:
+    """
+    GradientDescent class
+    """
     def __init__(self, features, labels):
+        """
+        GradientDescent constructor
+        :param features: data features
+        :type features: numpy array
+        :param labels: binary labels for each feature
+        :type labels: numpy array
+        """
         self.features = features
         self.labels = labels
 
@@ -16,8 +26,32 @@ class GradientDescent:
     # pass a non-zero initial weight. tolerance is an optional argument if the user wishes to have a terminating
     # condition on the gradient descent. norm is an optional argument for the terminating condition, defaults to the
     # euclidean norm. print_status is an optional argument that prints a status for the user, default is True.
-    def run_gradient_descent(self, max_iters, obj_func, grad_func, args, step_function, weights=None,
-                             tolerance=None, norm=la.norm, print_status=True):
+    def fit(self, max_iters, obj_func, grad_func, args, step_function, weights=None,
+            tolerance=None, norm=la.norm, print_status=True):
+        """
+        fit gradient descent to data
+        :param max_iters: number of epochs
+        :type max_iters: integer
+        :param obj_func: function reference for the objective function to be used
+        :type obj_func: function
+        :param grad_func: gradient of objective function
+        :type grad_func: function
+        :param args: agruments for both obj_func and grad_func
+        :type args: python list
+        :param step_function: function reference to calculate next step size or learning rate
+        :type step_function: function with one parameter taking an integer representing epoch number
+        :param weights: optional argument to use pre-determined weights. zero array by default
+        :type weights: numpy array
+        :param tolerance: optional stopping condition
+        :type tolerance: float
+        :param norm: optional function reference to the norm used to find iterate error, defaults to euclidean norm
+        :type  norm: function
+        :param print_status: optional argument to print out status updates
+        :type print_status: boolean
+        :return: returns [weights, terminating iteration, objective function values] if tolerance set. Otherwise
+        [weights, objective function values]
+        :rtype: python list
+        """
         # initialize weight vector if not given initial weight vector
         if weights is None:
             weights = np.zeros(self.features.shape[1])
@@ -62,8 +96,32 @@ class GradientDescent:
     # pass a non-zero initial weight. tolerance is an optional argument if the user wishes to have a terminating
     # condition on the gradient descent. norm is an optional argument for the terminating condition, defaults to the
     # euclidean norm. print_status is an optional argument that prints a status for the user, default is True.
-    def run_stochastic_grad_descent(self, max_iters, obj_func, grad_func, args, step_function,
-                                        weights=None, tolerance=None, norm=la.norm, print_status=True):
+    def fit_stochastic(self, max_iters, obj_func, grad_func, args, step_function,
+                       weights=None, tolerance=None, norm=la.norm, print_status=True):
+        """
+        fit stochastic gradient descent
+        :param max_iters: number of epochs
+        :type max_iters: integer
+        :param obj_func: function reference for the objective function to be used
+        :type obj_func: function
+        :param grad_func: gradient of objective function
+        :type grad_func: function
+        :param args: agruments for both obj_func and grad_func
+        :type args: python list
+        :param step_function: function reference to calculate next step size or learning rate
+        :type step_function: function with one parameter taking an integer representing epoch number
+        :param weights: optional argument to use pre-determined weights. zero array by default
+        :type weights: numpy array
+        :param tolerance: optional stopping condition
+        :type tolerance: float
+        :param norm: optional function reference to the norm used to find iterate error, defaults to euclidean norm
+        :type  norm: function
+        :param print_status: optional argument to print out status updates
+        :type print_status: boolean
+        :return: returns [weights, terminating iteration, objective function values] if tolerance set. Otherwise
+        [weights, objective function values]
+        :rtype: python list
+        """
         # initialize weight vector if not given initial weight vector
         if weights is None:
             weights = np.zeros(self.features.shape[1])

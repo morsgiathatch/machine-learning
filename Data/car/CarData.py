@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Feature:
 
     def __init__(self, terms):
@@ -76,3 +79,27 @@ class Data:
             for line in f:
                 terms = line.strip().split(',')
                 self.examples.append(Feature(terms))
+
+    def get_features(self):
+        """
+        get set of features if necessary
+        :return: features
+        :rtype: numpy array
+        """
+        features = []
+        for example in self.examples:
+            features.append(example.get_attributes())
+
+        return np.array(features)
+
+    def get_labels(self):
+        """
+        get set of labels if necessary
+        :return: labels
+        :rtype: numpy array
+        """
+        labels = []
+        for example in self.examples:
+            labels.append(example.get_label)
+
+        return np.array(labels)

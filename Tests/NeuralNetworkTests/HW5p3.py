@@ -1,5 +1,5 @@
 from NeuralNetworks import ThreeLayerNN
-from Perceptron import BankNoteData
+from Data.bank_note import BankNoteData
 from Algorithms import GradientDescent
 import numpy as np
 import matplotlib.pyplot as plt
@@ -69,10 +69,10 @@ def helper(partb):
 
         three_layer_nn = ThreeLayerNN.ThreeLayerNN(num_units_per_layer=layer_width, weights=weights)
         grad_descent = GradientDescent.GradientDescent(features=data.features, labels=data.output)
-        results = grad_descent.run_stochastic_grad_descent(max_iters=max_iters, args=None, weights=weights,
-                                                           step_function=training_schedule,
-                                                           obj_func=three_layer_nn.objective_function,
-                                                           grad_func=three_layer_nn.gradient)
+        results = grad_descent.fit_stochastic(max_iters=max_iters, args=None, weights=weights,
+                                              step_function=training_schedule,
+                                              obj_func=three_layer_nn.objective_function,
+                                              grad_func=three_layer_nn.gradient)
 
         train_percentage = get_percentages(data, three_layer_nn.predict)
         test_percentage = get_percentages(test_data, three_layer_nn.predict)

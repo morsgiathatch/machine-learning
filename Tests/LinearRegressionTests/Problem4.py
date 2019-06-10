@@ -1,4 +1,4 @@
-from LinearRegression import ConcreteData
+from Data.concrete import ConcreteData
 from Algorithms import GradientDescent
 from LinearRegression import LinearRegressor as lr
 import os
@@ -32,14 +32,14 @@ def problem4(part):
         grad_desc = GradientDescent.GradientDescent(data.features, data.output)
         if part == 1:
             step_size = 0.0145
-            result = grad_desc.run_gradient_descent(obj_func=lr.objective_function, grad_func=lr.obj_gradient_function,
-                                                    args=None, max_iters=max_iters, step_function=lambda x: step_size,
-                                                    tolerance=tolerance)
+            result = grad_desc.fit(obj_func=lr.objective_function, grad_func=lr.obj_gradient_function,
+                                   args=None, max_iters=max_iters, step_function=lambda x: step_size,
+                                   tolerance=tolerance)
         else:
-            result = grad_desc.run_stochastic_grad_descent(obj_func=lr.objective_function,
-                                                           grad_func=lr.stoch_gradient_function, args=None,
-                                                           max_iters=max_iters, step_function=lambda x: step_size,
-                                                           tolerance=tolerance)
+            result = grad_desc.fit_stochastic(obj_func=lr.objective_function,
+                                              grad_func=lr.stoch_gradient_function, args=None,
+                                              max_iters=max_iters, step_function=lambda x: step_size,
+                                              tolerance=tolerance)
 
         print("step size was " + str(step_size))
         if result[1] == max_iters + 1:

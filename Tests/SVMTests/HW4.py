@@ -1,6 +1,4 @@
-from SVM import HW4p2
-from SVM import HW4p3
-from SVM import HW4XC
+from Tests.SVMTests import HW4XC, HW4p2, HW4p3
 
 
 def hw4():

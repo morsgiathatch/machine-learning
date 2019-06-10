@@ -2,7 +2,17 @@ import numpy as np
 
 
 class ThreeLayerNN:
+    """
+    ThreeLayerNN class
+    """
     def __init__(self, num_units_per_layer, weights):   # if we have w_{ij}^k, call weights[i, j, k] to get it
+        """
+        ThreeLayerNN constructor
+        :param num_units_per_layer: number of units per layer. Each layer will have the same number of units
+        :type num_units_per_layer: integer
+        :param weights: desired initial weights
+        :type weights: numpy array of shape (, , )
+        """
         self.num_units_per_layer = num_units_per_layer
         self.weights = weights
         self.layer0 = None
@@ -11,6 +21,13 @@ class ThreeLayerNN:
 
     # Call this to predict a label for example x
     def predict(self, x):
+        """
+        Predict label of feature x after model has been fitted
+        :param x: feature
+        :type x: numpy array
+        :return: prediction
+        :rtype: float
+        """
         self.layer0 = np.copy(x)
 
         for i in range(1, self.num_units_per_layer):
@@ -20,12 +37,22 @@ class ThreeLayerNN:
             self.layer2[i] = sigmoid(self.layer1.dot(self.weights[:, i, 2]))
 
         return np.sign(self.layer2.dot(self.weights[0:self.layer2.shape[0], 1, 3]))
-        # return self.layer2.dot(self.weights[0:self.layer2.shape[0], 1, 3])
 
     def update_weights(self, weights):
         self.weights = weights
 
     def gradient(self, x, y_actual, args):
+        """
+        gradient function using backtracking to be passed to gradient descent
+        :param x: training features
+        :type x: numpy array
+        :param y_actual: training labels
+        :type y_actual: numpy array
+        :param args: list containing weights [weights], weights is a numpy array
+        :type args: python list
+        :return: weights
+        :rtype: numpy array
+        """
         weights = args[0]
         self.update_weights(weights)
         # Update zeroth layer
@@ -53,6 +80,17 @@ class ThreeLayerNN:
         return grad_cache
 
     def objective_function(self, features, labels, extra_args=None):
+        """
+        Objective function to be passed to gradient descent fit_stochastic
+        :param features: data features
+        :type features: numpy array
+        :param labels: corresponding data labels
+        :type labels: numpy array
+        :param extra_args: Useless argument to fit API
+        :type extra_args: None
+        :return: objective function value
+        :rtype: float
+        """
         _sum = 0.0
         for i in range(0, features.shape[0]):
             _sum += (self.predict(features[i, :]) - labels[i]) ** 2

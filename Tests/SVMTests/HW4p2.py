@@ -1,8 +1,8 @@
 import numpy as np
 from Algorithms import GradientDescent
-from Perceptron import BankNoteData
+from Data.bank_note import BankNoteData
 from Perceptron import Perceptron
-from Perceptron import HW3p2
+from Tests.PerceptronTests import HW3p2
 from SVM import SVM
 import matplotlib.pyplot as plt
 from numpy import linalg as la
@@ -98,12 +98,12 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
         for j in range(0, num_reps):
             count += 1
             grad_desc = GradientDescent.GradientDescent(data.features, data.output)
-            [w_vector, obj_func_vals] = grad_desc.run_stochastic_grad_descent(max_iters=100,
-                                                                              obj_func=SVM.objective_function,
-                                                                              grad_func=SVM.stoch_grad_func,
-                                                                              args=[C_value, data.features.shape[0]],
-                                                                              step_function=training_schedule,
-                                                                              print_status=False)
+            [w_vector, obj_func_vals] = grad_desc.fit_stochastic(max_iters=100,
+                                                                 obj_func=SVM.objective_function,
+                                                                 grad_func=SVM.stoch_grad_func,
+                                                                 args=[C_value, data.features.shape[0]],
+                                                                 step_function=training_schedule,
+                                                                 print_status=False)
 
             w_vectors_by_C.append(w_vector)
 

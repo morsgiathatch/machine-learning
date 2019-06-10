@@ -25,7 +25,7 @@ def non_numeric_id3_test():
                 if example.label != other_example.label:
                     noise_count += 1
 
-    print("Detected " + str(noise_count) + " examples of noise\n")
+    print("Detected " + str(noise_count) + " features of noise\n")
 
     # Begin prompts
     use_averages = input("Would you like to calculate averages over all metrics? y/n ")

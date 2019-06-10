@@ -22,8 +22,7 @@ def problem2a():
     test_percentages = []
     decision_stumps = []
     for t_value in t_values:
-        adaboost = AdaBoost.Adaboost(features=data.examples, attributes=data.attributes,
-                                     t_value=t_value)
+        adaboost = AdaBoost.Adaboost(features=data.examples, attributes=data.attributes, t_value=t_value)
         adaboost.fit(print_status=True)
         percentages = get_percentages(adaboost, test_data, data)
 

@@ -21,7 +21,7 @@ class Id3:
         self.root = None
         self.metric = Id3.metrics[metric]
 
-    def fit(self, features, attributes, prev_value, labels, current_depth, max_depth, rand_attribute_size=None):
+    def fit(self, features, attributes, prev_value, label_set, current_depth, max_depth, rand_attribute_size=None):
         """train Id3 decision tree
 
         :param features: ordered features from dataset
@@ -30,8 +30,8 @@ class Id3:
         :type attributes: python tuple containing Attribute objects
         :param prev_value: attribute value of previous adjacent node
         :type prev_value: integer or None
-        :param labels: ordered labels from dataset
-        :type labels: python tuple containing possible integer labels
+        :param label_set: ordered labels from dataset
+        :type label_set: python tuple containing possible integer labels
         :param current_depth: current tree depth
         :type current_depth: integer
         :param max_depth: maximum desired tree depth
@@ -68,9 +68,9 @@ class Id3:
             for index in indices:
                 random_attributes.append(attributes[index])
 
-            attribute_to_split_on = Metrics.get_splitting_attribute(features, random_attributes, labels, self.metric)
+            attribute_to_split_on = Metrics.get_splitting_attribute(features, random_attributes, label_set, self.metric)
         else:
-            attribute_to_split_on = Metrics.get_splitting_attribute(features, attributes, labels, self.metric)
+            attribute_to_split_on = Metrics.get_splitting_attribute(features, attributes, label_set, self.metric)
 
         # Make root node
         node = Node.Node(attribute_to_split_on, prev_value, None)
@@ -89,7 +89,7 @@ class Id3:
             else:
                 less_attributes = list(copy.deepcopy(attributes))
                 less_attributes.remove(attribute_to_split_on)
-                node.add_child(self.fit(examples_less_split_attribute, less_attributes, attribute_value, labels,
+                node.add_child(self.fit(examples_less_split_attribute, less_attributes, attribute_value, label_set,
                                         current_depth + 1, max_depth, rand_attribute_size))
 
         if prev_value is None:

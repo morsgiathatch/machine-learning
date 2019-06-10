@@ -1,4 +1,4 @@
-from LinearRegression import Problem4
+from Tests.LinearRegressionTests import Problem4
 
 
 def hw2p4():
