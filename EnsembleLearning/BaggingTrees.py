@@ -8,7 +8,7 @@ class BaggingTrees:
     """
     BaggingTrees class for binary labeled data (-1, 1)
     """
-    def __init__(self, features, labels, attributes, t_value, attribute_factor):
+    def __init__(self, features, attributes, t_value, attribute_factor):
         """
         BaggingTrees constructor
         :param features: ordered features from dataset
@@ -23,7 +23,6 @@ class BaggingTrees:
         self.t_value = t_value
         self.features = features
         self.attributes = attributes
-        self.labels = labels
         self.attribute_factor = attribute_factor
         self.trees = []
 

@@ -1,5 +1,5 @@
 from Data.bank import BankData
-from EnsembleLearning import BaggingTrees
+from EnsembleLearning import RandomForests
 from DecisionTree import Id3
 import numpy as np
 import sys
@@ -7,7 +7,7 @@ import os
 import random
 
 
-def problem2c():
+def forest_bagged_cross_comparison():
     # Train data
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()
@@ -17,24 +17,23 @@ def problem2c():
     test_data = BankData.Data()
     test_data.initialize_data_from_file(dir_path + '/../../Data/bank/test.csv', False)
 
-    bagged_trees = []
+    random_forests = []
     full_trees = []
 
-    factor = float(input("Please enter a number to get fraction of features. (e.g., `2` uses 1/2 of features):\n"))
+    size = int(input("Please enter a number for the cardinality of the set of random attributes:\n"))
 
     counter = 1
     toolbar_width = 100
     print("Building trees")
     sys.stdout.write("Progress: [%s]" % (" " * toolbar_width))
     sys.stdout.flush()
-
     for i in range(0, 100):
-        # sample 100 features uniformly without replacement
+        # sample 1000 features uniformly without replacement
         examples = get_samples(data)
-        forest = BaggingTrees.BaggingTrees(t_value=100, features=examples, attributes=data.attributes,
-                                           attribute_factor=factor)
+        forest = RandomForests.RandomForests(t_value=100, features=examples, attributes=data.attributes,
+                                             size=size)
         forest.fit(print_status_bar=False)
-        bagged_trees.append(forest)
+        random_forests.append(forest)
         id3 = Id3.Id3(metric='information_gain')
         full_trees.append(id3.fit(examples, data.attributes, None, data.labels, 0, float("inf")))
         sys.stdout.write('\r')
@@ -49,10 +48,10 @@ def problem2c():
     print("\nMean Squared Error for the full trees is: " + "%.16f" % (full_trees_results[0] + full_trees_results[1]))
     print("Bias was %s, Variance was %s" % (full_trees_results[0], full_trees_results[1]))
     print("Calculating squared mean error for bagged trees.")
-    bagged_trees_results = get_squared_mean_error_np(data, bagged_trees, True)
+    random_forest_results = get_squared_mean_error_np(data, random_forests, True)
     print("\nMean Squared Error for the bagged trees is: " + "%.16f"
-          % (bagged_trees_results[0] + bagged_trees_results[1]))
-    print("Bias was %s, Variance was %s" % (bagged_trees_results[0], bagged_trees_results[1]))
+          % (random_forest_results[0] + random_forest_results[1]))
+    print("Bias was %s, Variance was %s" % (random_forest_results[0], random_forest_results[1]))
 
 
 def get_samples(data):
@@ -65,7 +64,7 @@ def get_samples(data):
     return examples
 
 
-def get_squared_mean_error_np(data, trees, bagged_trees):
+def get_squared_mean_error_np(data, trees, random_forest):
     bias = 0.0
     variance = 0.0
     toolbar_width = 100
@@ -77,7 +76,7 @@ def get_squared_mean_error_np(data, trees, bagged_trees):
     subdivision = int(len(data.examples) / 100)
 
     results = np.empty([len(data.examples), len(trees)])
-    if bagged_trees:
+    if random_forest:
         for i, example in enumerate(data.examples):
             for j, tree_set in enumerate(trees):
                 results[i, j] = tree_set.predict(example)

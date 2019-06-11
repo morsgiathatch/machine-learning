@@ -2,7 +2,7 @@ import numpy as np
 from Algorithms import GradientDescent
 from Data.bank_note import BankNoteData
 from Perceptron import Perceptron
-from Tests.PerceptronTests import HW3p2
+from Tests.PerceptronTests import PerceptronTest
 from SVM import SVM
 import matplotlib.pyplot as plt
 from numpy import linalg as la
@@ -122,8 +122,8 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
         w_vectors_by_C = np.array(w_vectors_by_C)
         avg_w_vector = w_vectors_by_C.mean(0)
 
-        train_percentages_per_C.append(HW3p2.get_percentages(avg_w_vector, data, Perceptron.get_prediction))
-        test_percentages_per_C.append(HW3p2.get_percentages(avg_w_vector, test_data, Perceptron.get_prediction))
+        train_percentages_per_C.append(PerceptronTest.get_percentages(avg_w_vector, data, Perceptron.get_prediction))
+        test_percentages_per_C.append(PerceptronTest.get_percentages(avg_w_vector, test_data, Perceptron.get_prediction))
         w_vectors.append(avg_w_vector)
 
         if print_progress:

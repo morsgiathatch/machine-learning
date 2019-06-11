@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-def problem2d():
+def random_forest_test():
     # Train data
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()

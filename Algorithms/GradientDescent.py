@@ -67,10 +67,10 @@ class GradientDescent:
 
             objective_function_values.append(obj_func(self.features, self.labels, [weights, args]))
 
-            old_weights = weights
+            old_weights = np.copy(weights)
             weights -= step_function(t) * grad_func(self.features, self.labels, [weights, args])
 
-            if tolerance is not None:
+            if tolerance is not None and num_iters != 1:
                 if norm(weights - old_weights) <= tolerance:
                     break
 
@@ -137,11 +137,13 @@ class GradientDescent:
             shuffled_indices = random.sample(range(0, self.features.shape[0]), self.features.shape[0])
             objective_function_values.append(obj_func(self.features, self.labels, [weights, args]))
 
-            old_weights = weights
+            if t > 280:
+                a = 3
+            old_weights = np.copy(weights)
             for i, index in enumerate(shuffled_indices):
                 weights -= step_function(t) * grad_func(self.features[index, :], self.labels[index], [weights, args])
 
-            if tolerance is not None:
+            if tolerance is not None and t > 0:
                 if norm(weights - old_weights) <= tolerance:
                     break
 

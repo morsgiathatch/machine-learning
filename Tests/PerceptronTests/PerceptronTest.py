@@ -5,7 +5,7 @@ import numpy as np
 import sys
 
 
-def hw3p2():
+def perceptron_test():
     redo_problem = True
 
     while redo_problem:

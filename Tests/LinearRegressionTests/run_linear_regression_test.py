@@ -7,14 +7,14 @@ from numpy import linalg as la
 import matplotlib.pyplot as plt
 
 
-def problem4(part):
+def run_linear_regression_test(part):
     # Construct data sets
 
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = ConcreteData.ConcreteData(dir_path + '/../Data/concrete/train.csv')
+    data = ConcreteData.ConcreteData(dir_path + '/../../Data/concrete/train.csv')
 
     # Test data
-    test_data = ConcreteData.ConcreteData(dir_path + '/../Data/concrete/test.csv')
+    test_data = ConcreteData.ConcreteData(dir_path + '/../../Data/concrete/test.csv')
 
     if part != 3:
 
@@ -51,11 +51,11 @@ def problem4(part):
             print(result[0])
 
         print("\nEvaluating at the vector yields train cost of %.16f"
-              % (lr.objective_function(data.features, data.output, result[0])))
+              % (lr.objective_function(data.features, data.output, [result[0]])))
         t_vals = np.linspace(0, (len(result[2])) * 10, len(result[2]))
 
         print("Using the above, we then have the following test cost:")
-        test_cost = lr.objective_function(test_data.features, test_data.output, result[0])
+        test_cost = lr.objective_function(test_data.features, test_data.output, [result[0]])
         print("%.16f" % test_cost)
 
         if analytic_answer == "y":
@@ -63,8 +63,8 @@ def problem4(part):
             minimizer = lr.analytic_solution(data.features, data.output)
             print(minimizer)
             print("Cost using analytic minimizer is: %.16f"
-                  % (lr.objective_function(data.features, data.output, minimizer)))
-            minimizer_cost = lr.objective_function(test_data.features, test_data.output, minimizer)
+                  % (lr.objective_function(data.features, data.output, [minimizer])))
+            minimizer_cost = lr.objective_function(test_data.features, test_data.output, [minimizer])
             print("Test cost using analytic minimizer is: %.16f" % minimizer_cost)
             print("\n2-norm error in result vector vs. minimizer is %.16f" % (la.norm(result[0] - minimizer)))
 
@@ -81,6 +81,6 @@ def problem4(part):
         minimizer = lr.analytic_solution(data.features, data.output)
         print(minimizer)
         print("Cost using analytic minimizer is: %.16f"
-              % (lr.objective_function(data.features, data.output, minimizer)))
+              % (lr.objective_function(data.features, data.output, [minimizer])))
         print("Test cost using analytic minimizer is: %.16f"
-              % (lr.objective_function(test_data.features, test_data.output, minimizer)))
+              % (lr.objective_function(test_data.features, test_data.output, [minimizer])))

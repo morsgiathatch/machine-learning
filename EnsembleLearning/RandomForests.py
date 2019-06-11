@@ -8,7 +8,7 @@ class RandomForests:
     """
     RandomForests class for binary labeled features (-1, 1)
     """
-    def __init__(self, features, labels, attributes, t_value, size):
+    def __init__(self, features, attributes, t_value, size):
         """
         RandomForests constructor
         :param features: ordered features from dataset
@@ -23,7 +23,6 @@ class RandomForests:
         self.t_value = t_value
         self.features = features
         self.attributes = attributes
-        self.labels = labels
         self.size = size
         self.forest = []
 

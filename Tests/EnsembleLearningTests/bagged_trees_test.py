@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-def problem2b():
+def bagged_trees_test():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()
     data.initialize_data_from_file(dir_path + '/../../Data/bank/train.csv', False)

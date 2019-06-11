@@ -88,6 +88,6 @@ class Adaboost:
         """
         sum_ = 0.0
         for i in range(0, self.t_value):
-            sum_ += self.alphas[i] * self.h_classifiers[i].get_prediction(example)
+            sum_ += self.alphas[i] * self.h_classifiers[i].predict(example)
 
         return np.sign(sum_)

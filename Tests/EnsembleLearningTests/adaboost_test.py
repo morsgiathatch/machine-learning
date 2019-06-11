@@ -5,7 +5,7 @@ import numpy as np
 import os
 
 
-def problem2a():
+def adaboost_test():
     # Construct tree
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankData.Data()

@@ -1,6 +1,7 @@
 from Tests.DecisionTreeTests import DecisionTreeTest
 from Tests.EnsembleLearningTests import EnsembleLearningTest
-from Tests.PerceptronTests import HW3p2
+from Tests.LinearRegressionTests import LinearRegressionTest
+from Tests.PerceptronTests import PerceptronTest
 from Tests.SVMTests import HW4
 from Tests.LogisticRegressionTests import HW5p2
 from Tests.NeuralNetworkTests import HW5p3
@@ -13,7 +14,7 @@ while redo_hm:
     print("================================================================")
 
     test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. Ensemble Learning Tests\n3. "
-                            "HW3\n4. HW4\n5. HW5\n6. Exit\n"))
+                            "Linear Regression Tests\n4. Perceptron Tests\n5. HW5\n6. Exit\n"))
 
     valid_choice = True
     if test_choice not in range(1, 7):
@@ -22,7 +23,7 @@ while redo_hm:
     while not valid_choice:
         print("Incorrect Choice")
         test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. Ensemble Learning Tests\n"
-                                "3. HW3\n4. HW4\n5. HW5\n6. Exit\n"))
+                                "3. Linear Regression Tests\n4. Perceptron Tests\n5. HW5\n6. Exit\n"))
         if test_choice in range(1, 7):
             valid_choice = True
 
@@ -31,9 +32,9 @@ while redo_hm:
     elif test_choice == 2:
         EnsembleLearningTest.ensemble_learning_test()
     elif test_choice == 3:
-        HW3p2.hw3p2()
+        LinearRegressionTest.linear_regression_test()
     elif test_choice == 4:
-        HW4.hw4()
+        PerceptronTest.perceptron_test()
     elif test_choice == 5:
         choice = int(input("Which problem do you wish to view? `2`, `3`, `0` for exit?\n"))
         hw5_choice = True

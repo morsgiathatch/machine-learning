@@ -5,7 +5,7 @@ import os
 from scipy.optimize import minimize
 from Tests.SVMTests import HW4p2
 import matplotlib.pyplot as plt
-from Tests.PerceptronTests import HW3p2
+from Tests.PerceptronTests import PerceptronTest
 from Perceptron import Perceptron
 from numpy import linalg as la
 
@@ -83,8 +83,8 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
                 train_percentage = ds.get_percentages(data, data, res.x, gamma)
                 test_percentage = ds.get_percentages(test_data, data, res.x, gamma)
             else:
-                train_percentage = HW3p2.get_percentages(w_vector, data, Perceptron.get_prediction)
-                test_percentage = HW3p2.get_percentages(w_vector, test_data, Perceptron.get_prediction)
+                train_percentage = PerceptronTest.get_percentages(w_vector, data, Perceptron.get_prediction)
+                test_percentage = PerceptronTest.get_percentages(w_vector, test_data, Perceptron.get_prediction)
             train_percentages_per_C.append(train_percentage)
             test_percentages_per_C.append(test_percentage)
 
