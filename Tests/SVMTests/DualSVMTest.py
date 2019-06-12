@@ -1,57 +1,58 @@
 from Data.bank_note import BankNoteData
 from SVM import DualSVM as ds
+from SVM import SVM
 import numpy as np
 import os
 from scipy.optimize import minimize
-from Tests.SVMTests import HW4p2
+from Tests.SVMTests import PrimalSVMTest
 import matplotlib.pyplot as plt
-from Tests.PerceptronTests import PerceptronTest
-from Perceptron import Perceptron
 from numpy import linalg as la
 
 
-def hw4p3():
-    redo_problem = True
+def dual_svm_test():
+    redo_tests = True
 
-    while redo_problem:
+    while redo_tests:
 
-        problem = int(input("\nPlease choose a problem part\n1. "
-                            "Problem 3a\n2. Problem 3b\n3. Problem 3c\n4. Exit\n"))
+        test_choice = int(input("\nPlease choose a dual SVM test\n1. "
+                                "Comparison with Primal SVM\n2. SVM Compared with Kernel SVM\n"
+                                "3. Show Support Vectors\n4. Exit\n"))
 
         valid_choice = True
-        if problem != 1 and problem != 2 and problem != 3 and problem != 4:
+        if test_choice != 1 and test_choice != 2 and test_choice != 3 and test_choice != 4:
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
-            problem = int(input("\nPlease choose a problem part4\n1. "
-                                "Problem 3a\n2. Problem 3b\n3. Problem 3c\n4. Exit\n"))
+            test_choice = int(input("\nPlease choose a dual SVM test\n1. "
+                                    "Comparison with Primal SVM\n2. SVM Compared with Kernel SVM\n"
+                                    "3. Show Support Vectors\n4. Exit\n"))
 
-            if problem == 1 or problem == 2 or problem == 3 or problem == 4:
+            if test_choice == 1 or test_choice == 2 or test_choice == 3 or test_choice == 4:
                 valid_choice = True
 
-        if problem == 1:
+        if test_choice == 1:
             choice_a(gamma=None, return_stats=False, use_kernel_prediction=False, get_alphas=False)
-        elif problem == 2:
+        elif test_choice == 2:
             choice_b()
-        elif problem == 3:
+        elif test_choice == 3:
             choice_c()
         else:
             break
 
-        should_redo = str(input("\nWould you like to do another problem from HW 4 problem 3? y/n\n"))
+        should_redo = str(input("\nWould you like to run another dual SVM test? y/n\n"))
         if should_redo == "n":
-            redo_problem = False
+            redo_tests = False
 
 
 def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     if get_alphas:
-        data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=False)
-        test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=False)
+        data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=False)
+        test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=False)
     else:
-        data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
-        test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
+        data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=True)
+        test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
     C_values = np.array([100., 500., 700.])
     C_values = (1.0 / 873. * C_values).tolist()
@@ -83,8 +84,8 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
                 train_percentage = ds.get_percentages(data, data, res.x, gamma)
                 test_percentage = ds.get_percentages(test_data, data, res.x, gamma)
             else:
-                train_percentage = PerceptronTest.get_percentages(w_vector, data, Perceptron.get_prediction)
-                test_percentage = PerceptronTest.get_percentages(w_vector, test_data, Perceptron.get_prediction)
+                train_percentage = SVM.get_percentages(data.features, data.output, w_vector)
+                test_percentage = SVM.get_percentages(test_data.features, test_data.output, w_vector)
             train_percentages_per_C.append(train_percentage)
             test_percentages_per_C.append(test_percentage)
 
@@ -98,11 +99,11 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
         return [train_percentages, test_percentages]
     else:
         print("Calculating results from first schedule")
-        [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = HW4p2.choice_a_or_b('a', print_progress=False,
-                                                                                      num_reps=10, C_values=C_values, show_plots=False)
+        [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = PrimalSVMTest.choice_a_or_b('a', print_progress=False,
+                                                                                              num_reps=10, C_values=C_values, show_plots=False)
         print("Calculating results from second schedule")
-        [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = HW4p2.choice_a_or_b('b', print_progress=False,
-                                                                                      num_reps=10, C_values=C_values, show_plots=False)
+        [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = PrimalSVMTest.choice_a_or_b('b', print_progress=False,
+                                                                                              num_reps=10, C_values=C_values, show_plots=False)
 
         norms = []
         rel_train_diffs = []
@@ -117,20 +118,20 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
                  C_values, np.array(train_percentages), C_values, np.array(test_percentages))
         plt.xlabel('C values')
         plt.ylabel('Errors')
-        plt.legend(('2a Train Error', '2a Test Error', 'SVM Train Error', 'SVM Test Error'))
+        plt.legend(('Primal SVM Train Error, s1', 'Primal SVM Test Error, s1', 'Dual SVM Train Error', 'Dual SVM Test Error'))
         plt.show()
 
         plt.plot(C_values, np.array(train_pcts_from_b), C_values, np.array(test_pcts_from_b),
                  C_values, np.array(train_percentages), C_values, np.array(test_percentages))
         plt.xlabel('C values')
         plt.ylabel('Errors')
-        plt.legend(('2b Train Error', '2b Test Error', 'SVM Train Error', 'SVM Test Error'))
+        plt.legend(('Primal SVM Train Error, s2', 'Primal SVM Test Error, s2', 'Dual SVM Train Error', 'Dual SVM Test Error'))
         plt.show()
 
         plt.plot(C_values, np.array(norms), C_values, np.array(rel_train_diffs), C_values, np.array(rel_test_diffs))
         plt.xlabel('C values')
         plt.ylabel('Errors')
-        plt.legend(('Norm error', '2a Rel Train Error', '2a Rel Test Error'))
+        plt.legend(('Norm error', 'Primal SVM Rel Train Error, s1', 'Primal SVM Rel Test Error, s1'))
         plt.show()
 
         norms = []
@@ -145,7 +146,7 @@ def choice_a(gamma, return_stats, use_kernel_prediction, get_alphas):
         plt.plot(C_values, np.array(norms), C_values, np.array(rel_train_diffs), C_values, np.array(rel_test_diffs))
         plt.xlabel('C values')
         plt.ylabel('Errors')
-        plt.legend(('Norm error', '2b Rel Train Error', '2b Rel Test Error'))
+        plt.legend(('Norm error', 'Primal SVM Rel Train Error, s2', 'Primal SVM Rel Test Error, s2'))
         plt.show()
 
 
@@ -173,7 +174,7 @@ def choice_b():
 
 def choice_c():
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=False)
+    data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=False)
     C_values = np.array([100., 500., 700.])
     C_values = (1.0 / 873. * C_values).tolist()
     gammas = [0.01, 0.1, 0.5, 1., 2., 5., 10., 100.]

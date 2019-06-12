@@ -10,6 +10,7 @@ class KernelPerceptron:
     def __init__(self, gamma, features, labels):
         """
         KernelPerceptron constructor
+
         :param gamma: hyper-parameter used in kernel
         :type gamma: float
         :param features: data features
@@ -26,6 +27,7 @@ class KernelPerceptron:
     def fit(self, num_epochs):
         """
         fit kernel perceptron algorithm
+
         :param num_epochs: number of epochs
         :type num_epochs: integer
         :return: c*y X
@@ -48,6 +50,7 @@ class KernelPerceptron:
     def predict(self, x):
         """
         predict label for feature
+
         :param x: feature
         :type x: numpy array
         :return: +/- 1.0

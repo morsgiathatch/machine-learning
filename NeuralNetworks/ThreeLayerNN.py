@@ -8,6 +8,7 @@ class ThreeLayerNN:
     def __init__(self, num_units_per_layer, weights):   # if we have w_{ij}^k, call weights[i, j, k] to get it
         """
         ThreeLayerNN constructor
+
         :param num_units_per_layer: number of units per layer. Each layer will have the same number of units
         :type num_units_per_layer: integer
         :param weights: desired initial weights
@@ -23,6 +24,7 @@ class ThreeLayerNN:
     def predict(self, x):
         """
         Predict label of feature x after model has been fitted
+
         :param x: feature
         :type x: numpy array
         :return: prediction
@@ -44,6 +46,7 @@ class ThreeLayerNN:
     def gradient(self, x, y_actual, args):
         """
         gradient function using backtracking to be passed to gradient descent
+
         :param x: training features
         :type x: numpy array
         :param y_actual: training labels
@@ -82,6 +85,7 @@ class ThreeLayerNN:
     def objective_function(self, features, labels, extra_args=None):
         """
         Objective function to be passed to gradient descent fit_stochastic
+
         :param features: data features
         :type features: numpy array
         :param labels: corresponding data labels

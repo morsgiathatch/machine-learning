@@ -1,8 +1,6 @@
 import numpy as np
 from Algorithms import GradientDescent
 from Data.bank_note import BankNoteData
-from Perceptron import Perceptron
-from Tests.PerceptronTests import PerceptronTest
 from SVM import SVM
 import matplotlib.pyplot as plt
 from numpy import linalg as la
@@ -10,49 +8,55 @@ import os
 import sys
 
 
-def hw4p2():
-    redo_problem = True
+def primal_svm_test():
+    redo_test = True
 
-    while redo_problem:
+    while redo_test:
 
-        problem = int(input("\nPlease choose a problem part\n1. "
-                            "Problem 2a\n2. Problem 2b\n3. Problem 2c\n4. Exit\n"))
+        test_choice = int(input("\nPlease choose a primal SVM test\n1. "
+                                "Learning Rate: g/(1 + gt/d) \n2. Learning Rage: g/(1 + t)\n"
+                                "3. Cross Comparison\n4. Exit\n"))
 
         valid_choice = True
-        if problem != 1 and problem != 2 and problem != 3 and problem != 4:
+        if test_choice not in range(1, 5):
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
-            problem = int(input("\nPlease choose a problem part4\n1. "
-                                "Problem 2a\n2. Problem 2b\n3. Problem 2c\n4. Exit\n"))
+            test_choice = int(input("\nPlease choose a primal SVM test\n1. "
+                                    "Learning Rate: g/(1 + gt/d) \n2. Learning Rage: g/(1 + t)\n"
+                                    "3. Cross Comparison\n4. Exit\n"))
 
-            if problem == 1 or problem == 2 or problem == 3 or problem == 4:
+            if test_choice in range(1, 5):
                 valid_choice = True
 
         C_values = np.array([1., 2., 50., 100., 300., 500., 700.])
         C_values = (1.0 / 873. * C_values).tolist()
 
-        if problem == 1:
+        if test_choice == 1:
             choice_a_or_b('a', print_progress=True, num_reps=10, C_values=C_values, show_plots=True)
-        elif problem == 2:
+        elif test_choice == 2:
             choice_a_or_b('b', print_progress=True, num_reps=10, C_values=C_values, show_plots=True)
-        elif problem == 3:
+        elif test_choice == 3:
             choice_c(C_values)
         else:
             break
 
-        should_redo = str(input("\nWould you like to do another problem from HW 4 problem 2? y/n\n"))
+        should_redo = str(input("\nWould you like to run another primal SVM test? y/n\n"))
         if should_redo == "n":
-            redo_problem = False
+            redo_test = False
 
 
 def choice_c(C_values):
     num_reps = int(input("How many iterates would you like to use to calculate averages?\n"))
     print("Calculating results from first schedule")
-    [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = choice_a_or_b('a', print_progress=False, num_reps=num_reps, C_values=C_values, show_plots=False)
+    [w_vectors_from_a, train_pcts_from_a, test_pcts_from_a] = choice_a_or_b('a', print_progress=False,
+                                                                            num_reps=num_reps, C_values=C_values,
+                                                                            show_plots=False)
     print("Calculating results from second schedule")
-    [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = choice_a_or_b('b', print_progress=False, num_reps=num_reps, C_values=C_values, show_plots=False)
+    [w_vectors_from_b, train_pcts_from_b, test_pcts_from_b] = choice_a_or_b('b', print_progress=False,
+                                                                            num_reps=num_reps, C_values=C_values,
+                                                                            show_plots=False)
 
     # plot differences of norms and absolute training/testing errors by C
     norms = []
@@ -72,9 +76,9 @@ def choice_c(C_values):
 
 def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
+    data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/train.csv', shift_origin=True)
 
-    test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)
+    test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
     test_percentages = []
     train_percentages = []
@@ -122,8 +126,8 @@ def choice_a_or_b(part, print_progress, num_reps, C_values, show_plots):
         w_vectors_by_C = np.array(w_vectors_by_C)
         avg_w_vector = w_vectors_by_C.mean(0)
 
-        train_percentages_per_C.append(PerceptronTest.get_percentages(avg_w_vector, data, Perceptron.get_prediction))
-        test_percentages_per_C.append(PerceptronTest.get_percentages(avg_w_vector, test_data, Perceptron.get_prediction))
+        train_percentages_per_C.append(SVM.get_percentages(data.features, data.output, avg_w_vector))
+        test_percentages_per_C.append(SVM.get_percentages(test_data.features, test_data.output, avg_w_vector))
         w_vectors.append(avg_w_vector)
 
         if print_progress:

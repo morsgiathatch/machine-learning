@@ -5,6 +5,7 @@ import numpy as np
 def stoch_grad_func(feature, label, args):
     """
     stochastic gradient of primal svm objective function
+
     :param feature: data feature
     :type feature: numpy array
     :param label: corresponding data label
@@ -26,6 +27,7 @@ def stoch_grad_func(feature, label, args):
 def objective_function(features, labels, args):
     """
     primal svm objective function
+
     :param features: data features
     :type features: numpy array
     :param labels: corresponding data labels
@@ -40,3 +42,12 @@ def objective_function(features, labels, args):
     yXw = -np.multiply(np.matmul(features, weights), labels)
     yXw += np.ones(yXw.shape[-1])
     return 0.5 * weights[:-1].dot(weights[:-1]) + C * np.sum(np.maximum(np.zeros(yXw.shape[-1]), yXw))
+
+
+def get_percentages(features, labels, weights):
+    num_correct = 0
+    for row_ndx in range(0, features.shape[0]):
+        if labels[row_ndx] == np.sign(weights.dot(features[row_ndx, :])):
+            num_correct += 1
+
+    return 1.0 - float(num_correct / features.shape[0])

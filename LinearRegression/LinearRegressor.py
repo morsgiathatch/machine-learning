@@ -6,6 +6,7 @@ import numpy as np
 def objective_function(features, labels, args):
     """
     objective function to pass to Algorithms/GradientDescent object fit/fit_stochastic function
+
     :param features: data features
     :type features: numpy array
     :param labels: data labels
@@ -22,6 +23,7 @@ def objective_function(features, labels, args):
 def obj_gradient_function(features, labels, args):
     """
     gradient function to pass to Algorithms/GradientDescent object fit function
+
     :param features: data features
     :type features: numpy array
     :param labels: data labels
@@ -38,6 +40,7 @@ def obj_gradient_function(features, labels, args):
 def stoch_gradient_function(feature, label, args):
     """
     gradient function to pass to Algorithms/GradientDescent object fit_stochastic function
+
     :param feature: data features
     :type feature: numpy array
     :param label: data labels
@@ -54,6 +57,7 @@ def stoch_gradient_function(feature, label, args):
 def analytic_solution(features, labels):
     """
     analytic solution to objective function 1/2 ||X * w|| - y
+
     :param features: data features
     :type features: numpy array
     :param labels: data labels

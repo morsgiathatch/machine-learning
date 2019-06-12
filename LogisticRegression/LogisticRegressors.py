@@ -9,6 +9,7 @@ def sigmoid(x):
 def map_estimator_gradient(x, y, args):
     """
     MAP estimator gradient
+
     :param x: features
     :type x: numpy array
     :param y: labels
@@ -27,6 +28,7 @@ def map_estimator_gradient(x, y, args):
 def map_estimator(x, y, args):
     """
     MAP estimator objective function
+
     :param x: features
     :type x: numpy array
     :param y: labels
@@ -44,6 +46,7 @@ def map_estimator(x, y, args):
 def ml_estimator_gradient(x, y, args):
     """
     ML estimator gradient
+
     :param x: features
     :type x: numpy array
     :param y: labels
@@ -61,6 +64,7 @@ def ml_estimator_gradient(x, y, args):
 def ml_estimator(x, y, args):
     """
     ML estimator objective function
+
     :param x: features
     :type x: numpy array
     :param y: labels
@@ -81,6 +85,7 @@ def ml_estimator(x, y, args):
 def predict(x, w):
     """
     Predict feature label
+
     :param x: feature
     :type x: numpy array
     :param w: weights
@@ -94,6 +99,7 @@ def predict(x, w):
 def get_percentages(data, weights):
     """
     get error proportion
+
     :param data: set of features
     :type data: numpy array
     :param weights: weights

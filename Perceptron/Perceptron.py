@@ -77,6 +77,7 @@ class Perceptron:
     def __init__(self, num_epochs, features, labels, r_step, perceptron_type='default'):
         """
         Perceptron constructor
+
         :param num_epochs: number of epochs for algorithm
         :type num_epochs: integer
         :param features: data features
@@ -100,7 +101,8 @@ class Perceptron:
     def fit(self):
         """
         fit perceptron algorithm
-        :return:
+
+        :return: None
         """
         if self.perceptron_type == 'default':
             self.weights = perceptron(num_epochs=self.num_epochs, features=self.features, labels=self.labels,
@@ -115,6 +117,7 @@ class Perceptron:
     def predict(self, x):
         """
         predict label for feature x
+
         :param x: data feature
         :type x: numpy array
         :return: +/- 1.0

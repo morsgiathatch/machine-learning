@@ -11,6 +11,7 @@ class BaggingTrees:
     def __init__(self, features, attributes, t_value, attribute_factor):
         """
         BaggingTrees constructor
+
         :param features: ordered features from dataset
         :type features: python list containing Feature objects
         :param attributes: attributes for current fit iteration
@@ -29,6 +30,7 @@ class BaggingTrees:
     def fit(self, print_status_bar):
         """
         train bagging trees
+
         :param print_status_bar: set to True if a status printout is desired
         :type print_status_bar: boolean
         :return: None
@@ -65,6 +67,7 @@ class BaggingTrees:
     def predict(self, example):
         """
         get prediction from single example
+
         :param example: example with which to make prediction
         :type example: Feature object
         :return: +/- 1.0 label for example

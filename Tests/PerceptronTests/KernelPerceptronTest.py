@@ -3,7 +3,7 @@ from Perceptron import KernelPerceptron
 from Data.bank_note import BankNoteData
 
 
-def hw4xc():
+def kernel_perceptron_test():
     dir_path = os.path.dirname(os.path.realpath(__file__))
     data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/train.csv', shift_origin=True)
     test_data = BankNoteData.BankNoteData(dir_path + '/../Data/bank_note/test.csv', shift_origin=True)

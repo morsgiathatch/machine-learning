@@ -10,6 +10,7 @@ class Adaboost:
     def __init__(self, features, attributes, t_value):
         """
         Adaboost constructor
+
         :param features: ordered features from dataset
         :type features: python list containing Feature objects
         :param attributes: attributes for current fit iteration
@@ -36,6 +37,7 @@ class Adaboost:
     def fit(self, print_status=False):
         """
         train Adaboost
+
         :param print_status: set to True if a status printout is desired
         :type print_status: boolean
         :return: None
@@ -81,6 +83,7 @@ class Adaboost:
     def predict(self, example):
         """
         get prediction from single example
+
         :param example: example with which to make prediction
         :type example: Feature object
         :return: +/- 1.0 label for example

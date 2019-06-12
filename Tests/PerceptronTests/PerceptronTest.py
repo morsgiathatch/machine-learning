@@ -3,42 +3,47 @@ from Data.bank_note import BankNoteData
 from Perceptron import Perceptron
 import numpy as np
 import sys
+from Tests.PerceptronTests import KernelPerceptronTest
 
 
 def perceptron_test():
-    redo_problem = True
+    redo_tests = True
 
-    while redo_problem:
+    while redo_tests:
 
-        problem = int(input("\nPlease choose a problem part4\n1. "
-                            "Problem 2a\n2. Problem 2b\n3. Problem 2c\n4. Problem 2d\n5. Exit\n"))
+        test_choice = int(input("\nPlease choose a test below\n1. "
+                                "Standard Perceptron\n2. Voted Perceptron\n3. Average Perceptron\n"
+                                "4. Cross Comparison of the Above Three\n5. Kernel Perceptron\n6. Exit\n"))
 
         valid_choice = True
-        if problem != 1 and problem != 2 and problem != 3 and problem != 4 and problem != 5:
+        if test_choice not in range(1, 7):
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
-            problem = int(input("\nPlease choose a problem part4\n1. "
-                                "Problem 2a\n2. Problem 2b\n3. Problem 2c\n4. Problem 2d\n5. Exit\n"))
+            test_choice = int(input("\nPlease choose a test below\n1. "
+                                    "Standard Perceptron\n2. Voted Perceptron\n3. Average Perceptron\n"
+                                    "4. Cross Comparison of the Above Three\n5. Kernel Perceptron\n6. Exit\n"))
 
-            if problem == 1 or problem == 2 or problem == 3 or problem == 4 or problem == 5:
+            if test_choice in range(1, 7):
                 valid_choice = True
 
-        if problem == 1:
+        if test_choice == 1:
             choice_a()
-        elif problem == 2:
+        elif test_choice == 2:
             choice_b()
-        elif problem == 3:
+        elif test_choice == 3:
             choice_c()
-        elif problem == 4:
+        elif test_choice == 4:
             choice_d()
+        elif test_choice == 5:
+            KernelPerceptronTest.kernel_perceptron_test()
         else:
-            break
+            breakredo_problem
 
-        should_redo = str(input("\nWould you like to do another problem from HW 3 problem 2? y/n\n"))
+        should_redo = str(input("\nWould you like to run another perceptron test? y/n\n"))
         if should_redo == "n":
-            redo_problem = False
+            redo_tests = False
 
 
 def choice_a():
@@ -48,6 +53,7 @@ def choice_a():
     test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
     perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5)
+    perceptron.fit()
 
     train_percentage = get_percentages(perceptron, data)
     test_percentage = get_percentages(perceptron, test_data)
@@ -65,6 +71,7 @@ def choice_b():
     test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
     perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='voted')
+    perceptron.fit()
 
     print("The vectors and their respective count are:")
     np.set_printoptions(precision=4)
@@ -85,6 +92,7 @@ def choice_c():
     test_data = BankNoteData.BankNoteData(dir_path + '/../../Data/bank_note/test.csv', shift_origin=True)
 
     perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='averaged')
+    perceptron.fit()
 
     train_percentage = get_percentages(perceptron, data)
     test_percentage = get_percentages(perceptron, test_data)
@@ -108,8 +116,11 @@ def choice_d():
     sys.stdout.flush()
     for i in range(1, 101):
         standard_perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5)
+        standard_perceptron.fit()
         voted_perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='voted')
+        voted_perceptron.fit()
         averaged_perceptron = Perceptron.Perceptron(10, data.features, data.output, 0.5, perceptron_type='averaged')
+        averaged_perceptron.fit()
 
         train_errors[0].append(get_percentages(standard_perceptron, data))
         train_errors[1].append(get_percentages(voted_perceptron, data))
