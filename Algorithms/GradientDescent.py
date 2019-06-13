@@ -11,6 +11,7 @@ class GradientDescent:
     def __init__(self, features, labels):
         """
         GradientDescent constructor
+
         :param features: data features
         :type features: numpy array
         :param labels: binary labels for each feature
@@ -30,6 +31,7 @@ class GradientDescent:
             tolerance=None, norm=la.norm, print_status=True):
         """
         fit gradient descent to data
+
         :param max_iters: number of epochs
         :type max_iters: integer
         :param obj_func: function reference for the objective function to be used
@@ -100,6 +102,7 @@ class GradientDescent:
                        weights=None, tolerance=None, norm=la.norm, print_status=True):
         """
         fit stochastic gradient descent
+
         :param max_iters: number of epochs
         :type max_iters: integer
         :param obj_func: function reference for the objective function to be used
