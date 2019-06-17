@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>EnsembleLearning package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="LinearRegression package" href="LinearRegression.html" />
+    <link rel="prev" title="DecisionTree package" href="DecisionTree.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="ensemblelearning-package">
+<h1>EnsembleLearning package<a class="headerlink" href="#ensemblelearning-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-EnsembleLearning.AdaBoost">
+<span id="ensemblelearning-adaboost-module"></span><h2>EnsembleLearning.AdaBoost module<a class="headerlink" href="#module-EnsembleLearning.AdaBoost" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="EnsembleLearning.AdaBoost.Adaboost">
+<em class="property">class </em><code class="sig-prename descclassname">EnsembleLearning.AdaBoost.</code><code class="sig-name descname">Adaboost</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">attributes</em>, <em class="sig-param">t_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/AdaBoost.html#Adaboost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.AdaBoost.Adaboost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Adaboost class for binary labeled data in (-1, 1)</p>
+<dl class="method">
+<dt id="EnsembleLearning.AdaBoost.Adaboost.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">print_status=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/AdaBoost.html#Adaboost.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.AdaBoost.Adaboost.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>train Adaboost</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>print_status</strong> (<em>boolean</em>) – set to True if a status printout is desired</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="EnsembleLearning.AdaBoost.Adaboost.get_epsilon">
+<code class="sig-name descname">get_epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/AdaBoost.html#Adaboost.get_epsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.AdaBoost.Adaboost.get_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="EnsembleLearning.AdaBoost.Adaboost.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">example</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/AdaBoost.html#Adaboost.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.AdaBoost.Adaboost.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>get prediction from single example</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>example</strong> (<em>Feature object</em>) – example with which to make prediction</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>+/- 1.0 label for example</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="EnsembleLearning.AdaBoost.Adaboost.update_dt">
+<code class="sig-name descname">update_dt</code><span class="sig-paren">(</span><em class="sig-param">alpha</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/AdaBoost.html#Adaboost.update_dt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.AdaBoost.Adaboost.update_dt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-EnsembleLearning.BaggingTrees">
+<span id="ensemblelearning-baggingtrees-module"></span><h2>EnsembleLearning.BaggingTrees module<a class="headerlink" href="#module-EnsembleLearning.BaggingTrees" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="EnsembleLearning.BaggingTrees.BaggingTrees">
+<em class="property">class </em><code class="sig-prename descclassname">EnsembleLearning.BaggingTrees.</code><code class="sig-name descname">BaggingTrees</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">attributes</em>, <em class="sig-param">t_value</em>, <em class="sig-param">attribute_factor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/BaggingTrees.html#BaggingTrees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.BaggingTrees.BaggingTrees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>BaggingTrees class for binary labeled data (-1, 1)</p>
+<dl class="method">
+<dt id="EnsembleLearning.BaggingTrees.BaggingTrees.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">print_status_bar</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/BaggingTrees.html#BaggingTrees.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.BaggingTrees.BaggingTrees.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>train bagging trees</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>print_status_bar</strong> (<em>boolean</em>) – set to True if a status printout is desired</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="EnsembleLearning.BaggingTrees.BaggingTrees.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">example</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/BaggingTrees.html#BaggingTrees.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.BaggingTrees.BaggingTrees.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>get prediction from single example</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>example</strong> (<em>Feature object</em>) – example with which to make prediction</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>+/- 1.0 label for example</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="EnsembleLearning.BaggingTrees.get_sample">
+<code class="sig-prename descclassname">EnsembleLearning.BaggingTrees.</code><code class="sig-name descname">get_sample</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">factor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/BaggingTrees.html#get_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.BaggingTrees.get_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-EnsembleLearning.RandomForests">
+<span id="ensemblelearning-randomforests-module"></span><h2>EnsembleLearning.RandomForests module<a class="headerlink" href="#module-EnsembleLearning.RandomForests" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="EnsembleLearning.RandomForests.RandomForests">
+<em class="property">class </em><code class="sig-prename descclassname">EnsembleLearning.RandomForests.</code><code class="sig-name descname">RandomForests</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">attributes</em>, <em class="sig-param">t_value</em>, <em class="sig-param">size</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/RandomForests.html#RandomForests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.RandomForests.RandomForests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>RandomForests class for binary labeled features (-1, 1)</p>
+<dl class="method">
+<dt id="EnsembleLearning.RandomForests.RandomForests.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">print_status_bar</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/RandomForests.html#RandomForests.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.RandomForests.RandomForests.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>train random forests</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>print_status_bar</strong> (<em>boolean</em>) – set to True if a status printout is desired</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="EnsembleLearning.RandomForests.RandomForests.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">example</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/RandomForests.html#RandomForests.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.RandomForests.RandomForests.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get prediction from single example</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>example</strong> (<em>Feature object</em>) – example with which to make prediction</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>+/- 1.0 label for example</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="EnsembleLearning.RandomForests.get_bootstrap_sample">
+<code class="sig-prename descclassname">EnsembleLearning.RandomForests.</code><code class="sig-name descname">get_bootstrap_sample</code><span class="sig-paren">(</span><em class="sig-param">examples</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EnsembleLearning/RandomForests.html#get_bootstrap_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#EnsembleLearning.RandomForests.get_bootstrap_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-EnsembleLearning">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-EnsembleLearning" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">EnsembleLearning package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-EnsembleLearning.AdaBoost">EnsembleLearning.AdaBoost module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-EnsembleLearning.BaggingTrees">EnsembleLearning.BaggingTrees module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-EnsembleLearning.RandomForests">EnsembleLearning.RandomForests module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-EnsembleLearning">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="DecisionTree.html" title="previous chapter">DecisionTree package</a></li>
+      <li>Next: <a href="LinearRegression.html" title="next chapter">LinearRegression package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/EnsembleLearning.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

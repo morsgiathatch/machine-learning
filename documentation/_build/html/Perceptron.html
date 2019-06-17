@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Perceptron package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="SVM package" href="SVM.html" />
+    <link rel="prev" title="NeuralNetworks package" href="NeuralNetworks.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="perceptron-package">
+<h1>Perceptron package<a class="headerlink" href="#perceptron-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-Perceptron.KernelPerceptron">
+<span id="perceptron-kernelperceptron-module"></span><h2>Perceptron.KernelPerceptron module<a class="headerlink" href="#module-Perceptron.KernelPerceptron" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Perceptron.KernelPerceptron.KernelPerceptron">
+<em class="property">class </em><code class="sig-prename descclassname">Perceptron.KernelPerceptron.</code><code class="sig-name descname">KernelPerceptron</code><span class="sig-paren">(</span><em class="sig-param">gamma</em>, <em class="sig-param">features</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/KernelPerceptron.html#KernelPerceptron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.KernelPerceptron.KernelPerceptron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>KernelPerceptron class</p>
+<dl class="method">
+<dt id="Perceptron.KernelPerceptron.KernelPerceptron.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">num_epochs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/KernelPerceptron.html#KernelPerceptron.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.KernelPerceptron.KernelPerceptron.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit kernel perceptron algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>num_epochs</strong> (<em>integer</em>) – number of epochs</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>c*y X</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Perceptron.KernelPerceptron.KernelPerceptron.gaussian_kernel">
+<code class="sig-name descname">gaussian_kernel</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/KernelPerceptron.html#KernelPerceptron.gaussian_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.KernelPerceptron.KernelPerceptron.gaussian_kernel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Perceptron.KernelPerceptron.KernelPerceptron.get_kernel_matrix">
+<code class="sig-name descname">get_kernel_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/KernelPerceptron.html#KernelPerceptron.get_kernel_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.KernelPerceptron.KernelPerceptron.get_kernel_matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Perceptron.KernelPerceptron.KernelPerceptron.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/KernelPerceptron.html#KernelPerceptron.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.KernelPerceptron.KernelPerceptron.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>predict label for feature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>numpy array</em>) – feature</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>+/- 1.0</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.KernelPerceptron.shuffle">
+<code class="sig-prename descclassname">Perceptron.KernelPerceptron.</code><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">size</em>, <em class="sig-param">counts_orig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/KernelPerceptron.html#shuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.KernelPerceptron.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-Perceptron.Perceptron">
+<span id="perceptron-perceptron-module"></span><h2>Perceptron.Perceptron module<a class="headerlink" href="#module-Perceptron.Perceptron" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Perceptron.Perceptron.Perceptron">
+<em class="property">class </em><code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">Perceptron</code><span class="sig-paren">(</span><em class="sig-param">num_epochs</em>, <em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">r_step</em>, <em class="sig-param">perceptron_type='default'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#Perceptron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.Perceptron" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Perceptron class</p>
+<dl class="method">
+<dt id="Perceptron.Perceptron.Perceptron.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#Perceptron.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.Perceptron.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit perceptron algorithm</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Perceptron.Perceptron.Perceptron.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#Perceptron.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.Perceptron.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>predict label for feature x</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>numpy array</em>) – data feature</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>+/- 1.0</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.Perceptron.averaged_perceptron">
+<code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">averaged_perceptron</code><span class="sig-paren">(</span><em class="sig-param">num_epochs</em>, <em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">r_step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#averaged_perceptron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.averaged_perceptron" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.Perceptron.get_prediction">
+<code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">get_prediction</code><span class="sig-paren">(</span><em class="sig-param">w_vector</em>, <em class="sig-param">x_vector</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#get_prediction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.get_prediction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.Perceptron.get_voted_prediction">
+<code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">get_voted_prediction</code><span class="sig-paren">(</span><em class="sig-param">voted_ret_array</em>, <em class="sig-param">x_vector</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#get_voted_prediction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.get_voted_prediction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.Perceptron.perceptron">
+<code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">perceptron</code><span class="sig-paren">(</span><em class="sig-param">num_epochs</em>, <em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">r_step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#perceptron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.perceptron" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.Perceptron.shuffle">
+<code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">size</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#shuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="Perceptron.Perceptron.voted_perceptron">
+<code class="sig-prename descclassname">Perceptron.Perceptron.</code><code class="sig-name descname">voted_perceptron</code><span class="sig-paren">(</span><em class="sig-param">num_epochs</em>, <em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">r_step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Perceptron/Perceptron.html#voted_perceptron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Perceptron.Perceptron.voted_perceptron" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-Perceptron">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Perceptron" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Perceptron package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Perceptron.KernelPerceptron">Perceptron.KernelPerceptron module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Perceptron.Perceptron">Perceptron.Perceptron module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Perceptron">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="NeuralNetworks.html" title="previous chapter">NeuralNetworks package</a></li>
+      <li>Next: <a href="SVM.html" title="next chapter">SVM package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Perceptron.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

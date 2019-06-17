@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Algorithms package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DecisionTree package" href="DecisionTree.html" />
+    <link rel="prev" title="Welcome to Machine Learning’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="algorithms-package">
+<h1>Algorithms package<a class="headerlink" href="#algorithms-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-Algorithms.GradientDescent">
+<span id="algorithms-gradientdescent-module"></span><h2>Algorithms.GradientDescent module<a class="headerlink" href="#module-Algorithms.GradientDescent" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Algorithms.GradientDescent.GradientDescent">
+<em class="property">class </em><code class="sig-prename descclassname">Algorithms.GradientDescent.</code><code class="sig-name descname">GradientDescent</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Algorithms/GradientDescent.html#GradientDescent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Algorithms.GradientDescent.GradientDescent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>GradientDescent class</p>
+<dl class="method">
+<dt id="Algorithms.GradientDescent.GradientDescent.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">max_iters</em>, <em class="sig-param">obj_func</em>, <em class="sig-param">grad_func</em>, <em class="sig-param">args</em>, <em class="sig-param">step_function</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">tolerance=None</em>, <em class="sig-param">norm=&lt;function norm&gt;</em>, <em class="sig-param">print_status=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Algorithms/GradientDescent.html#GradientDescent.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Algorithms.GradientDescent.GradientDescent.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit gradient descent to data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iters</strong> (<em>integer</em>) – number of epochs</p></li>
+<li><p><strong>obj_func</strong> (<em>function</em>) – function reference for the objective function to be used</p></li>
+<li><p><strong>grad_func</strong> (<em>function</em>) – gradient of objective function</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – agruments for both obj_func and grad_func</p></li>
+<li><p><strong>step_function</strong> (<em>function with one parameter taking an integer representing epoch number</em>) – function reference to calculate next step size or learning rate</p></li>
+<li><p><strong>weights</strong> (<em>numpy array</em>) – optional argument to use pre-determined weights. zero array by default</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – optional stopping condition</p></li>
+<li><p><strong>norm</strong> (<em>function</em>) – optional function reference to the norm used to find iterate error, defaults to euclidean norm</p></li>
+<li><p><strong>print_status</strong> (<em>boolean</em>) – optional argument to print out status updates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns [weights, terminating iteration, objective function values] if tolerance set. Otherwise</p>
+</dd>
+</dl>
+<p>[weights, objective function values]
+:rtype: python list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Algorithms.GradientDescent.GradientDescent.fit_stochastic">
+<code class="sig-name descname">fit_stochastic</code><span class="sig-paren">(</span><em class="sig-param">max_iters</em>, <em class="sig-param">obj_func</em>, <em class="sig-param">grad_func</em>, <em class="sig-param">args</em>, <em class="sig-param">step_function</em>, <em class="sig-param">weights=None</em>, <em class="sig-param">tolerance=None</em>, <em class="sig-param">norm=&lt;function norm&gt;</em>, <em class="sig-param">print_status=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Algorithms/GradientDescent.html#GradientDescent.fit_stochastic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Algorithms.GradientDescent.GradientDescent.fit_stochastic" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit stochastic gradient descent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_iters</strong> (<em>integer</em>) – number of epochs</p></li>
+<li><p><strong>obj_func</strong> (<em>function</em>) – function reference for the objective function to be used</p></li>
+<li><p><strong>grad_func</strong> (<em>function</em>) – gradient of objective function</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – agruments for both obj_func and grad_func</p></li>
+<li><p><strong>step_function</strong> (<em>function with one parameter taking an integer representing epoch number</em>) – function reference to calculate next step size or learning rate</p></li>
+<li><p><strong>weights</strong> (<em>numpy array</em>) – optional argument to use pre-determined weights. zero array by default</p></li>
+<li><p><strong>tolerance</strong> (<em>float</em>) – optional stopping condition</p></li>
+<li><p><strong>norm</strong> (<em>function</em>) – optional function reference to the norm used to find iterate error, defaults to euclidean norm</p></li>
+<li><p><strong>print_status</strong> (<em>boolean</em>) – optional argument to print out status updates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns [weights, terminating iteration, objective function values] if tolerance set. Otherwise</p>
+</dd>
+</dl>
+<p>[weights, objective function values]
+:rtype: python list</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-Algorithms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Algorithms" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Algorithms package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Algorithms.GradientDescent">Algorithms.GradientDescent module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Algorithms">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Machine Learning’s documentation!</a></li>
+      <li>Next: <a href="DecisionTree.html" title="next chapter">DecisionTree package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Algorithms.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

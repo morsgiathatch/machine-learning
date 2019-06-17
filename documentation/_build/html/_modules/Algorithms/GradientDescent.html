@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Algorithms.GradientDescent &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for Algorithms.GradientDescent</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">linalg</span> <span class="k">as</span> <span class="n">la</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<div class="viewcode-block" id="GradientDescent"><a class="viewcode-back" href="../../Algorithms.html#Algorithms.GradientDescent.GradientDescent">[docs]</a><span class="k">class</span> <span class="nc">GradientDescent</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GradientDescent class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        GradientDescent constructor</span>
+
+<span class="sd">        :param features: data features</span>
+<span class="sd">        :type features: numpy array</span>
+<span class="sd">        :param labels: binary labels for each feature</span>
+<span class="sd">        :type labels: numpy array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
+
+    <span class="c1"># Runs gradient descent. max_iters is the number of desired epochs, obj_func, grad_func are function references</span>
+    <span class="c1"># to calculate the objective function and gradient function. args is a python list of arguments for both</span>
+    <span class="c1"># obj_func and grad_func. step_function is a function reference to calculate the step the next step function. It</span>
+    <span class="c1"># must only take one argument for the current iteration. weights is an optional argument if the user wishes to</span>
+    <span class="c1"># pass a non-zero initial weight. tolerance is an optional argument if the user wishes to have a terminating</span>
+    <span class="c1"># condition on the gradient descent. norm is an optional argument for the terminating condition, defaults to the</span>
+    <span class="c1"># euclidean norm. print_status is an optional argument that prints a status for the user, default is True.</span>
+<div class="viewcode-block" id="GradientDescent.fit"><a class="viewcode-back" href="../../Algorithms.html#Algorithms.GradientDescent.GradientDescent.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">,</span> <span class="n">obj_func</span><span class="p">,</span> <span class="n">grad_func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">step_function</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">la</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">print_status</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        fit gradient descent to data</span>
+
+<span class="sd">        :param max_iters: number of epochs</span>
+<span class="sd">        :type max_iters: integer</span>
+<span class="sd">        :param obj_func: function reference for the objective function to be used</span>
+<span class="sd">        :type obj_func: function</span>
+<span class="sd">        :param grad_func: gradient of objective function</span>
+<span class="sd">        :type grad_func: function</span>
+<span class="sd">        :param args: agruments for both obj_func and grad_func</span>
+<span class="sd">        :type args: python list</span>
+<span class="sd">        :param step_function: function reference to calculate next step size or learning rate</span>
+<span class="sd">        :type step_function: function with one parameter taking an integer representing epoch number</span>
+<span class="sd">        :param weights: optional argument to use pre-determined weights. zero array by default</span>
+<span class="sd">        :type weights: numpy array</span>
+<span class="sd">        :param tolerance: optional stopping condition</span>
+<span class="sd">        :type tolerance: float</span>
+<span class="sd">        :param norm: optional function reference to the norm used to find iterate error, defaults to euclidean norm</span>
+<span class="sd">        :type  norm: function</span>
+<span class="sd">        :param print_status: optional argument to print out status updates</span>
+<span class="sd">        :type print_status: boolean</span>
+<span class="sd">        :return: returns [weights, terminating iteration, objective function values] if tolerance set. Otherwise</span>
+<span class="sd">        [weights, objective function values]</span>
+<span class="sd">        :rtype: python list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize weight vector if not given initial weight vector</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Initialize storage for objective function values to analyze convergence</span>
+        <span class="n">objective_function_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">num_iters</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_iters</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">num_iters</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="n">max_iters</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">objective_function_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">args</span><span class="p">]))</span>
+
+            <span class="n">old_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+            <span class="n">weights</span> <span class="o">-=</span> <span class="n">step_function</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">args</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">num_iters</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="n">weights</span> <span class="o">-</span> <span class="n">old_weights</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tolerance</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">print_status</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="si">%i</span><span class="s2"> / </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">objective_function_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">args</span><span class="p">]))</span>
+            <span class="n">num_iters</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">print_status</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+        <span class="c1"># return weights</span>
+        <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">objective_function_values</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">objective_function_values</span><span class="p">)]</span></div>
+
+    <span class="c1"># Runs stochastic gradient descent. max_iters is the number of desired epochs, obj_func, grad_func are function</span>
+    <span class="c1"># references to calculate the objective function and gradient function. args is a python list of arguments for both</span>
+    <span class="c1"># obj_func and grad_func. step_function is a function reference to calculate the step the next step function. It</span>
+    <span class="c1"># must only take one argument for the current iteration. weights is an optional argument if the user wishes to</span>
+    <span class="c1"># pass a non-zero initial weight. tolerance is an optional argument if the user wishes to have a terminating</span>
+    <span class="c1"># condition on the gradient descent. norm is an optional argument for the terminating condition, defaults to the</span>
+    <span class="c1"># euclidean norm. print_status is an optional argument that prints a status for the user, default is True.</span>
+<div class="viewcode-block" id="GradientDescent.fit_stochastic"><a class="viewcode-back" href="../../Algorithms.html#Algorithms.GradientDescent.GradientDescent.fit_stochastic">[docs]</a>    <span class="k">def</span> <span class="nf">fit_stochastic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">,</span> <span class="n">obj_func</span><span class="p">,</span> <span class="n">grad_func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">step_function</span><span class="p">,</span>
+                       <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">la</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span> <span class="n">print_status</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        fit stochastic gradient descent</span>
+
+<span class="sd">        :param max_iters: number of epochs</span>
+<span class="sd">        :type max_iters: integer</span>
+<span class="sd">        :param obj_func: function reference for the objective function to be used</span>
+<span class="sd">        :type obj_func: function</span>
+<span class="sd">        :param grad_func: gradient of objective function</span>
+<span class="sd">        :type grad_func: function</span>
+<span class="sd">        :param args: agruments for both obj_func and grad_func</span>
+<span class="sd">        :type args: python list</span>
+<span class="sd">        :param step_function: function reference to calculate next step size or learning rate</span>
+<span class="sd">        :type step_function: function with one parameter taking an integer representing epoch number</span>
+<span class="sd">        :param weights: optional argument to use pre-determined weights. zero array by default</span>
+<span class="sd">        :type weights: numpy array</span>
+<span class="sd">        :param tolerance: optional stopping condition</span>
+<span class="sd">        :type tolerance: float</span>
+<span class="sd">        :param norm: optional function reference to the norm used to find iterate error, defaults to euclidean norm</span>
+<span class="sd">        :type  norm: function</span>
+<span class="sd">        :param print_status: optional argument to print out status updates</span>
+<span class="sd">        :type print_status: boolean</span>
+<span class="sd">        :return: returns [weights, terminating iteration, objective function values] if tolerance set. Otherwise</span>
+<span class="sd">        [weights, objective function values]</span>
+<span class="sd">        :rtype: python list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize weight vector if not given initial weight vector</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Initialize storage for objective function values to analyze convergence</span>
+        <span class="n">objective_function_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">num_iters</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_iters</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="n">max_iters</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="n">shuffled_indices</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">objective_function_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">args</span><span class="p">]))</span>
+
+            <span class="k">if</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">280</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">old_weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">shuffled_indices</span><span class="p">):</span>
+                <span class="n">weights</span> <span class="o">-=</span> <span class="n">step_function</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">args</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">norm</span><span class="p">(</span><span class="n">weights</span> <span class="o">-</span> <span class="n">old_weights</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tolerance</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">print_status</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="si">%i</span><span class="s2"> / </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">max_iters</span><span class="p">))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">num_iters</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">print_status</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+        <span class="c1"># return weights</span>
+        <span class="k">if</span> <span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">num_iters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">objective_function_values</span><span class="p">)]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">weights</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">objective_function_values</span><span class="p">)]</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

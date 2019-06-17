@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DecisionTree.Node &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for DecisionTree.Node</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node">[docs]</a><span></span><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Node class for use in decision tree</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># splitting_attribute is the value of the branch leading to this node</span>
+    <span class="c1"># value is the value of the branch leading to this node from the previous splitting attribute</span>
+    <span class="c1"># label is the label</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">splitting_attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">splitting_attribute</span> <span class="o">=</span> <span class="n">splitting_attribute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Node.add_child"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node.add_child">[docs]</a>    <span class="k">def</span> <span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Node.get_splitting_attribute"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node.get_splitting_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">get_splitting_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">splitting_attribute</span></div>
+
+<div class="viewcode-block" id="Node.set_splitting_attribute"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node.set_splitting_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">set_splitting_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">splitting_attribute</span> <span class="o">=</span> <span class="n">attribute</span></div>
+
+<div class="viewcode-block" id="Node.get_value"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node.get_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="Node.get_children"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node.get_children">[docs]</a>    <span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">child_nodes</span></div>
+
+<div class="viewcode-block" id="Node.get_label"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Node.Node.get_label">[docs]</a>    <span class="k">def</span> <span class="nf">get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

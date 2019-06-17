@@ -17,10 +17,8 @@ LinearRegression/__pycache__/
 Perceptron/__pycache__/
 Perceptron/temp.py
 SVM/__pycache__/
-documentation/
-!documentation/_build/html
-**__pycache__**
-**.pyc
-**.so
-**.o
-**.idea**
+*__pycache__*
+*.pyc
+*.so
+*.o
+*.idea*

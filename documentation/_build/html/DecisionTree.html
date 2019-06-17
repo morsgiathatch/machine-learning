@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DecisionTree package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="EnsembleLearning package" href="EnsembleLearning.html" />
+    <link rel="prev" title="Algorithms package" href="Algorithms.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="decisiontree-package">
+<h1>DecisionTree package<a class="headerlink" href="#decisiontree-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-DecisionTree.Id3">
+<span id="decisiontree-id3-module"></span><h2>DecisionTree.Id3 module<a class="headerlink" href="#module-DecisionTree.Id3" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="DecisionTree.Id3.Id3">
+<em class="property">class </em><code class="sig-prename descclassname">DecisionTree.Id3.</code><code class="sig-name descname">Id3</code><span class="sig-paren">(</span><em class="sig-param">metric</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#Id3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.Id3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Id3 class to store state.</p>
+<dl class="method">
+<dt id="DecisionTree.Id3.Id3.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">attributes</em>, <em class="sig-param">prev_value</em>, <em class="sig-param">label_set</em>, <em class="sig-param">current_depth</em>, <em class="sig-param">max_depth</em>, <em class="sig-param">rand_attribute_size=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#Id3.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.Id3.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>train Id3 decision tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>python list containing Feature objects</em>) – ordered features from dataset</p></li>
+<li><p><strong>attributes</strong> (<em>python tuple containing Attribute objects</em>) – attributes for current fit iteration</p></li>
+<li><p><strong>prev_value</strong> (<em>integer</em><em> or </em><em>None</em>) – attribute value of previous adjacent node</p></li>
+<li><p><strong>label_set</strong> (<em>python tuple containing possible integer labels</em>) – ordered labels from dataset</p></li>
+<li><p><strong>current_depth</strong> (<em>integer</em>) – current tree depth</p></li>
+<li><p><strong>max_depth</strong> (<em>integer</em><em> or </em><em>float</em>) – maximum desired tree depth</p></li>
+<li><p><strong>rand_attribute_size</strong> (<em>integer</em><em> or </em><em>None</em>) – size of desired random attribute subset if not None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>root node of decision tree</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#DecisionTree.Node.Node" title="DecisionTree.Node.Node">Node.Node</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Id3.Id3.get_max_height">
+<code class="sig-name descname">get_max_height</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#Id3.get_max_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.Id3.get_max_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Id3.Id3.get_prediction_helper">
+<code class="sig-name descname">get_prediction_helper</code><span class="sig-paren">(</span><em class="sig-param">feature</em>, <em class="sig-param">node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#Id3.get_prediction_helper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.Id3.get_prediction_helper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="DecisionTree.Id3.Id3.metrics">
+<code class="sig-name descname">metrics</code><em class="property"> = {'gini_index_gain': &lt;function gini_index_gain&gt;, 'information_gain': &lt;function information_gain&gt;, 'majority_error_gain': &lt;function majority_error_gain&gt;, 'weighted_information_gain': &lt;function weighted_information_gain&gt;}</em><a class="headerlink" href="#DecisionTree.Id3.Id3.metrics" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Id3.Id3.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#Id3.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.Id3.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict label for example</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>feature</strong> (<em>Feature</em>) – feature to be used for prediction</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>prediction</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>integer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Id3.Id3.reset_max_height">
+<code class="sig-name descname">reset_max_height</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#Id3.reset_max_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.Id3.reset_max_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Id3.attr_equal">
+<code class="sig-prename descclassname">DecisionTree.Id3.</code><code class="sig-name descname">attr_equal</code><span class="sig-paren">(</span><em class="sig-param">attributes1</em>, <em class="sig-param">attributes2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#attr_equal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.attr_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Id3.get_most_common_label">
+<code class="sig-prename descclassname">DecisionTree.Id3.</code><code class="sig-name descname">get_most_common_label</code><span class="sig-paren">(</span><em class="sig-param">examples</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Id3.html#get_most_common_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Id3.get_most_common_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-DecisionTree.Metrics">
+<span id="decisiontree-metrics-module"></span><h2>DecisionTree.Metrics module<a class="headerlink" href="#module-DecisionTree.Metrics" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="DecisionTree.Metrics.entropy">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">entropy</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.entropy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.get_gain">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">get_gain</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attribute</em>, <em class="sig-param">labels</em>, <em class="sig-param">metric</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#get_gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.get_gain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.get_splitting_attribute">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">get_splitting_attribute</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attributes</em>, <em class="sig-param">labels</em>, <em class="sig-param">metric</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#get_splitting_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.get_splitting_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.get_weighted_gain">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">get_weighted_gain</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attribute</em>, <em class="sig-param">labels</em>, <em class="sig-param">metric</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#get_weighted_gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.get_weighted_gain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.gini_index">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">gini_index</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#gini_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.gini_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.gini_index_gain">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">gini_index_gain</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attribute</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#gini_index_gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.gini_index_gain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.information_gain">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">information_gain</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attribute</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#information_gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.information_gain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.majority_error">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">majority_error</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#majority_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.majority_error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.majority_error_gain">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">majority_error_gain</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attribute</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#majority_error_gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.majority_error_gain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.weighted_entropy">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">weighted_entropy</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#weighted_entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.weighted_entropy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="DecisionTree.Metrics.weighted_information_gain">
+<code class="sig-prename descclassname">DecisionTree.Metrics.</code><code class="sig-name descname">weighted_information_gain</code><span class="sig-paren">(</span><em class="sig-param">examples</em>, <em class="sig-param">attribute</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Metrics.html#weighted_information_gain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Metrics.weighted_information_gain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-DecisionTree.Node">
+<span id="decisiontree-node-module"></span><h2>DecisionTree.Node module<a class="headerlink" href="#module-DecisionTree.Node" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="DecisionTree.Node.Node">
+<em class="property">class </em><code class="sig-prename descclassname">DecisionTree.Node.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param">splitting_attribute</em>, <em class="sig-param">value</em>, <em class="sig-param">label</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Node class for use in decision tree</p>
+<dl class="method">
+<dt id="DecisionTree.Node.Node.add_child">
+<code class="sig-name descname">add_child</code><span class="sig-paren">(</span><em class="sig-param">node</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node.add_child"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node.add_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Node.Node.get_children">
+<code class="sig-name descname">get_children</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node.get_children"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node.get_children" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Node.Node.get_label">
+<code class="sig-name descname">get_label</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node.get_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node.get_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Node.Node.get_splitting_attribute">
+<code class="sig-name descname">get_splitting_attribute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node.get_splitting_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node.get_splitting_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Node.Node.get_value">
+<code class="sig-name descname">get_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node.get_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="DecisionTree.Node.Node.set_splitting_attribute">
+<code class="sig-name descname">set_splitting_attribute</code><span class="sig-paren">(</span><em class="sig-param">attribute</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/DecisionTree/Node.html#Node.set_splitting_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#DecisionTree.Node.Node.set_splitting_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="decisiontree-setup-module">
+<h2>DecisionTree.setup module<a class="headerlink" href="#decisiontree-setup-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-DecisionTree">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-DecisionTree" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DecisionTree package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-DecisionTree.Id3">DecisionTree.Id3 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-DecisionTree.Metrics">DecisionTree.Metrics module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-DecisionTree.Node">DecisionTree.Node module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#decisiontree-setup-module">DecisionTree.setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-DecisionTree">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Algorithms.html" title="previous chapter">Algorithms package</a></li>
+      <li>Next: <a href="EnsembleLearning.html" title="next chapter">EnsembleLearning package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/DecisionTree.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

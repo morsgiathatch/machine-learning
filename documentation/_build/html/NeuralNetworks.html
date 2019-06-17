@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NeuralNetworks package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Perceptron package" href="Perceptron.html" />
+    <link rel="prev" title="Main module" href="Main.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="neuralnetworks-package">
+<h1>NeuralNetworks package<a class="headerlink" href="#neuralnetworks-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-NeuralNetworks.ThreeLayerNN">
+<span id="neuralnetworks-threelayernn-module"></span><h2>NeuralNetworks.ThreeLayerNN module<a class="headerlink" href="#module-NeuralNetworks.ThreeLayerNN" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="NeuralNetworks.ThreeLayerNN.ThreeLayerNN">
+<em class="property">class </em><code class="sig-prename descclassname">NeuralNetworks.ThreeLayerNN.</code><code class="sig-name descname">ThreeLayerNN</code><span class="sig-paren">(</span><em class="sig-param">num_units_per_layer</em>, <em class="sig-param">weights</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NeuralNetworks/ThreeLayerNN.html#ThreeLayerNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NeuralNetworks.ThreeLayerNN.ThreeLayerNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>ThreeLayerNN class</p>
+<dl class="method">
+<dt id="NeuralNetworks.ThreeLayerNN.ThreeLayerNN.gradient">
+<code class="sig-name descname">gradient</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y_actual</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NeuralNetworks/ThreeLayerNN.html#ThreeLayerNN.gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NeuralNetworks.ThreeLayerNN.ThreeLayerNN.gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>gradient function using backtracking to be passed to gradient descent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – training features</p></li>
+<li><p><strong>y_actual</strong> (<em>numpy array</em>) – training labels</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list containing weights [weights], weights is a numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>weights</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="NeuralNetworks.ThreeLayerNN.ThreeLayerNN.objective_function">
+<code class="sig-name descname">objective_function</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">extra_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NeuralNetworks/ThreeLayerNN.html#ThreeLayerNN.objective_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NeuralNetworks.ThreeLayerNN.ThreeLayerNN.objective_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Objective function to be passed to gradient descent fit_stochastic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>numpy array</em>) – data features</p></li>
+<li><p><strong>labels</strong> (<em>numpy array</em>) – corresponding data labels</p></li>
+<li><p><strong>extra_args</strong> (<em>None</em>) – Useless argument to fit API</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>objective function value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="NeuralNetworks.ThreeLayerNN.ThreeLayerNN.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NeuralNetworks/ThreeLayerNN.html#ThreeLayerNN.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NeuralNetworks.ThreeLayerNN.ThreeLayerNN.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict label of feature x after model has been fitted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>numpy array</em>) – feature</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>prediction</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="NeuralNetworks.ThreeLayerNN.ThreeLayerNN.update_weights">
+<code class="sig-name descname">update_weights</code><span class="sig-paren">(</span><em class="sig-param">weights</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NeuralNetworks/ThreeLayerNN.html#ThreeLayerNN.update_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NeuralNetworks.ThreeLayerNN.ThreeLayerNN.update_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="NeuralNetworks.ThreeLayerNN.sigmoid">
+<code class="sig-prename descclassname">NeuralNetworks.ThreeLayerNN.</code><code class="sig-name descname">sigmoid</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/NeuralNetworks/ThreeLayerNN.html#sigmoid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#NeuralNetworks.ThreeLayerNN.sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-NeuralNetworks">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-NeuralNetworks" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">NeuralNetworks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NeuralNetworks.ThreeLayerNN">NeuralNetworks.ThreeLayerNN module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-NeuralNetworks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Main.html" title="previous chapter">Main module</a></li>
+      <li>Next: <a href="Perceptron.html" title="next chapter">Perceptron package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/NeuralNetworks.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

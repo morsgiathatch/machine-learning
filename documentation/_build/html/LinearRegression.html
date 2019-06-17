@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LinearRegression package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="LogisticRegression package" href="LogisticRegression.html" />
+    <link rel="prev" title="EnsembleLearning package" href="EnsembleLearning.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="linearregression-package">
+<h1>LinearRegression package<a class="headerlink" href="#linearregression-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-LinearRegression.LinearRegressor">
+<span id="linearregression-linearregressor-module"></span><h2>LinearRegression.LinearRegressor module<a class="headerlink" href="#module-LinearRegression.LinearRegressor" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="LinearRegression.LinearRegressor.analytic_solution">
+<code class="sig-prename descclassname">LinearRegression.LinearRegressor.</code><code class="sig-name descname">analytic_solution</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LinearRegression/LinearRegressor.html#analytic_solution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LinearRegression.LinearRegressor.analytic_solution" title="Permalink to this definition">¶</a></dt>
+<dd><p>analytic solution to objective function 1/2 ||X * w|| - y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>numpy array</em>) – data features</p></li>
+<li><p><strong>labels</strong> (<em>numpy array</em>) – data labels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(X^t * X)^(-1)(X^t * y)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LinearRegression.LinearRegressor.obj_gradient_function">
+<code class="sig-prename descclassname">LinearRegression.LinearRegressor.</code><code class="sig-name descname">obj_gradient_function</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LinearRegression/LinearRegressor.html#obj_gradient_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LinearRegression.LinearRegressor.obj_gradient_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>gradient function to pass to Algorithms/GradientDescent object fit function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>numpy array</em>) – data features</p></li>
+<li><p><strong>labels</strong> (<em>numpy array</em>) – data labels</p></li>
+<li><p><strong>args</strong> (<em>python list of numpy array</em>) – weights for gradient descent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>X^t(X * w - y)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LinearRegression.LinearRegressor.objective_function">
+<code class="sig-prename descclassname">LinearRegression.LinearRegressor.</code><code class="sig-name descname">objective_function</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LinearRegression/LinearRegressor.html#objective_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LinearRegression.LinearRegressor.objective_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>objective function to pass to Algorithms/GradientDescent object fit/fit_stochastic function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>numpy array</em>) – data features</p></li>
+<li><p><strong>labels</strong> (<em>numpy array</em>) – data labels</p></li>
+<li><p><strong>args</strong> (<em>python list of numpy array</em>) – weights for gradient descent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>1/2 ||X * w|| - y</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LinearRegression.LinearRegressor.stoch_gradient_function">
+<code class="sig-prename descclassname">LinearRegression.LinearRegressor.</code><code class="sig-name descname">stoch_gradient_function</code><span class="sig-paren">(</span><em class="sig-param">feature</em>, <em class="sig-param">label</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LinearRegression/LinearRegressor.html#stoch_gradient_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LinearRegression.LinearRegressor.stoch_gradient_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>gradient function to pass to Algorithms/GradientDescent object fit_stochastic function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature</strong> (<em>numpy array</em>) – data features</p></li>
+<li><p><strong>label</strong> (<em>numpy array</em>) – data labels</p></li>
+<li><p><strong>args</strong> (<em>python list of numpy array</em>) – weights for gradient descent</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(y_i - w * x_i)x_i</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-LinearRegression">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-LinearRegression" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LinearRegression package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-LinearRegression.LinearRegressor">LinearRegression.LinearRegressor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-LinearRegression">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="EnsembleLearning.html" title="previous chapter">EnsembleLearning package</a></li>
+      <li>Next: <a href="LogisticRegression.html" title="next chapter">LogisticRegression package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/LinearRegression.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

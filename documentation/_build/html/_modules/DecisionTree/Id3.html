@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DecisionTree.Id3 &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for DecisionTree.Id3</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">DecisionTree</span> <span class="k">import</span> <span class="n">Metrics</span>
+<span class="kn">from</span> <span class="nn">DecisionTree</span> <span class="k">import</span> <span class="n">Node</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+
+<div class="viewcode-block" id="Id3"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.Id3">[docs]</a><span class="k">class</span> <span class="nc">Id3</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Id3 class to store state.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;information_gain&#39;</span><span class="p">:</span> <span class="n">Metrics</span><span class="o">.</span><span class="n">information_gain</span><span class="p">,</span> <span class="s1">&#39;majority_error_gain&#39;</span><span class="p">:</span> <span class="n">Metrics</span><span class="o">.</span><span class="n">majority_error_gain</span><span class="p">,</span>
+               <span class="s1">&#39;gini_index_gain&#39;</span><span class="p">:</span> <span class="n">Metrics</span><span class="o">.</span><span class="n">gini_index_gain</span><span class="p">,</span> <span class="s1">&#39;weighted_information_gain&#39;</span><span class="p">:</span> <span class="n">Metrics</span><span class="o">.</span><span class="n">weighted_information_gain</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metric</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor for ID3.</span>
+
+<span class="sd">        :param metric: type of information metric to use</span>
+<span class="sd">        :type metric: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">Id3</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="n">metric</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Id3.fit"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.Id3.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">attributes</span><span class="p">,</span> <span class="n">prev_value</span><span class="p">,</span> <span class="n">label_set</span><span class="p">,</span> <span class="n">current_depth</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">rand_attribute_size</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;train Id3 decision tree</span>
+
+<span class="sd">        :param features: ordered features from dataset</span>
+<span class="sd">        :type features: python list containing Feature objects</span>
+<span class="sd">        :param attributes: attributes for current fit iteration</span>
+<span class="sd">        :type attributes: python tuple containing Attribute objects</span>
+<span class="sd">        :param prev_value: attribute value of previous adjacent node</span>
+<span class="sd">        :type prev_value: integer or None</span>
+<span class="sd">        :param label_set: ordered labels from dataset</span>
+<span class="sd">        :type label_set: python tuple containing possible integer labels</span>
+<span class="sd">        :param current_depth: current tree depth</span>
+<span class="sd">        :type current_depth: integer</span>
+<span class="sd">        :param max_depth: maximum desired tree depth</span>
+<span class="sd">        :type max_depth: integer or float</span>
+<span class="sd">        :param rand_attribute_size: size of desired random attribute subset if not None</span>
+<span class="sd">        :type rand_attribute_size: integer or None</span>
+<span class="sd">        :return: root node of decision tree</span>
+<span class="sd">        :rtype: Node.Node</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">current_depth</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span> <span class="o">=</span> <span class="n">current_depth</span>
+
+        <span class="k">if</span> <span class="n">current_depth</span> <span class="o">==</span> <span class="n">max_depth</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">get_most_common_label</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Node</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">prev_value</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="n">same_label</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">base_label</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">example</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span> <span class="o">!=</span> <span class="n">base_label</span><span class="p">:</span>
+                <span class="n">same_label</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">same_label</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Node</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">prev_value</span><span class="p">,</span> <span class="n">base_label</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">get_most_common_label</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Node</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">prev_value</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rand_attribute_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)),</span> <span class="nb">min</span><span class="p">(</span><span class="n">rand_attribute_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)))</span>
+            <span class="n">random_attributes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+                <span class="n">random_attributes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attributes</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+            <span class="n">attribute_to_split_on</span> <span class="o">=</span> <span class="n">Metrics</span><span class="o">.</span><span class="n">get_splitting_attribute</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">random_attributes</span><span class="p">,</span> <span class="n">label_set</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">attribute_to_split_on</span> <span class="o">=</span> <span class="n">Metrics</span><span class="o">.</span><span class="n">get_splitting_attribute</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">attributes</span><span class="p">,</span> <span class="n">label_set</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">)</span>
+
+        <span class="c1"># Make root node</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">attribute_to_split_on</span><span class="p">,</span> <span class="n">prev_value</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Construct S_v</span>
+        <span class="k">for</span> <span class="n">attribute_value</span> <span class="ow">in</span> <span class="n">attribute_to_split_on</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+            <span class="n">examples_less_split_attribute</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">example</span><span class="o">.</span><span class="n">get_attribute_value</span><span class="p">(</span><span class="n">attribute_to_split_on</span><span class="p">)</span> <span class="o">==</span> <span class="n">attribute_value</span><span class="p">:</span>
+                    <span class="n">examples_less_split_attribute</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+
+            <span class="c1"># If S_v is empty, add leaf node containing most common label of S</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">examples_less_split_attribute</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">Node</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">attribute_value</span><span class="p">,</span> <span class="n">get_most_common_label</span><span class="p">(</span><span class="n">features</span><span class="p">)))</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">less_attributes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">attributes</span><span class="p">))</span>
+                <span class="n">less_attributes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">attribute_to_split_on</span><span class="p">)</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">examples_less_split_attribute</span><span class="p">,</span> <span class="n">less_attributes</span><span class="p">,</span> <span class="n">attribute_value</span><span class="p">,</span> <span class="n">label_set</span><span class="p">,</span>
+                                        <span class="n">current_depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">max_depth</span><span class="p">,</span> <span class="n">rand_attribute_size</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">prev_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span></div>
+
+<div class="viewcode-block" id="Id3.get_max_height"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.Id3.get_max_height">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span></div>
+
+<div class="viewcode-block" id="Id3.reset_max_height"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.Id3.reset_max_height">[docs]</a>    <span class="k">def</span> <span class="nf">reset_max_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_height</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Id3.predict"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.Id3.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predict label for example</span>
+
+<span class="sd">        :param feature: feature to be used for prediction</span>
+<span class="sd">        :type feature: Feature</span>
+<span class="sd">        :return: prediction</span>
+<span class="sd">        :rtype: integer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prediction_helper</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span></div>
+
+    <span class="c1"># Helper method</span>
+<div class="viewcode-block" id="Id3.get_prediction_helper"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.Id3.get_prediction_helper">[docs]</a>    <span class="k">def</span> <span class="nf">get_prediction_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">get_splitting_attribute</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span>
+
+        <span class="n">next_node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">attribute</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_splitting_attribute</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">get_children</span><span class="p">())):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">child_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">feature</span><span class="o">.</span><span class="n">get_attribute_value</span><span class="p">(</span><span class="n">attribute</span><span class="p">):</span>
+                <span class="n">next_node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">child_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prediction_helper</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">next_node</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># Helper to get the most common label</span>
+<div class="viewcode-block" id="get_most_common_label"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.get_most_common_label">[docs]</a><span class="k">def</span> <span class="nf">get_most_common_label</span><span class="p">(</span><span class="n">examples</span><span class="p">):</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+        <span class="n">scores</span><span class="p">[</span><span class="n">example</span><span class="o">.</span><span class="n">get_label</span><span class="p">()]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">:</span>
+        <span class="n">scores</span><span class="p">[</span><span class="n">example</span><span class="o">.</span><span class="n">get_label</span><span class="p">()]</span> <span class="o">+=</span> <span class="n">example</span><span class="o">.</span><span class="n">get_weight</span><span class="p">()</span>
+
+    <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_count</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">scores</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_count</span><span class="p">:</span>
+            <span class="n">max_count</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">key</span>
+
+    <span class="k">return</span> <span class="n">label</span></div>
+
+
+<span class="c1"># Unordered attribute list comparison. Essentially set equality</span>
+<div class="viewcode-block" id="attr_equal"><a class="viewcode-back" href="../../DecisionTree.html#DecisionTree.Id3.attr_equal">[docs]</a><span class="k">def</span> <span class="nf">attr_equal</span><span class="p">(</span><span class="n">attributes1</span><span class="p">,</span> <span class="n">attributes2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">attributes2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">item1</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attributes1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">item1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attributes2</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">item2</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attributes2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">item2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attributes1</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

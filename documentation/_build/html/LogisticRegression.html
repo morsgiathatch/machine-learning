@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LogisticRegression package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Main module" href="Main.html" />
+    <link rel="prev" title="LinearRegression package" href="LinearRegression.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="logisticregression-package">
+<h1>LogisticRegression package<a class="headerlink" href="#logisticregression-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-LogisticRegression.LogisticRegressors">
+<span id="logisticregression-logisticregressors-module"></span><h2>LogisticRegression.LogisticRegressors module<a class="headerlink" href="#module-LogisticRegression.LogisticRegressors" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.get_percentages">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">get_percentages</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">weights</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#get_percentages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.get_percentages" title="Permalink to this definition">¶</a></dt>
+<dd><p>get error proportion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy array</em>) – set of features</p></li>
+<li><p><strong>weights</strong> (<em>numpy array</em>) – weights</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>error proportion</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.map_estimator">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">map_estimator</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#map_estimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.map_estimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>MAP estimator objective function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – features</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – labels</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list in the form [weights, variance estimate]. Weights is a numpy array, variance estimate is a float</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>MAP estimator objective function value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.map_estimator_gradient">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">map_estimator_gradient</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#map_estimator_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.map_estimator_gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>MAP estimator gradient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – features</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – labels</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list in the form [weights, variance estimate]. Weights is a numpy array, variance estimate is a float</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>MAP estimator gradient value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.ml_estimator">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">ml_estimator</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#ml_estimator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.ml_estimator" title="Permalink to this definition">¶</a></dt>
+<dd><p>ML estimator objective function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – features</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – labels</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list in the form [weights]. Weights is a numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ML estimator objective value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.ml_estimator_gradient">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">ml_estimator_gradient</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#ml_estimator_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.ml_estimator_gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>ML estimator gradient</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – features</p></li>
+<li><p><strong>y</strong> (<em>numpy array</em>) – labels</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list in the form [weights]. Weights is a numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ML estimator gradient value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.predict">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">w</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predict feature label</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy array</em>) – feature</p></li>
+<li><p><strong>w</strong> – weights</p></li>
+<li><p><strong>w</strong> – numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>+/- 1.0</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="LogisticRegression.LogisticRegressors.sigmoid">
+<code class="sig-prename descclassname">LogisticRegression.LogisticRegressors.</code><code class="sig-name descname">sigmoid</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LogisticRegression/LogisticRegressors.html#sigmoid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LogisticRegression.LogisticRegressors.sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-LogisticRegression">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-LogisticRegression" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LogisticRegression package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-LogisticRegression.LogisticRegressors">LogisticRegression.LogisticRegressors module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-LogisticRegression">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="LinearRegression.html" title="previous chapter">LinearRegression package</a></li>
+      <li>Next: <a href="Main.html" title="next chapter">Main module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/LogisticRegression.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

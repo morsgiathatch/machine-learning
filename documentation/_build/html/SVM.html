@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SVM package &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Perceptron package" href="Perceptron.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="svm-package">
+<h1>SVM package<a class="headerlink" href="#svm-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-SVM.DualSVM">
+<span id="svm-dualsvm-module"></span><h2>SVM.DualSVM module<a class="headerlink" href="#module-SVM.DualSVM" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="SVM.DualSVM.a_dot_y">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">a_dot_y</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#a_dot_y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.a_dot_y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.gaussian_kernel">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">gaussian_kernel</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#gaussian_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.gaussian_kernel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.generate_bounds">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">generate_bounds</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">C</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#generate_bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.generate_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.get_XXt">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">get_XXt</code><span class="sig-paren">(</span><em class="sig-param">use_kernel_prediction</em>, <em class="sig-param">gamma</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#get_XXt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.get_XXt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.get_kernel_prediction">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">get_kernel_prediction</code><span class="sig-paren">(</span><em class="sig-param">alphas</em>, <em class="sig-param">x</em>, <em class="sig-param">gamma</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#get_kernel_prediction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.get_kernel_prediction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.get_percentages">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">get_percentages</code><span class="sig-paren">(</span><em class="sig-param">test_data</em>, <em class="sig-param">data</em>, <em class="sig-param">alphas</em>, <em class="sig-param">gamma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#get_percentages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.get_percentages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.grad_svm">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">grad_svm</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">data</em>, <em class="sig-param">XXt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#grad_svm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.grad_svm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.DualSVM.svm">
+<code class="sig-prename descclassname">SVM.DualSVM.</code><code class="sig-name descname">svm</code><span class="sig-paren">(</span><em class="sig-param">a</em>, <em class="sig-param">data</em>, <em class="sig-param">XXt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/DualSVM.html#svm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.DualSVM.svm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-SVM.SVM">
+<span id="svm-svm-module"></span><h2>SVM.SVM module<a class="headerlink" href="#module-SVM.SVM" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="SVM.SVM.get_percentages">
+<code class="sig-prename descclassname">SVM.SVM.</code><code class="sig-name descname">get_percentages</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">weights</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/SVM.html#get_percentages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.SVM.get_percentages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="SVM.SVM.objective_function">
+<code class="sig-prename descclassname">SVM.SVM.</code><code class="sig-name descname">objective_function</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">labels</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/SVM.html#objective_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.SVM.objective_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>primal svm objective function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<em>numpy array</em>) – data features</p></li>
+<li><p><strong>labels</strong> (<em>numpy array</em>) – corresponding data labels</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list in the form[weights] where weights is a numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>objective function value</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="SVM.SVM.stoch_grad_func">
+<code class="sig-prename descclassname">SVM.SVM.</code><code class="sig-name descname">stoch_grad_func</code><span class="sig-paren">(</span><em class="sig-param">feature</em>, <em class="sig-param">label</em>, <em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/SVM/SVM.html#stoch_grad_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SVM.SVM.stoch_grad_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>stochastic gradient of primal svm objective function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature</strong> (<em>numpy array</em>) – data feature</p></li>
+<li><p><strong>label</strong> (<em>float</em>) – corresponding data label</p></li>
+<li><p><strong>args</strong> (<em>python list</em>) – list in the form [weights] where weights is a numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>weights</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-SVM">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-SVM" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SVM package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SVM.DualSVM">SVM.DualSVM module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SVM.SVM">SVM.SVM module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-SVM">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Perceptron.html" title="previous chapter">Perceptron package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/SVM.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

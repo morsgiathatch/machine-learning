@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>EnsembleLearning.RandomForests &#8212; Machine Learning  documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for EnsembleLearning.RandomForests</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">DecisionTree</span> <span class="k">import</span> <span class="n">Id3</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<div class="viewcode-block" id="RandomForests"><a class="viewcode-back" href="../../EnsembleLearning.html#EnsembleLearning.RandomForests.RandomForests">[docs]</a><span class="k">class</span> <span class="nc">RandomForests</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RandomForests class for binary labeled features (-1, 1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">attributes</span><span class="p">,</span> <span class="n">t_value</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RandomForests constructor</span>
+
+<span class="sd">        :param features: ordered features from dataset</span>
+<span class="sd">        :type features: python list containing Feature objects</span>
+<span class="sd">        :param attributes: attributes for current fit iteration</span>
+<span class="sd">        :type attributes: python tuple containing Attribute objects</span>
+<span class="sd">        :param t_value: number of decision trees in forest</span>
+<span class="sd">        :type t_value: integer</span>
+<span class="sd">        :param size: size of random attribute subset in ID3 iteration</span>
+<span class="sd">        :type size: integer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_value</span> <span class="o">=</span> <span class="n">t_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span> <span class="o">=</span> <span class="n">attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forest</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="RandomForests.fit"><a class="viewcode-back" href="../../EnsembleLearning.html#EnsembleLearning.RandomForests.RandomForests.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">print_status_bar</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        train random forests</span>
+
+<span class="sd">        :param print_status_bar: set to True if a status printout is desired</span>
+<span class="sd">        :type print_status_bar: boolean</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">toolbar_width</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_value</span> <span class="o">/</span> <span class="n">toolbar_width</span><span class="p">)</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">print_status_bar</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Building Bagging Trees&quot;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Progress: [</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">toolbar_width</span><span class="p">))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_value</span><span class="p">):</span>
+            <span class="c1"># Get bootstrap example</span>
+            <span class="n">bootstrap_sample</span> <span class="o">=</span> <span class="n">get_bootstrap_sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span>
+            <span class="n">id3</span> <span class="o">=</span> <span class="n">Id3</span><span class="o">.</span><span class="n">Id3</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s1">&#39;information_gain&#39;</span><span class="p">)</span>
+            <span class="n">id3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">bootstrap_sample</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">,</span> <span class="n">prev_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label_set</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                    <span class="n">current_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="n">rand_attribute_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forest</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id3</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">factor</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">print_status_bar</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Progress: [</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="n">counter</span><span class="p">))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">toolbar_width</span> <span class="o">-</span> <span class="n">counter</span><span class="p">)))</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">print_status_bar</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RandomForests.predict"><a class="viewcode-back" href="../../EnsembleLearning.html#EnsembleLearning.RandomForests.RandomForests.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get prediction from single example</span>
+
+<span class="sd">        :param example: example with which to make prediction</span>
+<span class="sd">        :type example: Feature object</span>
+<span class="sd">        :return: +/- 1.0 label for example</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">forest</span><span class="p">:</span>
+            <span class="n">_sum</span> <span class="o">+=</span> <span class="n">tree</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+
+        <span class="n">_sum</span> <span class="o">/=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forest</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">_sum</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="get_bootstrap_sample"><a class="viewcode-back" href="../../EnsembleLearning.html#EnsembleLearning.RandomForests.get_bootstrap_sample">[docs]</a><span class="k">def</span> <span class="nf">get_bootstrap_sample</span><span class="p">(</span><span class="n">examples</span><span class="p">):</span>
+    <span class="n">bootstrap_samples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">examples</span><span class="p">))):</span>
+        <span class="n">bootstrap_samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">examples</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">examples</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">bootstrap_samples</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Machine Learning</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Algorithms.html">Algorithms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../DecisionTree.html">DecisionTree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../EnsembleLearning.html">EnsembleLearning package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LinearRegression.html">LinearRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../LogisticRegression.html">LogisticRegression package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Main.html">Main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../NeuralNetworks.html">NeuralNetworks package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Perceptron.html">Perceptron package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../SVM.html">SVM package</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Corbin Baldwin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
