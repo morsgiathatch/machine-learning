@@ -18,8 +18,9 @@ Perceptron/__pycache__/
 Perceptron/temp.py
 SVM/__pycache__/
 documentation/
-!documentation/build/html
+!documentation/_build/html
 **__pycache__**
 **.pyc
 **.so
 **.o
+**.idea**
