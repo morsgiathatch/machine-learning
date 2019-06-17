@@ -5,7 +5,7 @@ import copy
 
 
 class Id3:
-    """Id3 class to store state.
+    """Id3 class.
 
     """
     metrics = {'information_gain': Metrics.information_gain, 'majority_error_gain': Metrics.majority_error_gain,

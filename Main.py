@@ -7,12 +7,10 @@ from Tests.LogisticRegressionTests import LogisticRegressionTest
 from Tests.NeuralNetworkTests import NeuralNetworkTest
 
 
+# This test suite was originally developed for the grading portion of CS5350 at the University of Utah. Some changes
+# were made to reduce the explicit relation to the homeworks.
 if __name__ == '__main__':
     redo_hm = True
-
-    # This test suite was originally developed for the grading portion of CS5350 at the University of Utah. Some changes
-    # were made to reduce the explicit relation to the homeworks.
-
     while redo_hm:
         print("\n================================================================")
         print("||     Welcome to Corbin Baldwin's Machine Learning Tests     ||")
