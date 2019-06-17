@@ -6,38 +6,38 @@ import matplotlib.pyplot as plt
 import os
 
 
-def hw5p2():
-    redo_problem = True
+def logistic_regression_test():
+    redo_test = True
 
-    while redo_problem:
-        problem = int(input("\nPlease choose a problem\n1. Problem a\n2. Problem b\n3. Exit\n"))
+    while redo_test:
+        test_choice = int(input("\nPlease choose a test\n1. MAP Estimator Test\n2. ML Estimator Test\n3. Exit\n"))
         valid_choice = True
-        if problem != 1 and problem != 2 and problem != 3:
+        if test_choice not in range(1, 4):
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
-            problem = int(input("\nPlease choose a problem\n1. Problem a\n2. Problem b\n3. Exit\n"))
-            if problem == 1 or problem == 2 or problem == 3:
+            test_choice = int(input("\nPlease choose a test\n1. MAP Estimator Test\n2. ML Estimator Test\n3. Exit\n"))
+            if test_choice in range(1, 4):
                 valid_choice = True
 
-        if problem == 1:
-            hw5p2a()
-        elif problem == 2:
-            hw5p2b()
+        if test_choice == 1:
+            map_estimator_test()
+        elif test_choice == 2:
+            ml_estimator_test()
         else:
             break
 
-        should_redo = str(input("\nWould you like to do another problem from HW5 Problem 2? y/n\n"))
+        should_redo = str(input("\nWould you like to run another Logistic Regression test? y/n\n"))
         if should_redo == "n":
-            redo_problem = False
+            redo_test = False
 
 
-def hw5p2a():
+def map_estimator_test():
     helper(parta=True, obj_fun=lr.map_estimator, grad_func=lr.map_estimator_gradient)
 
 
-def hw5p2b():
+def ml_estimator_test():
     helper(parta=False, obj_fun=lr.ml_estimator, grad_func=lr.ml_estimator_gradient)
 
 

@@ -3,6 +3,8 @@ from Tests.EnsembleLearningTests import EnsembleLearningTest
 from Tests.LinearRegressionTests import LinearRegressionTest
 from Tests.PerceptronTests import PerceptronTest
 from Tests.SVMTests import SVMTest
+from Tests.LogisticRegressionTests import LogisticRegressionTest
+from Tests.NeuralNetworkTests import NeuralNetworkTest
 
 
 if __name__ == '__main__':
@@ -17,17 +19,19 @@ if __name__ == '__main__':
         print("================================================================")
 
         test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. Ensemble Learning Tests\n3. "
-                                "Linear Regression Tests\n4. Perceptron Tests\n5. SVM Tests\n6. Exit\n"))
+                                "Linear Regression Tests\n4. Perceptron Tests\n5. SVM Tests\n"
+                                "6. Logistic Regression Tests\n7. Neural Network Tests\n8. Exit\n"))
 
         valid_choice = True
-        if test_choice not in range(1, 7):
+        if test_choice not in range(1, 9):
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
-            test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. Ensemble Learning Tests\n"
-                                    "3. Linear Regression Tests\n4. Perceptron Tests\n5. SVM Tests\n6. Exit\n"))
-            if test_choice in range(1, 7):
+            test_choice = int(input("Please select a test to run\n1. Decision Tree Tests\n2. Ensemble Learning Tests\n3. "
+                                    "Linear Regression Tests\n4. Perceptron Tests\n5. SVM Tests\n"
+                                    "6. Logistic Regression Tests\n7. Neural Network Tests\n8. Exit\n"))
+            if test_choice in range(1, 9):
                 valid_choice = True
 
         if test_choice == 1:
@@ -40,21 +44,10 @@ if __name__ == '__main__':
             PerceptronTest.perceptron_test()
         elif test_choice == 5:
             SVMTest.svm_test()
-            # choice = int(input("Which problem do you wish to view? `2`, `3`, `0` for exit?\n"))
-            # hw5_choice = True
-            # if choice != 2 and choice != 3 and choice != 0:
-            #     hw5_choice = False
-            #
-            # while not hw5_choice:
-            #     print("Incorrect Choice")
-            #     choice = int(input("Which problem do you wish to view? `2`, `3`, `0` for exit?\n"))
-            #     if choice == 2 or choice == 3 or choice == 0:
-            #         hw5_choice = True
-            #
-            # if choice == 2:
-            #     HW5p2.hw5p2()
-            # elif choice == 3:
-            #     HW5p3.hw5p3()
+        elif test_choice == 6:
+            LogisticRegressionTest.logistic_regression_test()
+        elif test_choice == 7:
+            NeuralNetworkTest.neural_network_test()
         else:
             break
 

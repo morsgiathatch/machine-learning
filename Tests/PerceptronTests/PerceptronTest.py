@@ -39,7 +39,7 @@ def perceptron_test():
         elif test_choice == 5:
             KernelPerceptronTest.kernel_perceptron_test()
         else:
-            breakredo_problem
+            break
 
         should_redo = str(input("\nWould you like to run another perceptron test? y/n\n"))
         if should_redo == "n":

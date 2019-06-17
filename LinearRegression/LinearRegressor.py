@@ -13,7 +13,7 @@ def objective_function(features, labels, args):
     :type labels: numpy array
     :param args: weights for gradient descent
     :type args: python list of numpy array
-    :return: 1/2 ||X * w|| - y
+    :return: 1/2 ||X * w - y||
     :rtype: float
     """
     w_vector = args[0]

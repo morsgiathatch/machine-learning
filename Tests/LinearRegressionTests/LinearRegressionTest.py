@@ -26,7 +26,7 @@ def linear_regression_test():
         else:
             break
 
-        should_redo = str(input("\nWould you like to do another problem from HW 2 problem 4? y/n\n"))
+        should_redo = str(input("\nWould you like to run another linear regression test? y/n\n"))
         if should_redo == "n":
             redo_test = False
 

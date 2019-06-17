@@ -6,37 +6,40 @@ import matplotlib.pyplot as plt
 import os
 
 
-def hw5p3():
-    redo_problem = True
+def neural_network_test():
+    redo_test = True
 
-    while redo_problem:
-        problem = int(input("\nPlease choose a problem\n2. Problem b\n3. Problem c\n4. Exit\n"))
+    while redo_test:
+        test_choice = int(input("\nPlease choose a test\n1. Weights Initialized From Standard Normal Distribution\n"
+                                "2. Weights Initialized to Zero\n3. Exit\n"))
         valid_choice = True
-        if problem != 2 and problem != 3 and problem != 4:
+        if test_choice not in range(1, 4):
             valid_choice = False
 
         while not valid_choice:
             print("Incorrect Choice")
-            problem = int(input("\nPlease choose a problem\n2. Problem b\n3. Problem c\n4. Exit\n"))
-            if problem == 2 or problem == 3 or problem == 4:
+            test_choice = int(input("\nPlease choose a test\n1. Weights Initialized From Standard Normal Distribution\n"
+                                    "2. Weights Initialized to Zero\n3. Exit\n"))
+            if test_choice in range(1, 4):
                 valid_choice = True
 
-        if problem == 2:
-            hw5pb()
-        elif problem == 3:
-            hw5pc()
+        if test_choice == 2:
+            stand_norm_weights()
+        elif test_choice == 3:
+            zero_weights()
         else:
             break
 
-        should_redo = str(input("\nWould you like to do another problem from HW5 Problem 3? y/n\n"))
+        should_redo = str(input("\nWould you like to run another Neural Network test? y/n\n"))
         if should_redo == "n":
-            redo_problem = False
+            redo_test = False
 
 
-def hw5pb():
+def stand_norm_weights():
     helper(partb=True)
 
-def hw5pc():
+
+def zero_weights():
     helper(partb=False)
 
 
