@@ -1,7 +1,7 @@
 # Machine Learning
 
-This is a machine learning library developed by Corbin Baldwin for 
-CS5350/6350 at the University of Utah. It offers the following machine learning algorithms:
+This is an introductory machine learning library developed by Corbin Baldwin. 
+It offers the following machine learning algorithms:
 * Decision Trees
 * Adaboost
 * Bagging Trees
@@ -45,10 +45,7 @@ have the same dimension).
 ## Tests
 This folder does not contain tests in the usual sense of unit testing. Rather it 
 is a collection of tests that verify that the algorithm in question is in fact
-learning. These were developed as *homework* and their structure may reflect
-that fact and as such, they may appear hackish and slow. However, many changes
-to the original tests were made to distinguish them from the actual homework 
-problems. To run the tests, if you have downloaded the appropriate datasets, simply run
+learning. To run the tests, if you have downloaded the appropriate datasets, simply run
 ```bash
 bash ./run.sh
 ```
