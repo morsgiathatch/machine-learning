@@ -1,6 +1,6 @@
 # Machine Learning
 
-This is an introductory machine learning library developed. 
+This is an introductory machine learning library developed originally for school but beautified after the semester. 
 It offers the following machine learning algorithms:
 * Decision Trees
 * Adaboost
