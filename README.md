@@ -1,6 +1,6 @@
 # Machine Learning
 
-This is an introductory machine learning library developed by Corbin Baldwin. 
+This is an introductory machine learning library developed. 
 It offers the following machine learning algorithms:
 * Decision Trees
 * Adaboost
